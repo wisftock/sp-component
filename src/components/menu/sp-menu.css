@@ -1,0 +1,55 @@
+:host {
+  display: inline-block;
+  position: relative;
+}
+
+.sp-menu-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.sp-menu-trigger {
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.sp-menu-panel {
+  position: absolute;
+  z-index: 9999;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  min-width: 160px;
+  padding: 4px 0;
+}
+
+:host([placement="bottom-start"]) .sp-menu-panel {
+  top: calc(100% + 4px);
+  left: 0;
+}
+
+:host([placement="bottom-end"]) .sp-menu-panel {
+  top: calc(100% + 4px);
+  right: 0;
+}
+
+:host([placement="top-start"]) .sp-menu-panel {
+  bottom: calc(100% + 4px);
+  left: 0;
+}
+
+:host([placement="top-end"]) .sp-menu-panel {
+  bottom: calc(100% + 4px);
+  right: 0;
+}
+
+:host([placement="right"]) .sp-menu-panel {
+  left: calc(100% + 4px);
+  top: 0;
+}
+
+:host([placement="left"]) .sp-menu-panel {
+  right: calc(100% + 4px);
+  top: 0;
+}

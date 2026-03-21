@@ -1,0 +1,36 @@
+:host {
+  display: block;
+}
+
+.sp-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.1s;
+  user-select: none;
+}
+
+.sp-menu-item:hover:not(.sp-menu-item--disabled) {
+  background: #f3f4f6;
+}
+
+.sp-menu-item--danger {
+  color: #ef4444;
+}
+
+.sp-menu-item--danger:hover:not(.sp-menu-item--disabled) {
+  background: #fef2f2;
+}
+
+.sp-menu-item--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sp-menu-item-label {
+  flex: 1;
+}

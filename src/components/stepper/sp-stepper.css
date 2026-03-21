@@ -1,0 +1,120 @@
+:host {
+  display: block;
+}
+
+.sp-stepper {
+  display: flex;
+  align-items: flex-start;
+}
+
+:host([orientation="vertical"]) .sp-stepper {
+  flex-direction: column;
+}
+
+.sp-step {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+:host([orientation="vertical"]) .sp-step {
+  flex-direction: column;
+  align-items: flex-start;
+  flex: none;
+  width: 100%;
+  padding-bottom: 24px;
+}
+
+.sp-step-indicator {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #d1d5db;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  flex-shrink: 0;
+  z-index: 1;
+  transition: all 0.2s;
+}
+
+.sp-step--complete .sp-step-indicator {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.sp-step--current .sp-step-indicator {
+  border-color: #3b82f6;
+  color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.sp-step--error .sp-step-indicator {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.sp-step-connector {
+  flex: 1;
+  height: 2px;
+  background: #e5e7eb;
+  margin: 0 8px;
+}
+
+:host([orientation="vertical"]) .sp-step-connector {
+  width: 2px;
+  height: 24px;
+  margin: 4px 0;
+  position: absolute;
+  left: 15px;
+  top: 32px;
+}
+
+.sp-step--complete + .sp-step .sp-step-connector,
+.sp-step--complete .sp-step-connector {
+  background: #3b82f6;
+}
+
+.sp-step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 8px;
+}
+
+:host([orientation="vertical"]) .sp-step-content {
+  position: absolute;
+  left: 44px;
+  top: 4px;
+}
+
+.sp-step-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.sp-step--current .sp-step-label {
+  color: #3b82f6;
+}
+
+.sp-step--upcoming .sp-step-label {
+  color: #9ca3af;
+}
+
+.sp-step--error .sp-step-label {
+  color: #ef4444;
+}
+
+.sp-step-description {
+  font-size: 12px;
+  color: #9ca3af;
+  white-space: nowrap;
+}

@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.sp-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+:host([shadow="none"]) .sp-card {
+  box-shadow: none;
+}
+
+:host([shadow="sm"]) .sp-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+:host([shadow="md"]) .sp-card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+:host([shadow="lg"]) .sp-card {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+:host([bordered]) .sp-card {
+  border: 1px solid #e5e7eb;
+}
+
+::slotted([slot="image"]) {
+  display: block;
+  width: 100%;
+}
+
+::slotted([slot="header"]) {
+  display: block;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f3f4f6;
+  margin-bottom: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #111827;
+}
+
+::slotted([slot="footer"]) {
+  display: block;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+  margin-top: 12px;
+}

@@ -1,0 +1,93 @@
+:host {
+  display: inline-block;
+}
+
+.sp-copy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  border-radius: var(--sp-copy-button-radius, 4px);
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  line-height: 1;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+/* ---- Sizes ---- */
+
+:host([size="sm"]) .sp-copy-button {
+  height: 24px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+:host([size="md"]) .sp-copy-button {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+:host([size="lg"]) .sp-copy-button {
+  height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+/* ---- Variants ---- */
+
+:host([variant="primary"]) .sp-copy-button {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: 1px solid transparent;
+}
+
+:host([variant="secondary"]) .sp-copy-button {
+  background-color: #6b7280;
+  color: #ffffff;
+  border: 1px solid transparent;
+}
+
+:host([variant="ghost"]) .sp-copy-button {
+  background-color: transparent;
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
+}
+
+/* ---- Hover ---- */
+
+:host(:not([disabled])) .sp-copy-button:hover {
+  opacity: 0.85;
+}
+
+/* ---- Success state ---- */
+
+.sp-copy-button--success {
+  opacity: 0.9;
+}
+
+/* ---- Disabled ---- */
+
+:host([disabled]) .sp-copy-button {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ---- SVG icons ---- */
+
+.sp-copy-button svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}

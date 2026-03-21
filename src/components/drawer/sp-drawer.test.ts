@@ -12,8 +12,6 @@ describe("sp-drawer", () => {
   let el: SpDrawerComponent;
 
   beforeEach(() => {
-    HTMLDialogElement.prototype.showModal = vi.fn();
-    HTMLDialogElement.prototype.close = vi.fn();
     document.body.innerHTML = "";
     el = createElement();
   });
@@ -35,19 +33,23 @@ describe("sp-drawer", () => {
 
   it("calls showModal when open is set to true", async () => {
     await el.updateComplete;
+    const dialog = el.shadowRoot?.querySelector("dialog") as HTMLDialogElement;
+    const spy = vi.spyOn(dialog, "showModal").mockImplementation(() => {});
     el.open = true;
     await el.updateComplete;
-    const dialog = el.shadowRoot?.querySelector("dialog") as HTMLDialogElement;
-    expect(dialog.showModal).toHaveBeenCalledOnce();
+    expect(spy).toHaveBeenCalledOnce();
   });
 
   it("calls close when open is set to false after being open", async () => {
+    await el.updateComplete;
+    const dialog = el.shadowRoot?.querySelector("dialog") as HTMLDialogElement;
+    vi.spyOn(dialog, "showModal").mockImplementation(() => {});
+    const closeSpy = vi.spyOn(dialog, "close").mockImplementation(() => {});
     el.open = true;
     await el.updateComplete;
     el.open = false;
     await el.updateComplete;
-    const dialog = el.shadowRoot?.querySelector("dialog") as HTMLDialogElement;
-    expect(dialog.close).toHaveBeenCalledOnce();
+    expect(closeSpy).toHaveBeenCalledOnce();
   });
 
   // ---- Placement ----

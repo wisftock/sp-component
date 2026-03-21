@@ -13,10 +13,10 @@ describe("sp-copy-button", () => {
 
   beforeEach(() => {
     document.body.innerHTML = "";
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn().mockResolvedValue(undefined),
-      },
+    Object.defineProperty(navigator, "clipboard", {
+      value: { writeText: vi.fn().mockResolvedValue(undefined) },
+      configurable: true,
+      writable: true,
     });
     el = createElement();
   });
@@ -48,6 +48,8 @@ describe("sp-copy-button", () => {
 
     const btn = el.shadowRoot?.querySelector("button") as HTMLButtonElement;
     btn.click();
+    // wait for the async clipboard promise to resolve before checking state
+    await new Promise((r) => setTimeout(r, 0));
     await el.updateComplete;
 
     expect(btn.textContent?.trim()).toContain("Copied!");

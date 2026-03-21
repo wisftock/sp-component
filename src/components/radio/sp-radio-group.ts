@@ -80,8 +80,10 @@ export class SpRadioGroupComponent extends LitElement {
   };
 
   private readonly _handleRadioChange = (e: CustomEvent<{ value: string }>): void => {
-    // Prevent the child event from propagating further; we'll re-dispatch from the group
-    e.stopPropagation();
+    // Only handle events from child radios, not our own re-dispatched event
+    if (e.target === this) return;
+    // Consume the child event entirely so other listeners on this element don't see it
+    e.stopImmediatePropagation();
     this.value = e.detail.value;
     this.dispatchEvent(
       new CustomEvent("sp-change", {

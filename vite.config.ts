@@ -7,6 +7,7 @@ export default defineConfig({
     dts({
       tsConfigFilePath: "./tsconfig.build.json",
       rollupTypes: false,
+      exclude: ["**/*.test.ts", "**/*.stories.ts", "**/storys/**"],
     }),
   ],
   build: {

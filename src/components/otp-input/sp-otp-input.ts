@@ -147,7 +147,7 @@ export class SpOtpInputComponent extends LitElement implements SpOtpInputProps {
     const newValues = [...this._values];
     for (let i = 0; i < pasted.length; i++) {
       if (startIndex + i < this.length) {
-        newValues[startIndex + i] = pasted[i];
+        newValues[startIndex + i] = pasted[i] ?? "";
       }
     }
     this._values = newValues;

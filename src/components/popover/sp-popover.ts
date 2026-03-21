@@ -72,7 +72,7 @@ export class SpPopoverComponent extends LitElement {
   };
 
   readonly _handleDocumentClick = (e: MouseEvent) => {
-    if (!this.contains(e.target as Node) && this.open) {
+    if (!e.composedPath().includes(this) && this.open) {
       this.open = false;
       this.dispatchEvent(
         new CustomEvent("sp-hide", { bubbles: true, composed: true }),

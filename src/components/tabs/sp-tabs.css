@@ -1,0 +1,55 @@
+:host {
+  display: block;
+}
+
+.sp-tabs-nav {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+  overflow-x: auto;
+}
+
+.sp-tabs-content {
+  padding: 16px 0;
+}
+
+:host([placement="left"]) .sp-tabs,
+:host([placement="right"]) .sp-tabs {
+  display: flex;
+  gap: 0;
+}
+
+:host([placement="left"]) .sp-tabs-nav {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: 1px solid #e5e7eb;
+  padding-right: 0;
+}
+
+:host([placement="right"]) .sp-tabs-nav {
+  flex-direction: column;
+  border-bottom: none;
+  border-left: 1px solid #e5e7eb;
+  order: 1;
+}
+
+:host([placement="left"]) .sp-tabs-content,
+:host([placement="right"]) .sp-tabs-content {
+  flex: 1;
+  padding: 0 16px;
+}
+
+:host([placement="bottom"]) .sp-tabs {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+:host([placement="bottom"]) .sp-tabs-nav {
+  border-bottom: none;
+  border-top: 1px solid #e5e7eb;
+}
+
+:host([placement="left"]) sp-tab .sp-tab-button,
+:host([placement="right"]) sp-tab .sp-tab-button {
+  border-bottom: none;
+  border-right: 2px solid transparent;
+}

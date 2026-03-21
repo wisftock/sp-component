@@ -2,19 +2,30 @@
    sp-button — Component styles
    -------------------------------------------------------
    Theming via CSS custom properties:
-     --sp-button-radius      Border radius (default 4px)
-     --sp-button-font-size   Font size (default 14px)
-     --sp-button-transition  Transition (default opacity .2s)
+     --sp-button-radius        Border radius (default 4px)
+     --sp-button-font-size     Font size (default 14px)
+     --sp-button-transition    Transition (default opacity .2s)
+     --sp-button-spinner-size  Spinner size (default 1em)
    ------------------------------------------------------- */
 
 :host {
   display: inline-block;
 }
 
-button {
+:host([full-width]) {
+  display: block;
+  width: 100%;
+}
+
+/* ---- Base ---- */
+
+button,
+a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
+  width: 100%;
   border: none;
   border-radius: var(--sp-button-radius, 4px);
   font-size: var(--sp-button-font-size, 14px);
@@ -23,65 +34,105 @@ button {
   cursor: pointer;
   transition: var(--sp-button-transition, opacity 0.2s);
   line-height: 1;
+  text-decoration: none;
+  box-sizing: border-box;
 }
 
 /* ---- Sizes ---- */
 
-:host([size="sm"]) button {
+:host([size="sm"]) button,
+:host([size="sm"]) a {
   padding: 6px 12px;
   font-size: 12px;
 }
 
-:host([size="md"]) button {
+:host([size="md"]) button,
+:host([size="md"]) a {
   padding: 8px 16px;
   font-size: 14px;
 }
 
-:host([size="lg"]) button {
+:host([size="lg"]) button,
+:host([size="lg"]) a {
   padding: 12px 24px;
   font-size: 16px;
 }
 
 /* ---- Variants ---- */
 
-:host([variant="primary"]) button {
+:host([variant="primary"]) button,
+:host([variant="primary"]) a {
   background-color: #3b82f6;
   color: #ffffff;
 }
 
-:host([variant="secondary"]) button {
+:host([variant="secondary"]) button,
+:host([variant="secondary"]) a {
   background-color: #6b7280;
   color: #ffffff;
 }
 
-:host([variant="ghost"]) button {
+:host([variant="ghost"]) button,
+:host([variant="ghost"]) a {
   background-color: transparent;
   color: #3b82f6;
   border: 1px solid #3b82f6;
 }
 
-:host([variant="destructive"]) button {
+:host([variant="destructive"]) button,
+:host([variant="destructive"]) a {
   background-color: #ef4444;
   color: #ffffff;
 }
 
-/* ---- Hover (only when not disabled) ---- */
+/* ---- Hover (only when not disabled/loading) ---- */
 
-:host(:not([disabled])) button:hover {
+:host(:not([disabled]):not([loading])) button:hover,
+:host(:not([disabled]):not([loading])) a:hover {
   opacity: 0.85;
 }
 
 /* ---- Disabled ---- */
 
-:host([disabled]) button {
+:host([disabled]) button,
+:host([disabled]) a {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
 }
 
+/* ---- Loading ---- */
+
+:host([loading]) button,
+:host([loading]) a {
+  cursor: wait;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+/* ---- Spinner ---- */
+
+.sp-spinner {
+  display: inline-block;
+  width: var(--sp-button-spinner-size, 1em);
+  height: var(--sp-button-spinner-size, 1em);
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: sp-spin 0.6s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes sp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ---- Focus visible (accessibility) ---- */
 
-button:focus-visible {
+button:focus-visible,
+a:focus-visible {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }

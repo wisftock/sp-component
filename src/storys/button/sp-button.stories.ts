@@ -22,6 +22,14 @@ const meta: Meta<SpButtonProps> = {
       control: "boolean",
       description: "Disables the button",
     },
+    loading: {
+      control: "boolean",
+      description: "Shows a spinner and disables interaction",
+    },
+    fullWidth: {
+      control: "boolean",
+      description: "Stretches the button to 100% of its container",
+    },
     label: {
       control: "text",
       description: "Accessible aria-label",
@@ -31,57 +39,186 @@ const meta: Meta<SpButtonProps> = {
       options: ["button", "submit", "reset"],
       description: "Native button type",
     },
+    href: {
+      control: "text",
+      description: "Renders as <a> when provided",
+    },
+    target: {
+      control: "select",
+      options: ["_blank", "_self", "_parent", "_top"],
+      description: "Link target — used with href",
+    },
+    name: {
+      control: "text",
+      description: "Native button name for form submission",
+    },
+    value: {
+      control: "text",
+      description: "Native button value for form submission",
+    },
   },
   args: {
     variant: "primary",
     size: "md",
     disabled: false,
-    label: "Button",
+    loading: false,
+    fullWidth: false,
+    label: "",
     type: "button",
+    href: "",
+    target: "",
+    name: "",
+    value: "",
   },
-  render: ({ variant, size, disabled, label, type }) => html`
+  render: ({ variant, size, disabled, loading, fullWidth, label, type, href, target, name, value }) => html`
     <sp-button
       variant=${variant}
       size=${size}
       ?disabled=${disabled}
-      label=${label}
+      ?loading=${loading}
+      ?full-width=${fullWidth}
+      label=${label || nothing}
       type=${type}
+      href=${href || nothing}
+      target=${target || nothing}
+      name=${name || nothing}
+      value=${value || nothing}
     >
-      ${label}
+      ${label || "Button"}
     </sp-button>
   `,
 };
 
+// needed for conditional attributes in render
+import { nothing } from "lit";
+
 export default meta;
 type Story = StoryObj<SpButtonProps>;
 
+// ---- Variants ----
+
 export const Primary: Story = {
-  args: { variant: "primary", label: "Primary" },
+  args: { variant: "primary" },
 };
 
 export const Secondary: Story = {
-  args: { variant: "secondary", label: "Secondary" },
+  args: { variant: "secondary" },
 };
 
 export const Ghost: Story = {
-  args: { variant: "ghost", label: "Ghost" },
+  args: { variant: "ghost" },
 };
 
 export const Destructive: Story = {
-  args: { variant: "destructive", label: "Delete" },
+  args: { variant: "destructive" },
 };
+
+// ---- States ----
 
 export const Disabled: Story = {
-  args: { disabled: true, label: "Disabled" },
+  args: { disabled: true },
 };
 
-export const SmallSize: Story = {
-  args: { size: "sm", label: "Small" },
+export const Loading: Story = {
+  args: { loading: true },
 };
 
-export const LargeSize: Story = {
-  args: { size: "lg", label: "Large" },
+export const LoadingWithText: Story = {
+  render: () => html`
+    <sp-button loading>Guardando...</sp-button>
+  `,
 };
+
+// ---- Sizes ----
+
+export const AllSizes: Story = {
+  render: () => html`
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <sp-button size="sm">Small</sp-button>
+      <sp-button size="md">Medium</sp-button>
+      <sp-button size="lg">Large</sp-button>
+    </div>
+  `,
+};
+
+// ---- Width ----
+
+export const FullWidth: Story = {
+  render: () => html`
+    <div style="width: 400px;">
+      <sp-button full-width>Full width</sp-button>
+    </div>
+  `,
+};
+
+export const CustomWidths: Story = {
+  render: () => html`
+    <div style="display: flex; flex-direction: column; gap: 12px; width: 400px;">
+      <sp-button style="width: 100%;">100%</sp-button>
+      <sp-button style="width: 50%;">50%</sp-button>
+      <sp-button style="width: 25%;">25%</sp-button>
+      <sp-button style="width: 200px;">200px</sp-button>
+    </div>
+  `,
+};
+
+// ---- Link button ----
+
+export const LinkButton: Story = {
+  render: () => html`
+    <sp-button href="https://example.com" target="_blank">
+      Abrir enlace
+    </sp-button>
+  `,
+};
+
+export const DisabledLink: Story = {
+  render: () => html`
+    <sp-button href="https://example.com" disabled>
+      Enlace deshabilitado
+    </sp-button>
+  `,
+};
+
+// ---- Slots: prefix / suffix ----
+
+export const WithPrefixIcon: Story = {
+  render: () => html`
+    <sp-button>
+      <svg slot="prefix" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+      Descargar
+    </sp-button>
+  `,
+};
+
+export const WithSuffixIcon: Story = {
+  render: () => html`
+    <sp-button>
+      Siguiente
+      <svg slot="suffix" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </sp-button>
+  `,
+};
+
+export const WithBothIcons: Story = {
+  render: () => html`
+    <sp-button>
+      <svg slot="prefix" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+      </svg>
+      Programar
+      <svg slot="suffix" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 9l-7 7-7-7"/>
+      </svg>
+    </sp-button>
+  `,
+};
+
+// ---- All variants overview ----
 
 export const AllVariants: Story = {
   render: () => html`
@@ -90,17 +227,8 @@ export const AllVariants: Story = {
       <sp-button variant="secondary">Secondary</sp-button>
       <sp-button variant="ghost">Ghost</sp-button>
       <sp-button variant="destructive">Destructive</sp-button>
-      <sp-button variant="primary" disabled>Disabled</sp-button>
-    </div>
-  `,
-};
-
-export const AllSizes: Story = {
-  render: () => html`
-    <div style="display: flex; gap: 12px; align-items: center;">
-      <sp-button size="sm">Small</sp-button>
-      <sp-button size="md">Medium</sp-button>
-      <sp-button size="lg">Large</sp-button>
+      <sp-button disabled>Disabled</sp-button>
+      <sp-button loading>Loading</sp-button>
     </div>
   `,
 };

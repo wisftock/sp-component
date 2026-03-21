@@ -1,0 +1,98 @@
+:host {
+  display: block;
+}
+
+.sp-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+.sp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+:host([bordered]) .sp-table-wrapper {
+  border: 1px solid #e5e7eb;
+}
+
+.sp-table-th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+:host([compact]) .sp-table-th {
+  padding: 8px 12px;
+}
+
+.sp-table-th--sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sp-table-th--sortable:hover {
+  background: #f3f4f6;
+}
+
+.sp-table-th-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sp-table-sort-icon {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.sp-table-th--sorted .sp-table-sort-icon {
+  color: #3b82f6;
+}
+
+.sp-table-td {
+  padding: 12px 16px;
+  color: #374151;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+:host([compact]) .sp-table-td {
+  padding: 8px 12px;
+}
+
+:host([bordered]) .sp-table-th,
+:host([bordered]) .sp-table-td {
+  border: 1px solid #e5e7eb;
+}
+
+.sp-table-row--striped {
+  background: #f9fafb;
+}
+
+:host([hoverable]) .sp-table-row:hover {
+  background: #f3f4f6;
+}
+
+.sp-table-empty {
+  text-align: center;
+  padding: 32px;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.sp-table-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #6b7280;
+}

@@ -1,0 +1,9 @@
+:host { display: inline-flex; align-items: center; justify-content: center; color: #3b82f6; }
+.sp-spinner { display: flex; animation: sp-spin 0.75s linear infinite; }
+.sp-spinner svg { display: block; }
+:host([size="sm"]) .sp-spinner svg { width: 16px; height: 16px; }
+:host([size="md"]) .sp-spinner svg { width: 24px; height: 24px; }
+:host([size="lg"]) .sp-spinner svg { width: 36px; height: 36px; }
+:host([size="xl"]) .sp-spinner svg { width: 48px; height: 48px; }
+.sp-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0; }
+@keyframes sp-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }

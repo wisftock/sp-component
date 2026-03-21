@@ -13,6 +13,11 @@
   --sp-cal-selected-color: #ffffff;
   --sp-cal-disabled-color: #e2e8f0;
   --sp-cal-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --sp-cal-range-bg: #e0e7ff;
+  --sp-cal-range-preview-bg: #f0f3ff;
+  --sp-cal-event-dot-color: #f59e0b;
+  --sp-cal-preset-border: #e2e8f0;
+  --sp-cal-preset-hover-bg: #f1f5f9;
   font-family: inherit;
 }
 
@@ -26,6 +31,18 @@
   padding: 16px;
   width: 308px;
   user-select: none;
+}
+
+.sp-calendar--with-presets {
+  display: flex;
+  width: auto;
+  padding: 0;
+}
+
+.sp-calendar-body {
+  padding: 16px;
+  flex: 1;
+  min-width: 308px;
 }
 
 /* ---- Header ---- */
@@ -302,6 +319,141 @@
   cursor: not-allowed;
 }
 
+/* ---- Range selection ---- */
+
+.sp-calendar-day--in-range {
+  background: var(--sp-cal-range-bg);
+  border-radius: 0;
+  color: var(--sp-cal-day-color);
+}
+
+.sp-calendar-day--range-start {
+  border-radius: 8px 0 0 8px;
+}
+
+.sp-calendar-day--range-end {
+  border-radius: 0 8px 8px 0;
+}
+
+.sp-calendar-day--range-start.sp-calendar-day--range-end {
+  border-radius: 8px;
+}
+
+.sp-calendar-day--in-range-preview {
+  background: var(--sp-cal-range-preview-bg);
+  border-radius: 0;
+  color: var(--sp-cal-day-color);
+}
+
+/* ---- Event dots ---- */
+
+.sp-calendar-day--has-event {
+  padding-bottom: 6px;
+}
+
+.sp-calendar-day--has-event::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--sp-cal-event-dot-color);
+}
+
+/* Override today dot when also has event */
+.sp-calendar-day--today.sp-calendar-day--has-event::after {
+  background: var(--sp-cal-event-dot-color);
+  left: calc(50% + 5px);
+}
+
+/* ---- Slide animations ---- */
+
+@keyframes sp-slide-in-from-right {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes sp-slide-in-from-left {
+  from {
+    transform: translateX(-24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.sp-calendar-grid--slide-left {
+  animation: sp-slide-in-from-right 0.3s ease forwards;
+}
+
+.sp-calendar-grid--slide-right {
+  animation: sp-slide-in-from-left 0.3s ease forwards;
+}
+
+/* ---- Multi-month layout ---- */
+
+.sp-calendar-months {
+  display: flex;
+  gap: 16px;
+}
+
+.sp-calendar-month-panel {
+  flex: 1;
+  min-width: 276px;
+}
+
+.sp-calendar-nav-placeholder {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+/* ---- Presets sidebar ---- */
+
+.sp-calendar-presets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 12px;
+  border-right: 1px solid var(--sp-cal-preset-border);
+  min-width: 120px;
+}
+
+.sp-calendar-preset-btn {
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--sp-cal-day-color);
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.sp-calendar-preset-btn:hover:not(:disabled) {
+  background: var(--sp-cal-preset-hover-bg);
+  border-color: var(--sp-cal-border);
+}
+
+.sp-calendar-preset-btn:focus-visible {
+  outline: 2px solid var(--sp-cal-today-color);
+  outline-offset: 2px;
+}
+
 /* ---- Disabled host ---- */
 
 :host([disabled]) .sp-calendar {
@@ -319,5 +471,10 @@
   .sp-calendar-year-btn {
     transition: none;
     transform: none !important;
+  }
+
+  .sp-calendar-grid--slide-left,
+  .sp-calendar-grid--slide-right {
+    animation: none;
   }
 }

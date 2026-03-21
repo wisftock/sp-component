@@ -11,11 +11,14 @@ export function carouselTemplate(this: SpCarouselComponent): TemplateResult {
       class="sp-carousel"
       aria-roledescription="carousel"
       aria-label=${this.label || "carousel"}
+      @mouseenter=${this._onMouseEnter}
+      @mouseleave=${this._onMouseLeave}
     >
       <div
-        class="sp-carousel-track-wrapper"
+        class="sp-carousel-track-wrapper ${this._isDragging ? "sp-carousel-track-wrapper--dragging" : ""}"
         @touchstart=${this._onTouchStart}
         @touchend=${this._onTouchEnd}
+        @mousedown=${this._onMouseDown}
       >
         <div
           class="sp-carousel-track"
@@ -30,7 +33,7 @@ export function carouselTemplate(this: SpCarouselComponent): TemplateResult {
                 class="sp-carousel-arrow sp-carousel-arrow--prev"
                 aria-label="Previous slide"
                 ?disabled=${!this.loop && this.currentIndex === 0}
-                @click=${this._prev}
+                @click=${(e: Event) => { if (this._isDragging) { e.stopImmediatePropagation(); return; } this._prev(); }}
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   ${this.orientation === "vertical"
@@ -42,7 +45,7 @@ export function carouselTemplate(this: SpCarouselComponent): TemplateResult {
                 class="sp-carousel-arrow sp-carousel-arrow--next"
                 aria-label="Next slide"
                 ?disabled=${!this.loop && this.currentIndex === total - 1}
-                @click=${this._next}
+                @click=${(e: Event) => { if (this._isDragging) { e.stopImmediatePropagation(); return; } this._next(); }}
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   ${this.orientation === "vertical"

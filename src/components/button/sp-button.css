@@ -1,0 +1,87 @@
+/* -------------------------------------------------------
+   sp-button — Component styles
+   -------------------------------------------------------
+   Theming via CSS custom properties:
+     --sp-button-radius      Border radius (default 4px)
+     --sp-button-font-size   Font size (default 14px)
+     --sp-button-transition  Transition (default opacity .2s)
+   ------------------------------------------------------- */
+
+:host {
+  display: inline-block;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--sp-button-radius, 4px);
+  font-size: var(--sp-button-font-size, 14px);
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--sp-button-transition, opacity 0.2s);
+  line-height: 1;
+}
+
+/* ---- Sizes ---- */
+
+:host([size="sm"]) button {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+:host([size="md"]) button {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+:host([size="lg"]) button {
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+/* ---- Variants ---- */
+
+:host([variant="primary"]) button {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+:host([variant="secondary"]) button {
+  background-color: #6b7280;
+  color: #ffffff;
+}
+
+:host([variant="ghost"]) button {
+  background-color: transparent;
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
+}
+
+:host([variant="destructive"]) button {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+/* ---- Hover (only when not disabled) ---- */
+
+:host(:not([disabled])) button:hover {
+  opacity: 0.85;
+}
+
+/* ---- Disabled ---- */
+
+:host([disabled]) button {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ---- Focus visible (accessibility) ---- */
+
+button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}

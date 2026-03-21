@@ -1,0 +1,8 @@
+node_modules/
+dist/
+storybook-static/
+
+# Environment variables — never commit tokens
+.env
+.env.local
+.env.*.local

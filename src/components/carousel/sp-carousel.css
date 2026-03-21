@@ -1,0 +1,133 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+.sp-carousel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  outline: none;
+}
+
+/* ---- Track ---- */
+
+.sp-carousel-track-wrapper {
+  overflow: hidden;
+  position: relative;
+  border-radius: 8px;
+}
+
+.sp-carousel-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- Arrows ---- */
+
+.sp-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #374151;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.sp-carousel-arrow:hover:not(:disabled) {
+  background: #f1f5f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.sp-carousel-arrow:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+.sp-carousel-arrow:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.sp-carousel-arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+.sp-carousel-arrow--prev {
+  left: -18px;
+}
+
+.sp-carousel-arrow--next {
+  right: -18px;
+}
+
+/* Vertical orientation: arrows go top/bottom */
+:host([orientation="vertical"]) .sp-carousel-arrow--prev {
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+:host([orientation="vertical"]) .sp-carousel-arrow--next {
+  top: auto;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ---- Dots ---- */
+
+.sp-carousel-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.sp-carousel-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #cbd5e1;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.sp-carousel-dot:hover {
+  background: #94a3b8;
+}
+
+.sp-carousel-dot--active {
+  background: #6366f1;
+  transform: scale(1.3);
+}
+
+.sp-carousel-dot:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+/* ---- Reduced motion ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-carousel-arrow,
+  .sp-carousel-dot {
+    transition: none;
+  }
+}

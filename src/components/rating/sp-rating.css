@@ -1,0 +1,12 @@
+:host { display: inline-block; }
+.sp-rating { display: inline-flex; align-items: center; gap: 2px; }
+.sp-rating-star { background: none; border: none; cursor: pointer; padding: 2px; color: #d1d5db; transition: color 0.15s, transform 0.1s; display: inline-flex; align-items: center; justify-content: center; }
+.sp-rating-star svg { display: block; }
+:host([size="sm"]) .sp-rating-star svg { width: 16px; height: 16px; }
+:host([size="md"]) .sp-rating-star svg { width: 24px; height: 24px; }
+:host([size="lg"]) .sp-rating-star svg { width: 32px; height: 32px; }
+.sp-rating-star--active { color: #f59e0b; }
+.sp-rating-star:hover:not(:disabled) { transform: scale(1.15); }
+.sp-rating-star:disabled { cursor: not-allowed; opacity: 0.6; }
+:host([readonly]) .sp-rating-star { cursor: default; pointer-events: none; }
+:host([disabled]) .sp-rating-star { cursor: not-allowed; pointer-events: none; opacity: 0.5; }

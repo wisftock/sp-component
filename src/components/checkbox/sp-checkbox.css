@@ -1,0 +1,90 @@
+:host {
+  display: inline-block;
+}
+
+.sp-checkbox-label {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sp-checkbox-label--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sp-checkbox-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #d1d5db;
+  border-radius: 3px;
+  background: white;
+  transition: all 0.15s;
+  margin-top: 1px;
+}
+
+.sp-checkbox-control input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: inherit;
+}
+
+.sp-checkbox-control--checked,
+.sp-checkbox-control--indeterminate {
+  background: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.sp-checkbox-control:has(input:focus-visible) {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+:host([size="sm"]) .sp-checkbox-control {
+  width: 14px;
+  height: 14px;
+}
+
+:host([size="lg"]) .sp-checkbox-control {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.sp-checkbox-text {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.4;
+}
+
+:host([size="sm"]) .sp-checkbox-text {
+  font-size: 12px;
+}
+
+:host([size="lg"]) .sp-checkbox-text {
+  font-size: 16px;
+}
+
+.sp-checkbox-error {
+  display: block;
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 4px;
+}
+
+.sp-checkbox-hint {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}

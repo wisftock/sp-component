@@ -118,6 +118,8 @@ export class SpCalendarComponent extends LitElement {
   @state()
   _slideDir: SpCalendarSlideDir = "";
 
+  private _navigating = false;
+
   override render() {
     return calendarTemplate.call(this);
   }
@@ -360,22 +362,18 @@ export class SpCalendarComponent extends LitElement {
   // ---- Navigation ----
 
   _prevMonth(): void {
+    if (this._navigating) return;
+    this._navigating = true;
     this._slideDir = "right";
-    this._viewDate = new Date(
-      this._viewDate.getFullYear(),
-      this._viewDate.getMonth() - 1,
-      1,
-    );
+    this._viewDate = new Date(this._viewDate.getFullYear(), this._viewDate.getMonth() - 1, 1);
     this._resetSlideDir();
   }
 
   _nextMonth(): void {
+    if (this._navigating) return;
+    this._navigating = true;
     this._slideDir = "left";
-    this._viewDate = new Date(
-      this._viewDate.getFullYear(),
-      this._viewDate.getMonth() + 1,
-      1,
-    );
+    this._viewDate = new Date(this._viewDate.getFullYear(), this._viewDate.getMonth() + 1, 1);
     this._resetSlideDir();
   }
 
@@ -383,6 +381,7 @@ export class SpCalendarComponent extends LitElement {
     requestAnimationFrame(() => {
       setTimeout(() => {
         this._slideDir = "";
+        this._navigating = false;
       }, 300);
     });
   }
@@ -471,14 +470,12 @@ export class SpCalendarComponent extends LitElement {
       }
     } else if (this.mode === "multiple") {
       const iso = this._toISO(date);
-      const newSet = new Set(this._multipleValues);
-      if (newSet.has(iso)) {
-        newSet.delete(iso);
+      if (this._multipleValues.has(iso)) {
+        this._multipleValues = new Set([...this._multipleValues].filter(d => d !== iso));
       } else {
-        newSet.add(iso);
+        this._multipleValues = new Set([...this._multipleValues, iso]);
       }
-      this._multipleValues = newSet;
-      const valuesArr = Array.from(newSet).sort();
+      const valuesArr = Array.from(this._multipleValues).sort();
       this.values = valuesArr.join(",");
       this.dispatchEvent(
         new CustomEvent("sp-change", {
@@ -626,7 +623,12 @@ export class SpCalendarComponent extends LitElement {
     if (this.disabled) return;
     if (this._view !== "days") return;
 
-    const focused = this._focusedDate ?? this._parseDate(this.value) ?? new Date(this._viewDate);
+    const fallback = new Date(
+      this._viewDate.getFullYear(),
+      this._viewDate.getMonth(),
+      Math.min(15, new Date(this._viewDate.getFullYear(), this._viewDate.getMonth() + 1, 0).getDate())
+    );
+    const focused = this._focusedDate ?? this._parseDate(this.value) ?? fallback;
 
     const move = (days: number) => {
       const next = new Date(focused);
@@ -660,11 +662,11 @@ export class SpCalendarComponent extends LitElement {
         break;
       case "Home":
         e.preventDefault();
-        move(-(focused.getDay() - this.firstDayOfWeek + 7) % 7);
+        move(-((focused.getDay() - this.firstDayOfWeek + 7) % 7));
         break;
       case "End":
         e.preventDefault();
-        move((6 - focused.getDay() + this.firstDayOfWeek) % 7);
+        move(((6 - focused.getDay() + this.firstDayOfWeek + 7) % 7));
         break;
       case "PageUp":
         e.preventDefault();

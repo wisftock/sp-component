@@ -51,6 +51,15 @@ export class SpCalendarDatePickerComponent extends LitElement {
   @property({ type: String })
   mode = "single";
 
+  @property({ type: String, attribute: "value-start" })
+  valueStart = "";
+
+  @property({ type: String, attribute: "value-end" })
+  valueEnd = "";
+
+  @property({ type: String })
+  values = "";
+
   @property({ type: String })
   format: SpDatePickerFormat = "YYYY-MM-DD";
 
@@ -79,7 +88,6 @@ export class SpCalendarDatePickerComponent extends LitElement {
   _internalValue = "";
 
   private _internals: ElementInternals | null = null;
-  private _boundHandleOutsideClick: (e: MouseEvent) => void;
   private _boundHandleKeydown: (e: KeyboardEvent) => void;
 
   constructor() {
@@ -89,7 +97,6 @@ export class SpCalendarDatePickerComponent extends LitElement {
     } catch {
       // Fallback for environments that don't support form association
     }
-    this._boundHandleOutsideClick = this._handleOutsideClick.bind(this);
     this._boundHandleKeydown = this._handleKeydown.bind(this);
   }
 
@@ -151,13 +158,13 @@ export class SpCalendarDatePickerComponent extends LitElement {
   _open_popover(): void {
     if (this.disabled || this.readonly) return;
     this._open = true;
-    document.addEventListener("click", this._boundHandleOutsideClick, { capture: true });
+    document.addEventListener("click", this._handleOutsideClick, { capture: true });
     document.addEventListener("keydown", this._boundHandleKeydown, { capture: true });
   }
 
   _close_popover(): void {
     this._open = false;
-    document.removeEventListener("click", this._boundHandleOutsideClick, { capture: true });
+    document.removeEventListener("click", this._handleOutsideClick, { capture: true });
     document.removeEventListener("keydown", this._boundHandleKeydown, { capture: true });
   }
 
@@ -170,27 +177,43 @@ export class SpCalendarDatePickerComponent extends LitElement {
     }
   }
 
-  _handleCalendarChange(e: CustomEvent<{ value: string }>): void {
-    const newValue = e.detail.value;
-    this._internalValue = newValue;
-    this.value = newValue;
-    this._updateFormValue();
-    this.dispatchEvent(
-      new CustomEvent("sp-change", {
-        detail: { value: newValue },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-    this._close_popover();
-  }
-
-  private _handleOutsideClick(e: MouseEvent): void {
-    const target = e.composedPath()[0] as Node;
-    if (!this.contains(target) && target !== this) {
+  _toggleOpen(): void {
+    if (this._open) {
       this._close_popover();
+    } else {
+      this._open_popover();
     }
   }
+
+  private _handleCalendarChange = (e: CustomEvent<any>): void => {
+    const detail = e.detail;
+    if (this.mode === "range") {
+      this.valueStart = detail.valueStart ?? "";
+      this.valueEnd = detail.valueEnd ?? "";
+      this._internalValue = this.valueStart && this.valueEnd
+        ? `${this._formatDate(this._parseISO(this.valueStart)!)} → ${this._formatDate(this._parseISO(this.valueEnd)!)}`
+        : this._formatDate(this._parseISO(detail.valueStart ?? "") ?? new Date());
+      if (this.valueStart && this.valueEnd) this._open = false;
+    } else if (this.mode === "multiple") {
+      this.values = (detail.values as string[]).join(",");
+      this._internalValue = `${(detail.values as string[]).length} selected`;
+    } else {
+      this.value = detail.value ?? "";
+      this._internalValue = this.value ? this._formatDate(this._parseISO(this.value)!) : "";
+      this._open = false;
+    }
+    this._updateFormValue();
+    this.dispatchEvent(new CustomEvent("sp-change", { detail, bubbles: true, composed: true }));
+  };
+
+  private _handleOutsideClick = (e: MouseEvent): void => {
+    const path = e.composedPath();
+    if (path.length === 0) return;
+    const target = path[0] as Node;
+    if (!this.contains(target) && !this.shadowRoot?.contains(target)) {
+      this._open = false;
+    }
+  };
 
   private _handleKeydown(e: KeyboardEvent): void {
     if (e.key === "Escape") {

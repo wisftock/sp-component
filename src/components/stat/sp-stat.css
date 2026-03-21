@@ -1,0 +1,71 @@
+:host {
+  display: block;
+}
+
+.sp-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sp-stat-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sp-stat-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.sp-stat-prefix {
+  font-size: 20px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.sp-stat-value {
+  font-size: 36px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1;
+}
+
+.sp-stat-suffix {
+  font-size: 16px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.sp-stat-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.sp-stat-trend--up {
+  color: #16a34a;
+}
+
+.sp-stat-trend--down {
+  color: #dc2626;
+}
+
+.sp-stat-trend--neutral {
+  color: #6b7280;
+}
+
+.sp-stat-trend-icon {
+  font-size: 14px;
+}
+
+.sp-stat-description {
+  font-size: 13px;
+  color: #9ca3af;
+}

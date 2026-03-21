@@ -50,7 +50,7 @@ function renderDaysView(
 
       <button
         class="sp-calendar-title"
-        aria-label="Select month and year"
+        aria-label=${`${monthName} — click to select month`}
         ?disabled=${host.disabled}
         @click=${() => (host._view = "months")}
       >
@@ -67,19 +67,22 @@ function renderDaysView(
         : html`<span class="sp-calendar-nav-placeholder"></span>`}
     </div>
 
-    <!-- Weekday headers -->
-    <div class="sp-calendar-weekdays" role="row">
-      ${weekdays.map(
-        (d) => html`<div class="sp-calendar-weekday" role="columnheader" aria-label=${d}>${d}</div>`,
-      )}
-    </div>
+    <!-- ARIA grid wrapper -->
+    <div role="grid" aria-label=${monthName}>
+      <!-- Weekday headers -->
+      <div role="rowgroup">
+        <div class="sp-calendar-weekdays" role="row">
+          ${weekdays.map(
+            (d) => html`<div class="sp-calendar-weekday" role="columnheader" aria-label=${d}>${d}</div>`,
+          )}
+        </div>
+      </div>
 
-    <!-- Day grid -->
-    <div
-      class=${gridClasses}
-      role="grid"
-      aria-label=${monthName}
-    >
+      <!-- Day grid -->
+      <div
+        class=${gridClasses}
+        role="rowgroup"
+      >
       ${repeat(
         days,
         (d) => host._toISO(d.date),
@@ -117,6 +120,7 @@ function renderDaysView(
           `;
         },
       )}
+      </div>
     </div>
   `;
 }
@@ -137,7 +141,7 @@ function renderMonthsView(host: SpCalendarComponent): TemplateResult {
 
       <button
         class="sp-calendar-title"
-        aria-label="Select year"
+        aria-label=${`${year} — click to select year`}
         ?disabled=${host.disabled}
         @click=${() => (host._view = "years")}
       >${year}</button>

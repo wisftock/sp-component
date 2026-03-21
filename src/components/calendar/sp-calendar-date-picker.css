@@ -71,6 +71,10 @@
   border-color: var(--sp-dp-error-color);
 }
 
+.sp-date-picker__field--error:hover:not(.sp-date-picker__field--disabled) {
+  border-color: var(--sp-dp-error-color, #ef4444);
+}
+
 .sp-date-picker__field--error:focus-within {
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
 }

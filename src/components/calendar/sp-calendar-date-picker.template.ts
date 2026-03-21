@@ -50,9 +50,18 @@ export function datePickerTemplate(this: SpCalendarDatePickerComponent): Templat
           placeholder=${this.placeholder || "Select date"}
           ?disabled=${this.disabled}
           ?readonly=${true}
+          tabindex="0"
           aria-label=${this.label || "Date picker"}
           aria-expanded=${this._open ? "true" : "false"}
           aria-haspopup="dialog"
+          aria-invalid=${this.error ? "true" : "false"}
+          aria-describedby=${this.error ? "dp-error" : this.hint ? "dp-hint" : nothing}
+          @keydown=${(e: KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              this._toggleOpen();
+            }
+          }}
         />
       </div>
 
@@ -64,6 +73,7 @@ export function datePickerTemplate(this: SpCalendarDatePickerComponent): Templat
       >
         <sp-calendar
           .value=${this._internalValue}
+          .mode=${this.mode}
           .min=${this.min}
           .max=${this.max}
           .locale=${this.locale}
@@ -74,9 +84,9 @@ export function datePickerTemplate(this: SpCalendarDatePickerComponent): Templat
       </div>
 
       ${this.error
-        ? html`<span class="sp-date-picker__error">${this.error}</span>`
+        ? html`<span id="dp-error" class="sp-date-picker__error">${this.error}</span>`
         : this.hint
-          ? html`<span class="sp-date-picker__hint">${this.hint}</span>`
+          ? html`<span id="dp-hint" class="sp-date-picker__hint">${this.hint}</span>`
           : nothing}
     </div>
   `;

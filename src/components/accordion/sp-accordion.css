@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+
+.sp-accordion {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+:host([variant="default"]) .sp-accordion {
+  background: white;
+  border: 1px solid #e5e7eb;
+}
+
+:host([variant="bordered"]) .sp-accordion {
+  border: 2px solid #3b82f6;
+}
+
+:host([variant="ghost"]) .sp-accordion {
+  border: none;
+}
+
+:host([variant="ghost"]) .sp-accordion .sp-accordion-item {
+  border-bottom: 1px solid #f3f4f6;
+}

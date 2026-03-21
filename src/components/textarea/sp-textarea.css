@@ -1,0 +1,108 @@
+/* -------------------------------------------------------
+   sp-textarea — Component styles
+   ------------------------------------------------------- */
+
+:host {
+  display: block;
+  font-family: inherit;
+}
+
+/* ---- Label ---- */
+
+.sp-textarea-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.sp-required {
+  color: #ef4444;
+}
+
+/* ---- Textarea ---- */
+
+textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  color: #111827;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+  resize: vertical;
+  min-height: 80px;
+}
+
+textarea:focus {
+  border-color: #3b82f6;
+  outline: 2px solid rgba(59, 130, 246, 0.2);
+  outline-offset: -1px;
+}
+
+textarea.sp-textarea--error {
+  border-color: #ef4444;
+}
+
+textarea.sp-textarea--error:focus {
+  border-color: #ef4444;
+  outline-color: rgba(239, 68, 68, 0.2);
+}
+
+/* ---- Resize variants ---- */
+
+:host([resize="none"]) textarea {
+  resize: none;
+}
+
+:host([resize="horizontal"]) textarea {
+  resize: horizontal;
+}
+
+:host([resize="both"]) textarea {
+  resize: both;
+}
+
+/* ---- Disabled ---- */
+
+:host([disabled]) textarea {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f9fafb;
+  resize: none;
+}
+
+/* ---- Readonly ---- */
+
+:host([readonly]) textarea {
+  background: #f9fafb;
+}
+
+/* ---- Footer ---- */
+
+.sp-textarea-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.sp-textarea-error {
+  font-size: 12px;
+  color: #ef4444;
+}
+
+.sp-textarea-hint {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.sp-textarea-count {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-left: auto;
+}

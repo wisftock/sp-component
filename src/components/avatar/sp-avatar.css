@@ -1,0 +1,72 @@
+:host {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.sp-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #e5e7eb;
+  color: #6b7280;
+  font-weight: 600;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+:host([shape="circle"]) .sp-avatar {
+  border-radius: 50%;
+}
+
+:host([shape="square"]) .sp-avatar {
+  border-radius: 6px;
+}
+
+:host([size="sm"]) .sp-avatar {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+}
+
+:host([size="md"]) .sp-avatar {
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
+}
+
+:host([size="lg"]) .sp-avatar {
+  width: 56px;
+  height: 56px;
+  font-size: 18px;
+}
+
+:host([size="xl"]) .sp-avatar {
+  width: 72px;
+  height: 72px;
+  font-size: 22px;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sp-avatar-initials {
+  line-height: 1;
+}
+
+.sp-avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  height: 60%;
+}
+
+.sp-avatar-placeholder svg {
+  width: 100%;
+  height: 100%;
+}

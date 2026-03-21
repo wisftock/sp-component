@@ -1,0 +1,78 @@
+:host {
+  display: inline-block;
+}
+
+.sp-popover-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.sp-popover-trigger {
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.sp-popover {
+  position: absolute;
+  z-index: 9999;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s, transform 0.15s;
+  transform: scale(0.95);
+  min-width: 160px;
+}
+
+.sp-popover--open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.sp-popover-content {
+  padding: 12px;
+}
+
+.sp-popover-arrow {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  transform: rotate(45deg);
+}
+
+:host([placement="bottom"]) .sp-popover-arrow {
+  top: -6px;
+  left: 50%;
+  margin-left: -5px;
+  border-bottom: none;
+  border-right: none;
+}
+
+:host([placement="top"]) .sp-popover-arrow {
+  bottom: -6px;
+  left: 50%;
+  margin-left: -5px;
+  border-top: none;
+  border-left: none;
+}
+
+:host([placement="right"]) .sp-popover-arrow {
+  left: -6px;
+  top: 50%;
+  margin-top: -5px;
+  border-top: none;
+  border-right: none;
+}
+
+:host([placement="left"]) .sp-popover-arrow {
+  right: -6px;
+  top: 50%;
+  margin-top: -5px;
+  border-bottom: none;
+  border-left: none;
+}

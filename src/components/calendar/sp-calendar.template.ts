@@ -14,25 +14,39 @@ function chevronRight(): TemplateResult {
   </svg>`;
 }
 
-function renderDaysView(host: SpCalendarComponent): TemplateResult {
+function renderDaysView(
+  host: SpCalendarComponent,
+  viewDate: Date,
+  showPrev: boolean,
+  showNext: boolean,
+): TemplateResult {
   const today = new Date();
-  const selected = host._parseDate(host.value);
   const weekdays = host._getWeekdayHeaders();
-  const days = host._getDaysInGrid();
+  const days = host._getDaysInGrid(viewDate);
   const locale = host._getLocale();
   const monthName = new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }).format(
-    host._viewDate,
+    viewDate,
   );
+
+  const gridClasses = [
+    "sp-calendar-grid",
+    host._slideDir === "left" ? "sp-calendar-grid--slide-left" : "",
+    host._slideDir === "right" ? "sp-calendar-grid--slide-right" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return html`
     <!-- Header -->
     <div class="sp-calendar-header" part="header">
-      <button
-        class="sp-calendar-nav-btn"
-        aria-label="Previous month"
-        ?disabled=${host.disabled}
-        @click=${() => host._prevMonth()}
-      >${chevronLeft()}</button>
+      ${showPrev
+        ? html`<button
+            class="sp-calendar-nav-btn"
+            aria-label="Previous month"
+            ?disabled=${host.disabled}
+            @click=${() => host._prevMonth()}
+          >${chevronLeft()}</button>`
+        : html`<span class="sp-calendar-nav-placeholder"></span>`}
 
       <button
         class="sp-calendar-title"
@@ -43,12 +57,14 @@ function renderDaysView(host: SpCalendarComponent): TemplateResult {
         ${monthName}
       </button>
 
-      <button
-        class="sp-calendar-nav-btn"
-        aria-label="Next month"
-        ?disabled=${host.disabled}
-        @click=${() => host._nextMonth()}
-      >${chevronRight()}</button>
+      ${showNext
+        ? html`<button
+            class="sp-calendar-nav-btn"
+            aria-label="Next month"
+            ?disabled=${host.disabled}
+            @click=${() => host._nextMonth()}
+          >${chevronRight()}</button>`
+        : html`<span class="sp-calendar-nav-placeholder"></span>`}
     </div>
 
     <!-- Weekday headers -->
@@ -60,7 +76,7 @@ function renderDaysView(host: SpCalendarComponent): TemplateResult {
 
     <!-- Day grid -->
     <div
-      class="sp-calendar-grid"
+      class=${gridClasses}
       role="grid"
       aria-label=${monthName}
     >
@@ -69,19 +85,16 @@ function renderDaysView(host: SpCalendarComponent): TemplateResult {
         (d) => host._toISO(d.date),
         (d) => {
           const iso = host._toISO(d.date);
-          const isSelected = selected ? host._isSameDay(d.date, selected) : false;
+          const classes = host._getDayClasses(d.date, d.isCurrentMonth);
+          const isSelected = classes.includes("sp-calendar-day--selected");
           const isToday = host._isSameDay(d.date, today);
-          const isDisabled = host.disabled || host._isOutOfRange(d.date);
+          const isDisabled =
+            host.disabled || host._isOutOfRange(d.date) || host._isDisabledDate(d.date);
           const isFocused = host._focusedDate ? host._isSameDay(d.date, host._focusedDate) : false;
 
           return html`
             <button
-              class="sp-calendar-day
-                ${!d.isCurrentMonth ? "sp-calendar-day--outside" : ""}
-                ${isToday ? "sp-calendar-day--today" : ""}
-                ${isSelected ? "sp-calendar-day--selected" : ""}
-                ${isDisabled ? "sp-calendar-day--disabled" : ""}
-              "
+              class=${classes}
               part="day"
               role="gridcell"
               aria-label=${new Intl.DateTimeFormat(host._getLocale(), {
@@ -96,6 +109,8 @@ function renderDaysView(host: SpCalendarComponent): TemplateResult {
               tabindex=${isFocused || (isSelected && !host._focusedDate) ? "0" : "-1"}
               ?disabled=${isDisabled}
               @click=${() => host._selectDate(d.date)}
+              @mouseover=${() => host._setHoverDate(d.date)}
+              @mouseleave=${() => host._setHoverDate(null)}
             >
               ${d.date.getDate()}
             </button>
@@ -191,19 +206,56 @@ function renderYearsView(host: SpCalendarComponent): TemplateResult {
   `;
 }
 
+function renderPresets(host: SpCalendarComponent): TemplateResult {
+  const isRange = host.mode === "range";
+
+  return html`
+    <div class="sp-calendar-presets">
+      <button class="sp-calendar-preset-btn" @click=${() => host._selectToday()}>Today</button>
+      <button class="sp-calendar-preset-btn" @click=${() => host._selectYesterday()}>Yesterday</button>
+      ${isRange
+        ? html`
+          <button class="sp-calendar-preset-btn" @click=${() => host._selectThisWeek()}>This week</button>
+          <button class="sp-calendar-preset-btn" @click=${() => host._selectLast7Days()}>Last 7 days</button>
+          <button class="sp-calendar-preset-btn" @click=${() => host._selectThisMonth()}>This month</button>
+          <button class="sp-calendar-preset-btn" @click=${() => host._selectLast30Days()}>Last 30 days</button>
+        `
+        : nothing}
+    </div>
+  `;
+}
+
 export function calendarTemplate(this: SpCalendarComponent): TemplateResult {
+  const numMonths = Math.min(Math.max(this.months ?? 1, 1), 3);
+
   return html`
     <div
-      class="sp-calendar"
+      class="sp-calendar${this.showPresets ? " sp-calendar--with-presets" : ""}"
       part="calendar"
       role="application"
       aria-label="Calendar"
     >
-      ${this._view === "days"
-        ? renderDaysView(this)
-        : this._view === "months"
-          ? renderMonthsView(this)
-          : renderYearsView(this)}
+      ${this.showPresets ? renderPresets(this) : nothing}
+      <div class="sp-calendar-body">
+        ${this._view === "days"
+          ? numMonths > 1
+            ? html`
+                <div class="sp-calendar-months">
+                  ${Array.from({ length: numMonths }, (_, i) => {
+                    const vd = this._getViewDateForOffset(i);
+                    return html`
+                      <div class="sp-calendar-month-panel">
+                        ${renderDaysView(this, vd, i === 0, i === numMonths - 1)}
+                      </div>
+                    `;
+                  })}
+                </div>
+              `
+            : renderDaysView(this, this._viewDate, true, true)
+          : this._view === "months"
+            ? renderMonthsView(this)
+            : renderYearsView(this)}
+      </div>
     </div>
   `;
 }

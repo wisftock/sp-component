@@ -264,4 +264,115 @@ describe("sp-calendar", () => {
     const headers = el._getWeekdayHeaders();
     expect(headers.length).toBe(7);
   });
+
+  // ---- Mode: range ----
+
+  it("range mode: first click sets rangeStart", () => {
+    el.mode = "range";
+    el._selectDate(new Date(2025, 5, 10));
+    expect(el._rangeStart).not.toBeNull();
+    expect(el._toISO(el._rangeStart!)).toBe("2025-06-10");
+    expect(el._rangeEnd).toBeNull();
+  });
+
+  it("range mode: second click sets rangeEnd and emits sp-change", () => {
+    el.mode = "range";
+    const listener = vi.fn();
+    el.addEventListener("sp-change", listener);
+    el._selectDate(new Date(2025, 5, 10));
+    el._selectDate(new Date(2025, 5, 20));
+    expect(el._rangeEnd).not.toBeNull();
+    expect(el._toISO(el._rangeEnd!)).toBe("2025-06-20");
+    expect(listener).toHaveBeenCalledOnce();
+    const detail = (listener.mock.calls[0]?.[0] as CustomEvent).detail as {
+      value: string;
+      valueStart: string;
+      valueEnd: string;
+    };
+    expect(detail.valueStart).toBe("2025-06-10");
+    expect(detail.valueEnd).toBe("2025-06-20");
+  });
+
+  it("range mode: days between start and end get in-range class", () => {
+    el.mode = "range";
+    el._rangeStart = new Date(2025, 5, 10);
+    el._rangeEnd = new Date(2025, 5, 20);
+    const midDate = new Date(2025, 5, 15);
+    const classes = el._getDayClasses(midDate, true);
+    expect(classes).toContain("sp-calendar-day--in-range");
+  });
+
+  it("range mode: clicking same date as start resets range", () => {
+    el.mode = "range";
+    el._selectDate(new Date(2025, 5, 10));
+    expect(el._rangeStart).not.toBeNull();
+    el._selectDate(new Date(2025, 5, 10));
+    expect(el._rangeStart).toBeNull();
+    expect(el._rangeEnd).toBeNull();
+  });
+
+  // ---- Mode: multiple ----
+
+  it("multiple mode: clicking a date adds it to values", () => {
+    el.mode = "multiple";
+    el._selectDate(new Date(2025, 5, 10));
+    expect(el._multipleValues.has("2025-06-10")).toBe(true);
+  });
+
+  it("multiple mode: clicking selected date removes it", () => {
+    el.mode = "multiple";
+    el._selectDate(new Date(2025, 5, 10));
+    expect(el._multipleValues.has("2025-06-10")).toBe(true);
+    el._selectDate(new Date(2025, 5, 10));
+    expect(el._multipleValues.has("2025-06-10")).toBe(false);
+  });
+
+  // ---- Events/markers ----
+
+  it("days with events get has-event class", () => {
+    el.events = "2025-06-10,2025-06-15";
+    const classes10 = el._getDayClasses(new Date(2025, 5, 10), true);
+    expect(classes10).toContain("sp-calendar-day--has-event");
+    const classes11 = el._getDayClasses(new Date(2025, 5, 11), true);
+    expect(classes11).not.toContain("sp-calendar-day--has-event");
+  });
+
+  // ---- Disabled specific days ----
+
+  it("disabled-dates disables specific dates", () => {
+    el.disabledDates = "2025-06-10,2025-06-15";
+    expect(el._isDisabledDate(new Date(2025, 5, 10))).toBe(true);
+    expect(el._isDisabledDate(new Date(2025, 5, 11))).toBe(false);
+  });
+
+  it("disabled-days-of-week disables weekends", () => {
+    el.disabledDaysOfWeek = "0,6";
+    // 2025-06-07 is a Saturday (day 6)
+    expect(el._isDisabledDate(new Date(2025, 5, 7))).toBe(true);
+    // 2025-06-08 is a Sunday (day 0)
+    expect(el._isDisabledDate(new Date(2025, 5, 8))).toBe(true);
+    // 2025-06-09 is a Monday (day 1)
+    expect(el._isDisabledDate(new Date(2025, 5, 9))).toBe(false);
+  });
+
+  // ---- Presets ----
+
+  it("today preset selects today's date", () => {
+    const listener = vi.fn();
+    el.addEventListener("sp-change", listener);
+    el._selectToday();
+    const today = new Date();
+    const iso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    expect(el.value).toBe(iso);
+    expect(listener).toHaveBeenCalledOnce();
+  });
+
+  // ---- months prop ----
+
+  it("months=2 renders two month grids", async () => {
+    el.months = 2;
+    await el.updateComplete;
+    const monthPanels = el.shadowRoot?.querySelectorAll(".sp-calendar-month-panel");
+    expect(monthPanels?.length).toBe(2);
+  });
 });

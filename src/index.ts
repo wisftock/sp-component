@@ -40,3 +40,4 @@ export * from "./components/slider/index.js";
 export * from "./components/rating/index.js";
 export * from "./components/file-upload/index.js";
 export * from "./components/combobox/index.js";
+export * from "./components/carousel/index.js";

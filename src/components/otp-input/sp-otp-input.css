@@ -1,0 +1,78 @@
+:host {
+  display: block;
+}
+
+.sp-otp-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.sp-otp-container {
+  display: flex;
+  gap: 8px;
+}
+
+.sp-otp-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  text-align: center;
+  font-family: inherit;
+  font-weight: 500;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  padding: 0;
+}
+
+/* ---- Sizes ---- */
+
+:host([size="sm"]) .sp-otp-cell {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+}
+
+:host([size="md"]) .sp-otp-cell {
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+}
+
+:host([size="lg"]) .sp-otp-cell {
+  width: 56px;
+  height: 56px;
+  font-size: 22px;
+}
+
+/* ---- Focus ---- */
+
+.sp-otp-cell:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* ---- Invalid ---- */
+
+:host([invalid]) .sp-otp-cell {
+  border-color: #ef4444;
+}
+
+:host([invalid]) .sp-otp-cell:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+/* ---- Disabled ---- */
+
+:host([disabled]) .sp-otp-cell {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f9fafb;
+}

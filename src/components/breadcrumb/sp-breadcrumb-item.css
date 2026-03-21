@@ -1,0 +1,29 @@
+:host {
+  display: contents;
+}
+
+.sp-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sp-breadcrumb-link {
+  color: #3b82f6;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.sp-breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.sp-breadcrumb-separator {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.sp-breadcrumb-current {
+  color: #6b7280;
+  font-size: 14px;
+}

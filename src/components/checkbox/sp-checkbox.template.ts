@@ -16,6 +16,9 @@ export function checkboxTemplate(this: SpCheckboxComponent): TemplateResult {
           ?required=${this.required}
           name=${this.name || nothing}
           value=${this.value || nothing}
+          aria-invalid=${this.error ? "true" : nothing}
+          aria-describedby=${(this.error || this.hint) ? "sp-checkbox-desc" : nothing}
+          aria-required=${this.required ? "true" : nothing}
           @change=${this._handleChange}
         />
         ${this.checked && !this.indeterminate
@@ -34,10 +37,10 @@ export function checkboxTemplate(this: SpCheckboxComponent): TemplateResult {
         : html`<slot></slot>`}
     </label>
     ${this.error
-      ? html`<span class="sp-checkbox-error">${this.error}</span>`
+      ? html`<span id="sp-checkbox-desc" class="sp-checkbox-error" role="alert">${this.error}</span>`
       : nothing}
     ${!this.error && this.hint
-      ? html`<span class="sp-checkbox-hint">${this.hint}</span>`
+      ? html`<span id="sp-checkbox-desc" class="sp-checkbox-hint">${this.hint}</span>`
       : nothing}
   `;
 }

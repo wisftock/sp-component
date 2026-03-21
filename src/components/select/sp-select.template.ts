@@ -29,6 +29,8 @@ export function selectTemplate(this: SpSelectComponent): TemplateResult {
           ?required=${this.required}
           ?multiple=${this.multiple}
           name=${this.name || nothing}
+          aria-invalid=${this.error ? "true" : nothing}
+          aria-describedby=${(this.error || this.hint) ? "sp-select-desc" : nothing}
           @change=${this._handleChange}
           @focus=${this._handleFocus}
           @blur=${this._handleBlur}
@@ -50,10 +52,10 @@ export function selectTemplate(this: SpSelectComponent): TemplateResult {
           : nothing}
       </div>
       ${this.error
-        ? html`<span class="sp-select-error">${this.error}</span>`
+        ? html`<span id="sp-select-desc" class="sp-select-error" role="alert">${this.error}</span>`
         : nothing}
       ${!this.error && this.hint
-        ? html`<span class="sp-select-hint">${this.hint}</span>`
+        ? html`<span id="sp-select-desc" class="sp-select-hint">${this.hint}</span>`
         : nothing}
     </div>
   `;

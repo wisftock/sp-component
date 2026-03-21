@@ -157,4 +157,28 @@ describe("sp-input", () => {
     expect(labelEl).not.toBeNull();
     expect(labelEl?.textContent?.trim()).toContain("Email address");
   });
+
+  // ---- Form participation ----
+
+  it("participates in form — value appears in FormData", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    const input = document.createElement("sp-input") as SpInputComponent;
+    input.setAttribute("name", "username");
+    form.appendChild(input);
+    await input.updateComplete;
+    input.value = "hello";
+    await input.updateComplete;
+    const data = new FormData(form);
+    expect(data.get("username")).toBe("hello");
+  });
+
+  it("participates in form — resets on form reset", async () => {
+    el.value = "hello";
+    await el.updateComplete;
+    // Call formResetCallback directly (happy-dom doesn't fire form lifecycle callbacks)
+    (el as unknown as { formResetCallback(): void }).formResetCallback();
+    await el.updateComplete;
+    expect(el.value).toBe("");
+  });
 });

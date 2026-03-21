@@ -137,3 +137,9 @@ input::placeholder {
   color: #6b7280;
   margin-top: 4px;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  input {
+    transition: none;
+  }
+}

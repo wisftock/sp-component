@@ -15,6 +15,7 @@ export function switchTemplate(this: SpSwitchComponent): TemplateResult {
           ?disabled=${this.disabled}
           name=${this.name || nothing}
           value=${this.value}
+          aria-describedby=${this.hint ? "sp-switch-desc" : nothing}
           @change=${this._handleChange}
         />
         <span class="sp-switch-thumb"></span>
@@ -24,7 +25,7 @@ export function switchTemplate(this: SpSwitchComponent): TemplateResult {
         : html`<slot></slot>`}
     </label>
     ${this.hint
-      ? html`<span class="sp-switch-hint">${this.hint}</span>`
+      ? html`<span id="sp-switch-desc" class="sp-switch-hint">${this.hint}</span>`
       : nothing}
   `;
 }

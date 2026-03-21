@@ -40,7 +40,7 @@ export class SpSelectComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   required = false;
 
   @property({ type: String })

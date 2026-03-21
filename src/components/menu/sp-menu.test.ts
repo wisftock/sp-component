@@ -110,6 +110,15 @@ describe("sp-menu", () => {
     const panel = el.shadowRoot?.querySelector(".sp-menu-panel");
     expect(panel?.getAttribute("role")).toBe("menu");
   });
+
+  it("closes on ESC key", async () => {
+    const el = createMenu();
+    el.open = true;
+    await el.updateComplete;
+    el.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    await el.updateComplete;
+    expect(el.open).toBe(false);
+  });
 });
 
 describe("sp-menu-item", () => {

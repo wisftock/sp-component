@@ -49,15 +49,44 @@ export class SpTabsComponent extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     this.addEventListener("sp-tab-click", this._handleTabClick as EventListener);
+    this.addEventListener("keydown", this._handleKeydown);
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("sp-tab-click", this._handleTabClick as EventListener);
+    this.removeEventListener("keydown", this._handleKeydown);
   }
 
-  private readonly _handleTabClick = (e: CustomEvent<{ panel: string }>) => {
-    this.active = e.detail.panel;
+  private readonly _handleKeydown = (e: KeyboardEvent): void => {
+    const tabs = Array.from(this.querySelectorAll<HTMLElement>("sp-tab:not([disabled])"));
+    if (tabs.length === 0) return;
+    const focused = tabs.findIndex(t => t === document.activeElement);
+    if (focused === -1) return;
+
+    let next = focused;
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      e.preventDefault();
+      next = focused < tabs.length - 1 ? focused + 1 : 0;
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      e.preventDefault();
+      next = focused > 0 ? focused - 1 : tabs.length - 1;
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      next = 0;
+    } else if (e.key === "End") {
+      e.preventDefault();
+      next = tabs.length - 1;
+    } else {
+      return;
+    }
+    tabs[next]?.focus();
+    const panel = tabs[next]?.getAttribute("panel") ?? "";
+    if (panel) this._activateTab(panel);
+  };
+
+  private _activateTab(panel: string): void {
+    this.active = panel;
     this.dispatchEvent(
       new CustomEvent("sp-tab-show", {
         detail: { panel: this.active },
@@ -65,6 +94,10 @@ export class SpTabsComponent extends LitElement {
         composed: true,
       }),
     );
+  }
+
+  private readonly _handleTabClick = (e: CustomEvent<{ panel: string }>) => {
+    this._activateTab(e.detail.panel);
   };
 }
 

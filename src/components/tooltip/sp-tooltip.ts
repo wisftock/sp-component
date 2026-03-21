@@ -1,5 +1,5 @@
 import { LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import styles from "./sp-tooltip.css?inline";
 import { tooltipTemplate } from "./sp-tooltip.template.js";
 import type { SpTooltipPlacement, SpTooltipTrigger } from "./sp-tooltip.types.js";
@@ -21,6 +21,8 @@ import type { SpTooltipPlacement, SpTooltipTrigger } from "./sp-tooltip.types.js
 @customElement("sp-tooltip")
 export class SpTooltipComponent extends LitElement {
   static override styles = unsafeCSS(styles);
+
+  @state() _id = `sp-tooltip-${Math.random().toString(36).slice(2, 9)}`;
 
   @property({ type: String })
   content = "";

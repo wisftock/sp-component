@@ -103,3 +103,13 @@
   color: #6b7280;
   margin-top: 4px;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-switch-track {
+    transition: none;
+  }
+
+  .sp-switch-thumb {
+    transition: none;
+  }
+}

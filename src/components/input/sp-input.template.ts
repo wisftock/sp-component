@@ -35,6 +35,9 @@ export function inputTemplate(this: SpInputComponent): TemplateResult {
           name=${this.name || nothing}
           maxlength=${this.maxlength > 0 ? this.maxlength : nothing}
           minlength=${this.minlength > 0 ? this.minlength : nothing}
+          aria-invalid=${this.error ? "true" : nothing}
+          aria-describedby=${(this.error || this.hint) ? "sp-input-desc" : nothing}
+          aria-required=${this.required ? "true" : nothing}
           @input=${this._handleInput}
           @change=${this._handleChange}
           @focus=${this._handleFocus}
@@ -53,9 +56,9 @@ export function inputTemplate(this: SpInputComponent): TemplateResult {
         <slot name="suffix"></slot>
       </div>
       ${this.error
-        ? html`<span class="sp-input-error">${this.error}</span>`
+        ? html`<span id="sp-input-desc" class="sp-input-error" role="alert">${this.error}</span>`
         : this.hint
-          ? html`<span class="sp-input-hint">${this.hint}</span>`
+          ? html`<span id="sp-input-desc" class="sp-input-hint">${this.hint}</span>`
           : nothing}
     </div>
   `;

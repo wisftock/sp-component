@@ -53,3 +53,17 @@
   color: #6b7280;
   line-height: 1.6;
 }
+
+.sp-accordion-trigger:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-accordion-trigger,
+  .sp-accordion-icon,
+  .sp-accordion-content {
+    transition: none;
+  }
+}

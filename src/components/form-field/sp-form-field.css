@@ -37,3 +37,9 @@
   font-size: 12px;
   color: #6b7280;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none !important;
+  }
+}

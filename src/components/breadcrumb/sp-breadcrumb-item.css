@@ -27,3 +27,17 @@
   color: #6b7280;
   font-size: 14px;
 }
+
+.sp-breadcrumb-link:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none !important;
+  }
+  button, a, [role="button"] {
+    transition: none !important;
+  }
+}

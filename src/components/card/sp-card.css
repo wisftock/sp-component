@@ -50,3 +50,12 @@
   border-top: 1px solid #f3f4f6;
   margin-top: 12px;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none !important;
+  }
+  button, a, [role="button"] {
+    transition: none !important;
+  }
+}

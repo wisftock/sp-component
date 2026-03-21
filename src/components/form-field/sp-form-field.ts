@@ -1,5 +1,5 @@
 import { LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import styles from "./sp-form-field.css?inline";
 import { formFieldTemplate } from "./sp-form-field.template.js";
 
@@ -38,6 +38,9 @@ export class SpFormFieldComponent extends LitElement {
 
   @property({ type: String, attribute: "label-for" })
   labelFor = "";
+
+  @state()
+  readonly _id = Math.random().toString(36).slice(2, 9);
 
   override render() {
     return formFieldTemplate.call(this);

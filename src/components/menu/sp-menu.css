@@ -53,3 +53,15 @@
   right: calc(100% + 4px);
   top: 0;
 }
+
+.sp-menu-trigger:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-menu-panel {
+    transition: none;
+  }
+}

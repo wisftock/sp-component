@@ -20,10 +20,10 @@ export function formFieldTemplate(this: SpFormFieldComponent): TemplateResult {
         <slot></slot>
       </div>
       ${this.error
-        ? html`<span class="sp-form-field-error" role="alert">${this.error}</span>`
+        ? html`<span id="ff-${this._id}-error" class="sp-form-field-error" role="alert">${this.error}</span>`
         : nothing}
       ${!this.error && this.hint
-        ? html`<span class="sp-form-field-hint">${this.hint}</span>`
+        ? html`<span id="ff-${this._id}-hint" class="sp-form-field-hint">${this.hint}</span>`
         : nothing}
     </div>
   `;

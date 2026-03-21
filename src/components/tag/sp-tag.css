@@ -77,3 +77,17 @@
 .sp-tag-remove:hover {
   opacity: 1;
 }
+
+.sp-tag-remove:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none !important;
+  }
+  button, a, [role="button"] {
+    transition: none !important;
+  }
+}

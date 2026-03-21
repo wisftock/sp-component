@@ -43,11 +43,13 @@ export class SpPopoverComponent extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     document.addEventListener("click", this._handleDocumentClick);
+    document.addEventListener("keydown", this._handleKeydown);
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("click", this._handleDocumentClick);
+    document.removeEventListener("keydown", this._handleKeydown);
   }
 
   _getPopoverStyle(): string {
@@ -69,6 +71,14 @@ export class SpPopoverComponent extends LitElement {
         composed: true,
       }),
     );
+  };
+
+  private readonly _handleKeydown = (e: KeyboardEvent): void => {
+    if (e.key === "Escape" && this.open) {
+      e.stopPropagation();
+      this.open = false;
+      this.dispatchEvent(new CustomEvent("sp-hide", { bubbles: true, composed: true }));
+    }
   };
 
   readonly _handleDocumentClick = (e: MouseEvent) => {

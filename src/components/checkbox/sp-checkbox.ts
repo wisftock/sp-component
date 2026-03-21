@@ -27,6 +27,14 @@ import type { SpCheckboxSize } from "./sp-checkbox.types.js";
 @customElement("sp-checkbox")
 export class SpCheckboxComponent extends LitElement {
   static override styles = unsafeCSS(styles);
+  static formAssociated = true;
+
+  readonly #internals: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   @property({ type: Boolean, reflect: true })
   checked = false;
@@ -37,14 +45,14 @@ export class SpCheckboxComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   required = false;
 
   @property({ type: String })
   name = "";
 
   @property({ type: String })
-  value = "";
+  value = "on";
 
   @property({ type: String, reflect: true })
   size: SpCheckboxSize = "md";
@@ -60,6 +68,15 @@ export class SpCheckboxComponent extends LitElement {
 
   override render() {
     return checkboxTemplate.call(this);
+  }
+
+  override updated(): void {
+    this.#internals.setFormValue(this.checked ? (this.value || "on") : null);
+    if (this.required && !this.checked) {
+      this.#internals.setValidity({ valueMissing: true }, "This field is required");
+    } else {
+      this.#internals.setValidity({});
+    }
   }
 
   readonly _handleChange = (e: Event): void => {

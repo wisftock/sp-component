@@ -12,6 +12,11 @@
   cursor: pointer;
 }
 
+.sp-popover-trigger:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
 .sp-popover {
   position: absolute;
   z-index: 9999;
@@ -75,4 +80,10 @@
   margin-top: -5px;
   border-bottom: none;
   border-left: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-popover {
+    transition: none;
+  }
 }

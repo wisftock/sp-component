@@ -9,7 +9,12 @@ import type { SpPopoverComponent } from "./sp-popover.js";
 export function popoverTemplate(this: SpPopoverComponent): TemplateResult {
   return html`
     <div class="sp-popover-wrapper">
-      <div class="sp-popover-trigger" @click=${this._handleTriggerClick}>
+      <div
+        class="sp-popover-trigger"
+        @click=${this._handleTriggerClick}
+        aria-expanded=${this.open ? "true" : "false"}
+        aria-haspopup="dialog"
+      >
         <slot name="trigger"></slot>
       </div>
       <div
@@ -19,7 +24,7 @@ export function popoverTemplate(this: SpPopoverComponent): TemplateResult {
         })}
         style=${this._getPopoverStyle()}
         role="dialog"
-        aria-modal="false"
+        aria-modal=${this.open ? "true" : nothing}
       >
         ${this.arrow ? html`<div class="sp-popover-arrow"></div>` : nothing}
         <div class="sp-popover-content"><slot></slot></div>

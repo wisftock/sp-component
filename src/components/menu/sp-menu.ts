@@ -38,6 +38,10 @@ export class SpMenuComponent extends LitElement {
     if (changedProperties.has("open")) {
       if (this.open) {
         this.dispatchEvent(new CustomEvent("sp-show", { bubbles: true, composed: true }));
+        this.updateComplete.then(() => {
+          const first = this.querySelector<HTMLElement>("sp-menu-item:not([disabled])");
+          first?.focus();
+        });
       } else {
         this.dispatchEvent(new CustomEvent("sp-hide", { bubbles: true, composed: true }));
       }
@@ -48,12 +52,55 @@ export class SpMenuComponent extends LitElement {
   override connectedCallback(): void {
     super.connectedCallback();
     document.addEventListener("click", this._handleOutsideClick);
+    this.addEventListener("keydown", this._handleKeydown);
   }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     document.removeEventListener("click", this._handleOutsideClick);
+    this.removeEventListener("keydown", this._handleKeydown);
   }
+
+  private readonly _handleKeydown = (e: KeyboardEvent): void => {
+    if (!this.open) return;
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      this.open = false;
+      this.dispatchEvent(new CustomEvent("sp-hide", { bubbles: true, composed: true }));
+      this.shadowRoot?.querySelector<HTMLElement>(".sp-menu-trigger")?.focus();
+      return;
+    }
+
+    const items = Array.from(
+      this.querySelectorAll<HTMLElement>("sp-menu-item:not([disabled])")
+    );
+    if (items.length === 0) return;
+    const focused = items.findIndex(item => item === document.activeElement || item.shadowRoot?.activeElement !== null);
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const next = focused < items.length - 1 ? focused + 1 : 0;
+      items[next]?.focus();
+      return;
+    }
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prev = focused > 0 ? focused - 1 : items.length - 1;
+      items[prev]?.focus();
+      return;
+    }
+    if (e.key === "Home") {
+      e.preventDefault();
+      items[0]?.focus();
+      return;
+    }
+    if (e.key === "End") {
+      e.preventDefault();
+      items[items.length - 1]?.focus();
+      return;
+    }
+  };
 
   readonly _handleTriggerClick = (): void => {
     this.open = !this.open;

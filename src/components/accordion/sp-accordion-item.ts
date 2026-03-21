@@ -1,5 +1,5 @@
 import { LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import styles from "./sp-accordion-item.css?inline";
 import { accordionItemTemplate } from "./sp-accordion-item.template.js";
 
@@ -21,6 +21,8 @@ import { accordionItemTemplate } from "./sp-accordion-item.template.js";
 @customElement("sp-accordion-item")
 export class SpAccordionItemComponent extends LitElement {
   static override styles = unsafeCSS(styles);
+
+  @state() _id = Math.random().toString(36).slice(2, 9);
 
   @property({ type: String })
   label = "";

@@ -119,6 +119,16 @@ describe("sp-modal", () => {
     expect(listener).toHaveBeenCalledOnce();
   });
 
+  // ---- Keyboard ----
+
+  it("closes on ESC key", async () => {
+    el.open = true;
+    await el.updateComplete;
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    await el.updateComplete;
+    expect(el.open).toBe(false);
+  });
+
   // ---- Slots ----
 
   it("renders default slot content", async () => {

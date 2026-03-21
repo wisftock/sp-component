@@ -12,8 +12,7 @@ export function otpInputTemplate(this: SpOtpInputComponent): TemplateResult {
     <div
       class="sp-otp-container"
       role="group"
-      aria-labelledby=${this.label ? "sp-otp-label" : nothing}
-      aria-label=${this.label ? nothing : "One-time password"}
+      aria-label=${this.label}
     >
       ${repeat(
         cells,
@@ -28,6 +27,7 @@ export function otpInputTemplate(this: SpOtpInputComponent): TemplateResult {
             placeholder=${this.placeholder}
             ?disabled=${this.disabled}
             aria-label=${`Digit ${i + 1} of ${this.length}`}
+            aria-invalid=${this.invalid ? "true" : nothing}
             data-index=${i}
             @input=${(e: Event) => this._handleInput(e, i)}
             @keydown=${(e: KeyboardEvent) => this._handleKeydown(e, i)}

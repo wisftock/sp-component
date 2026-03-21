@@ -96,6 +96,17 @@ describe("sp-popover", () => {
     expect(listener).toHaveBeenCalledOnce();
   });
 
+  // ---- Keyboard ----
+
+  it("closes on ESC key", async () => {
+    el._handleTriggerClick();
+    await el.updateComplete;
+    expect(el.open).toBe(true);
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    await el.updateComplete;
+    expect(el.open).toBe(false);
+  });
+
   // ---- Arrow ----
 
   it("renders arrow element when arrow=true (default)", async () => {

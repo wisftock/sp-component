@@ -41,3 +41,9 @@ svg {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none !important;
+  }
+}

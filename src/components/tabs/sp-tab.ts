@@ -29,6 +29,25 @@ export class SpTabComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   active = false;
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+    if (!this.hasAttribute("tabindex")) {
+      this.setAttribute("tabindex", this.active ? "0" : "-1");
+    }
+    if (this.panel && !this.id) {
+      this.id = `tab-${this.panel}`;
+    }
+  }
+
+  override updated(changed: Map<string, unknown>): void {
+    if (changed.has("active")) {
+      this.setAttribute("tabindex", this.active ? "0" : "-1");
+    }
+    if (changed.has("panel") && this.panel && !this.id) {
+      this.id = `tab-${this.panel}`;
+    }
+  }
+
   override render() {
     return tabTemplate.call(this);
   }

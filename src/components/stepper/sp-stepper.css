@@ -118,3 +118,20 @@
   color: #9ca3af;
   white-space: nowrap;
 }
+
+.sp-step-indicator:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none !important;
+  }
+  button, a, [role="button"] {
+    transition: none !important;
+  }
+  .sp-step-indicator {
+    transition: none !important;
+  }
+}

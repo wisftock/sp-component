@@ -127,4 +127,27 @@ describe("sp-textarea", () => {
     expect(el.shadowRoot?.querySelector(".sp-textarea-hint")).toBeNull();
     expect(el.shadowRoot?.querySelector(".sp-textarea-error")).not.toBeNull();
   });
+
+  // ---- Form participation ----
+
+  it("participates in form — value appears in FormData", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    const input = document.createElement("sp-textarea") as SpTextareaComponent;
+    input.setAttribute("name", "username");
+    form.appendChild(input);
+    await input.updateComplete;
+    input.value = "hello";
+    await input.updateComplete;
+    const data = new FormData(form);
+    expect(data.get("username")).toBe("hello");
+  });
+
+  it("participates in form — resets on form reset", async () => {
+    el.value = "hello";
+    await el.updateComplete;
+    (el as unknown as { formResetCallback(): void }).formResetCallback();
+    await el.updateComplete;
+    expect(el.value).toBe("");
+  });
 });

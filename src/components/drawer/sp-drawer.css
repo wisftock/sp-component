@@ -103,6 +103,20 @@ dialog::backdrop {
   background: #f3f4f6;
 }
 
+.sp-drawer-close:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([placement="left"]) .sp-drawer-panel,
+  :host([placement="right"]) .sp-drawer-panel,
+  :host([placement="top"]) .sp-drawer-panel,
+  :host([placement="bottom"]) .sp-drawer-panel {
+    animation: none;
+  }
+}
+
 .sp-drawer-body {
   flex: 1;
   overflow-y: auto;

@@ -13,6 +13,7 @@ import type { SpOtpInputProps, SpOtpInputType } from "./sp-otp-input.types.js";
  * @prop {string}          value       - Current value
  * @prop {boolean}         disabled    - Disables all inputs
  * @prop {boolean}         invalid     - Marks inputs as invalid
+ * @prop {boolean}         required    - Marks the field as required
  * @prop {SpOtpInputType}  inputType   - Input type: text | number | password
  * @prop {string}          placeholder - Placeholder for each cell
  * @prop {string}          label       - Accessible label
@@ -24,6 +25,14 @@ import type { SpOtpInputProps, SpOtpInputType } from "./sp-otp-input.types.js";
 @customElement("sp-otp-input")
 export class SpOtpInputComponent extends LitElement implements SpOtpInputProps {
   static override styles = unsafeCSS(styles);
+  static formAssociated = true;
+
+  readonly #internals: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   @property({ type: Number })
   length: number = 6;
@@ -36,6 +45,9 @@ export class SpOtpInputComponent extends LitElement implements SpOtpInputProps {
 
   @property({ type: Boolean, reflect: true })
   invalid: boolean = false;
+
+  @property({ type: Boolean, reflect: true })
+  required: boolean = false;
 
   @property({ type: String, attribute: "input-type" })
   inputType: SpOtpInputType = "text";
@@ -58,6 +70,21 @@ export class SpOtpInputComponent extends LitElement implements SpOtpInputProps {
     }
   }
 
+  override updated(changedProperties: Map<string, unknown>): void {
+    super.updated(changedProperties);
+    if (changedProperties.has("value") || changedProperties.has("required") || changedProperties.has("length")) {
+      this.#internals.setFormValue(this.value);
+      const isComplete = this.value.length === this.length && this._values.every(v => v !== "");
+      if (isComplete) {
+        this.#internals.setValidity({});
+      } else if (this.required) {
+        this.#internals.setValidity({ valueMissing: true }, "Please complete the code");
+      } else {
+        this.#internals.setValidity({});
+      }
+    }
+  }
+
   private _getInputs(): NodeListOf<HTMLInputElement> {
     return this.shadowRoot!.querySelectorAll<HTMLInputElement>(".sp-otp-cell");
   }
@@ -74,6 +101,17 @@ export class SpOtpInputComponent extends LitElement implements SpOtpInputProps {
 
   private _emitChange(values: string[]): void {
     const current = values.join("");
+    this.value = current;
+    this.#internals.setFormValue(current);
+    const isComplete = current.length === this.length && values.every((v) => v !== "");
+    if (isComplete) {
+      this.#internals.setValidity({});
+    } else if (this.required) {
+      this.#internals.setValidity({ valueMissing: true }, "Please complete the code");
+    } else {
+      this.#internals.setValidity({});
+    }
+
     this.dispatchEvent(
       new CustomEvent("sp-change", {
         bubbles: true,
@@ -82,7 +120,7 @@ export class SpOtpInputComponent extends LitElement implements SpOtpInputProps {
       }),
     );
 
-    if (current.length === this.length && values.every((v) => v !== "")) {
+    if (isComplete) {
       this.dispatchEvent(
         new CustomEvent("sp-complete", {
           bubbles: true,

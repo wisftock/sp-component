@@ -30,6 +30,9 @@ export function textareaTemplate(this: SpTextareaComponent): TemplateResult {
         name=${this.name || nothing}
         maxlength=${this.maxlength > 0 ? this.maxlength : nothing}
         .value=${this.value}
+        aria-invalid=${this.error ? "true" : nothing}
+        aria-describedby=${(this.error || this.hint) ? "sp-textarea-desc" : nothing}
+        aria-required=${this.required ? "true" : nothing}
         @input=${this._handleInput}
         @change=${this._handleChange}
         @focus=${this._handleFocus}
@@ -37,9 +40,9 @@ export function textareaTemplate(this: SpTextareaComponent): TemplateResult {
       ></textarea>
       <div class="sp-textarea-footer">
         ${this.error
-          ? html`<span class="sp-textarea-error">${this.error}</span>`
+          ? html`<span id="sp-textarea-desc" class="sp-textarea-error" role="alert">${this.error}</span>`
           : this.hint
-            ? html`<span class="sp-textarea-hint">${this.hint}</span>`
+            ? html`<span id="sp-textarea-desc" class="sp-textarea-hint">${this.hint}</span>`
             : html`<span></span>`}
         ${this.maxlength > 0
           ? html`<span class="sp-textarea-count">${this.value.length} / ${this.maxlength}</span>`

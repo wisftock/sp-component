@@ -31,6 +31,13 @@ export class SpMenuItemComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   danger = false;
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+    if (!this.disabled) {
+      this.setAttribute("tabindex", "-1");
+    }
+  }
+
   override render() {
     return menuItemTemplate.call(this);
   }

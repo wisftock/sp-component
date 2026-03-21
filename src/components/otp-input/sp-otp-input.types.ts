@@ -5,6 +5,7 @@ export interface SpOtpInputProps {
   value: string;
   disabled: boolean;
   invalid: boolean;
+  required: boolean;
   inputType: SpOtpInputType;
   placeholder: string;
   label: string;

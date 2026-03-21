@@ -11,7 +11,7 @@ export function menuItemTemplate(this: SpMenuItemComponent): TemplateResult {
         "sp-menu-item--disabled": this.disabled,
       })}
       role="menuitem"
-      tabindex=${this.disabled ? nothing : "0"}
+      tabindex=${this.disabled ? nothing : "-1"}
       @click=${this._handleClick}
       @keydown=${this._handleKeydown}
     >

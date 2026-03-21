@@ -23,6 +23,14 @@ import type { SpRadioSize } from "./sp-radio.types.js";
 @customElement("sp-radio")
 export class SpRadioComponent extends LitElement {
   static override styles = unsafeCSS(styles);
+  static formAssociated = true;
+
+  readonly #internals: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   @property({ type: String })
   value = "";
@@ -42,8 +50,15 @@ export class SpRadioComponent extends LitElement {
   @property({ type: String })
   name = "";
 
+  @property({ type: String })
+  error = "";
+
   override render() {
     return radioTemplate.call(this);
+  }
+
+  override updated(): void {
+    this.#internals.setFormValue(this.checked ? this.value : null);
   }
 
   readonly _handleChange = (e: Event): void => {

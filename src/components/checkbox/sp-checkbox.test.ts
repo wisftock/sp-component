@@ -199,4 +199,30 @@ describe("sp-checkbox", () => {
     await el.updateComplete;
     expect(el.getAttribute("size")).toBe("lg");
   });
+
+  // ---- Form participation ----
+
+  it("participates in form — checked value in FormData", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    const cb = document.createElement("sp-checkbox") as SpCheckboxComponent;
+    cb.setAttribute("name", "agree");
+    form.appendChild(cb);
+    await cb.updateComplete;
+    cb.checked = true;
+    await cb.updateComplete;
+    const data = new FormData(form);
+    expect(data.get("agree")).toBe("on");
+  });
+
+  it("participates in form — unchecked yields null in FormData", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    const cb = document.createElement("sp-checkbox") as SpCheckboxComponent;
+    cb.setAttribute("name", "agree");
+    form.appendChild(cb);
+    await cb.updateComplete;
+    const data = new FormData(form);
+    expect(data.get("agree")).toBeNull();
+  });
 });

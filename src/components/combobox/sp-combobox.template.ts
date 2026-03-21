@@ -15,6 +15,14 @@ export function comboboxTemplate(this: SpComboboxComponent): TemplateResult {
           class="sp-combobox-input"
           part="input"
           type="text"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded=${this._open ? "true" : "false"}
+          aria-controls="sp-combobox-listbox"
+          aria-activedescendant=${this._highlightedIndex !== null ? `sp-combo-opt-${this._highlightedIndex}` : nothing}
+          aria-invalid=${this.error ? "true" : nothing}
+          aria-describedby=${(this.error || this.hint) ? "sp-combo-desc" : nothing}
+          aria-required=${this.required ? "true" : nothing}
           .value=${this._open ? this._searchText : this._selectedLabel}
           placeholder=${this.placeholder}
           ?disabled=${this.disabled}
@@ -22,18 +30,30 @@ export function comboboxTemplate(this: SpComboboxComponent): TemplateResult {
           autocomplete="off"
           @focus=${this._handleInputFocus}
           @input=${this._handleInputInput}
+          @keydown=${this._handleKeydown}
         />
         ${this.clearable && this.value ? html`<button class="sp-combobox-clear" type="button" @click=${this._handleClear} aria-label="Clear">✕</button>` : nothing}
         <span class="sp-combobox-arrow" aria-hidden="true">▾</span>
       </div>
       ${this._open ? html`
-        <div class="sp-combobox-dropdown" role="listbox">
+        <div
+          class="sp-combobox-dropdown"
+          id="sp-combobox-listbox"
+          role="listbox"
+        >
           ${this._filteredOptions.length > 0
-            ? this._filteredOptions.map(option => html`
+            ? this._filteredOptions.map((option, index) => html`
                 <div
-                  class=${classMap({ "sp-combobox-option": true, "sp-combobox-option--selected": option.value === this.value, "sp-combobox-option--disabled": !!option.disabled })}
+                  id="sp-combo-opt-${index}"
+                  class=${classMap({
+                    "sp-combobox-option": true,
+                    "sp-combobox-option--selected": option.value === this.value,
+                    "sp-combobox-option--disabled": !!option.disabled,
+                    "sp-combobox-option--highlighted": this._highlightedIndex === index,
+                  })}
                   role="option"
-                  aria-selected=${option.value === this.value}
+                  aria-selected=${option.value === this.value ? "true" : "false"}
+                  aria-disabled=${option.disabled ? "true" : nothing}
                   @mousedown=${() => this._handleSelect(option)}
                 >
                   ${option.label}
@@ -43,8 +63,8 @@ export function comboboxTemplate(this: SpComboboxComponent): TemplateResult {
           }
         </div>
       ` : nothing}
-      ${this.error ? html`<span class="sp-combobox-error">${this.error}</span>` : nothing}
-      ${!this.error && this.hint ? html`<span class="sp-combobox-hint">${this.hint}</span>` : nothing}
+      ${this.error ? html`<span id="sp-combo-desc" class="sp-combobox-error" role="alert">${this.error}</span>` : nothing}
+      ${!this.error && this.hint ? html`<span id="sp-combo-desc" class="sp-combobox-hint">${this.hint}</span>` : nothing}
     </div>
   `;
 }

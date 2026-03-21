@@ -48,3 +48,12 @@
 .sp-empty-state-actions:empty {
   display: none;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none !important;
+  }
+  button, a, [role="button"] {
+    transition: none !important;
+  }
+}

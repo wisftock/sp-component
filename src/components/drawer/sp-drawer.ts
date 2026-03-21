@@ -46,6 +46,54 @@ export class SpDrawerComponent extends LitElement {
   @property({ type: Boolean, attribute: "close-on-overlay" })
   closeOnOverlay = true;
 
+  private _previousFocus: Element | null = null;
+
+  private _getFocusableElements(): HTMLElement[] {
+    const dialog = this.shadowRoot?.querySelector("dialog");
+    if (!dialog) return [];
+    return Array.from(
+      dialog.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter(el => !el.closest('[hidden]'));
+  }
+
+  private _handleKeydown = (e: KeyboardEvent): void => {
+    if (!this.open) return;
+    if (e.key === "Escape") {
+      e.preventDefault();
+      this.open = false;
+      return;
+    }
+    if (e.key === "Tab") {
+      const focusable = this._getFocusableElements();
+      if (focusable.length === 0) { e.preventDefault(); return; }
+      const first = focusable[0]!;
+      const last = focusable[focusable.length - 1]!;
+      if (e.shiftKey) {
+        if (document.activeElement === first || this.shadowRoot?.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last || this.shadowRoot?.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+  };
+
+  override connectedCallback() {
+    super.connectedCallback();
+    document.addEventListener("keydown", this._handleKeydown);
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener("keydown", this._handleKeydown);
+  }
+
   override render() {
     return drawerTemplate.call(this);
   }
@@ -55,15 +103,22 @@ export class SpDrawerComponent extends LitElement {
       const dialog = this.shadowRoot?.querySelector("dialog");
       if (!dialog) return;
       if (this.open) {
+        this._previousFocus = document.activeElement;
         dialog.showModal();
         this.dispatchEvent(
           new CustomEvent("sp-show", { bubbles: true, composed: true }),
         );
+        this.updateComplete.then(() => {
+          const els = this._getFocusableElements();
+          els[0]?.focus();
+        });
       } else {
         dialog.close();
         this.dispatchEvent(
           new CustomEvent("sp-hide", { bubbles: true, composed: true }),
         );
+        (this._previousFocus as HTMLElement)?.focus?.();
+        this._previousFocus = null;
         setTimeout(
           () =>
             this.dispatchEvent(

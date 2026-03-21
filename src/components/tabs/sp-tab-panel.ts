@@ -15,6 +15,20 @@ export class SpTabPanelComponent extends LitElement {
   @property({ type: String, reflect: true })
   name = "";
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+    if (!this.hasAttribute("role")) {
+      this.setAttribute("role", "tabpanel");
+    }
+  }
+
+  override updated(changed: Map<string, unknown>): void {
+    if (changed.has("name")) {
+      this.setAttribute("id", `panel-${this.name}`);
+      this.setAttribute("aria-labelledby", `tab-${this.name}`);
+    }
+  }
+
   override render() {
     return html`<slot></slot>`;
   }

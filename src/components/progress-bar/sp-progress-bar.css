@@ -12,3 +12,15 @@
   0% { transform: translateX(-100%); }
   100% { transform: translateX(350%); }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .sp-progress-fill,
+  .sp-progress-track {
+    transition: none;
+  }
+}

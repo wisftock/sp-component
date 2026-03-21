@@ -32,6 +32,14 @@ import type { SpTextareaResize } from "./sp-textarea.types.js";
 @customElement("sp-textarea")
 export class SpTextareaComponent extends LitElement {
   static override styles = unsafeCSS(styles);
+  static formAssociated = true;
+
+  readonly #internals: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   @property({ type: String })
   value = "";
@@ -45,7 +53,7 @@ export class SpTextareaComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   readonly = false;
 
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   required = false;
 
   @property({ type: String })
@@ -106,6 +114,24 @@ export class SpTextareaComponent extends LitElement {
     this.dispatchEvent(
       new CustomEvent("sp-blur", { bubbles: true, composed: true }),
     );
+
+  override updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has("value")) {
+      this.#internals.setFormValue(this.value);
+    }
+    if (changedProperties.has("value") || changedProperties.has("required")) {
+      if (this.required && !this.value) {
+        this.#internals.setValidity({ valueMissing: true }, "This field is required");
+      } else {
+        this.#internals.setValidity({});
+      }
+    }
+  }
+
+  formResetCallback(): void {
+    this.value = "";
+    this.#internals.setFormValue("");
+  }
 }
 
 declare global {

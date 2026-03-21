@@ -38,6 +38,14 @@ import type { SpInputType, SpInputSize } from "./sp-input.types.js";
 @customElement("sp-input")
 export class SpInputComponent extends LitElement {
   static override styles = unsafeCSS(styles);
+  static formAssociated = true;
+
+  readonly #internals: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   @property({ type: String, reflect: true })
   type: SpInputType = "text";
@@ -132,6 +140,24 @@ export class SpInputComponent extends LitElement {
       }),
     );
   };
+
+  override updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has("value")) {
+      this.#internals.setFormValue(this.value);
+    }
+    if (changedProperties.has("value") || changedProperties.has("required")) {
+      if (this.required && !this.value) {
+        this.#internals.setValidity({ valueMissing: true }, "This field is required");
+      } else {
+        this.#internals.setValidity({});
+      }
+    }
+  }
+
+  formResetCallback(): void {
+    this.value = "";
+    this.#internals.setFormValue("");
+  }
 }
 
 declare global {

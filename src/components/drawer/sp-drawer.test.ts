@@ -103,6 +103,20 @@ describe("sp-drawer", () => {
     expect(el.open).toBe(false);
   });
 
+  // ---- Keyboard ----
+
+  it("closes on ESC key", async () => {
+    await el.updateComplete;
+    const dialog = el.shadowRoot?.querySelector("dialog") as HTMLDialogElement;
+    vi.spyOn(dialog, "showModal").mockImplementation(() => {});
+    vi.spyOn(dialog, "close").mockImplementation(() => {});
+    el.open = true;
+    await el.updateComplete;
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    await el.updateComplete;
+    expect(el.open).toBe(false);
+  });
+
   // ---- Events ----
 
   it("emits sp-show when drawer is opened", async () => {

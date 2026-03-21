@@ -14,6 +14,8 @@ export function radioTemplate(this: SpRadioComponent): TemplateResult {
           ?disabled=${this.disabled}
           name=${this.name || nothing}
           value=${this.value}
+          aria-invalid=${this.error ? "true" : nothing}
+          aria-describedby=${this.error ? "sp-radio-desc" : nothing}
           @change=${this._handleChange}
         />
         ${this.checked ? html`<span class="sp-radio-dot"></span>` : nothing}
@@ -22,5 +24,8 @@ export function radioTemplate(this: SpRadioComponent): TemplateResult {
         ? html`<span class="sp-radio-text">${this.label}</span>`
         : html`<slot></slot>`}
     </label>
+    ${this.error
+      ? html`<span id="sp-radio-desc" class="sp-radio-error" role="alert">${this.error}</span>`
+      : nothing}
   `;
 }

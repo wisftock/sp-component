@@ -20,3 +20,9 @@
   clip: auto;
   white-space: normal;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none !important;
+  }
+}

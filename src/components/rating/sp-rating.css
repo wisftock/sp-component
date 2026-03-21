@@ -10,3 +10,17 @@
 .sp-rating-star:disabled { cursor: not-allowed; opacity: 0.6; }
 :host([readonly]) .sp-rating-star { cursor: default; pointer-events: none; }
 :host([disabled]) .sp-rating-star { cursor: not-allowed; pointer-events: none; opacity: 0.5; }
+
+.sp-rating-star:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none !important;
+  }
+  button, a, [role="button"] {
+    transition: none !important;
+  }
+}

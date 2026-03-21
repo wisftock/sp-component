@@ -149,4 +149,14 @@ describe("sp-form-field", () => {
     await el.updateComplete;
     expect(el.querySelector("#test-input")).not.toBeNull();
   });
+
+  // ---- labelFor ----
+
+  it("label for attribute links to labelFor prop", async () => {
+    el.label = "Email";
+    el.labelFor = "my-input";
+    await el.updateComplete;
+    const label = el.shadowRoot?.querySelector("label");
+    expect(label?.getAttribute("for")).toBe("my-input");
+  });
 });

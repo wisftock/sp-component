@@ -24,6 +24,14 @@ import type { SpSwitchSize } from "./sp-switch.types.js";
 @customElement("sp-switch")
 export class SpSwitchComponent extends LitElement {
   static override styles = unsafeCSS(styles);
+  static formAssociated = true;
+
+  readonly #internals: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   @property({ type: Boolean, reflect: true })
   checked = false;
@@ -48,6 +56,10 @@ export class SpSwitchComponent extends LitElement {
 
   override render() {
     return switchTemplate.call(this);
+  }
+
+  override updated(): void {
+    this.#internals.setFormValue(this.checked ? (this.value || "on") : null);
   }
 
   readonly _handleChange = (e: Event): void => {

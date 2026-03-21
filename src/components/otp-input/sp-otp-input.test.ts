@@ -126,4 +126,18 @@ describe("sp-otp-input", () => {
     const detail = (completeListener.mock.calls[0][0] as CustomEvent<{ value: string }>).detail;
     expect(detail.value).toBe("123");
   });
+
+  it("participates in form — value in FormData", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    const otp = document.createElement("sp-otp-input") as SpOtpInputComponent;
+    otp.setAttribute("name", "code");
+    otp.length = 4;
+    form.appendChild(otp);
+    await otp.updateComplete;
+    otp.value = "1234";
+    await otp.updateComplete;
+    const data = new FormData(form);
+    expect(data.get("code")).toBe("1234");
+  });
 });

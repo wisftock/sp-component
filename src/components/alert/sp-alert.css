@@ -10,3 +10,17 @@
 :host([variant="success"]) .sp-alert { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
 :host([variant="warning"]) .sp-alert { background: #fffbeb; border-color: #fde68a; color: #92400e; }
 :host([variant="error"]) .sp-alert { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+
+.sp-alert-close:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none !important;
+  }
+  button, a, [role="button"] {
+    transition: none !important;
+  }
+}

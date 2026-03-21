@@ -160,4 +160,29 @@ describe("sp-combobox", () => {
     await el.updateComplete;
     expect(el._selectedLabel).toBe("Cherry");
   });
+
+  it("participates in form — value in FormData", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+    const combo = document.createElement("sp-combobox") as SpComboboxComponent;
+    combo.setAttribute("name", "fruit");
+    combo.options = [{ label: "Apple", value: "apple" }];
+    form.appendChild(combo);
+    await combo.updateComplete;
+    combo.value = "apple";
+    await combo.updateComplete;
+    const data = new FormData(form);
+    expect(data.get("fruit")).toBe("apple");
+  });
+
+  it("closes on ESC key", async () => {
+    el.options = [{ label: "A", value: "a" }];
+    await el.updateComplete;
+    el._open = true;
+    await el.updateComplete;
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+    input.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    await el.updateComplete;
+    expect(el._open).toBe(false);
+  });
 });

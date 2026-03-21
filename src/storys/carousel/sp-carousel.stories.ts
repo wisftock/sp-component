@@ -57,7 +57,7 @@ const meta: Meta<SpCarouselProps> = {
     slidesPerView: 1,
   },
   render: ({ loop, autoplay, interval, orientation, showDots, showArrows, slidesPerView }) => html`
-    <div style="max-width:600px;padding:32px 40px;">
+    <div style="width:100%;padding:16px 0;">
       <sp-carousel
         ?loop=${loop}
         ?autoplay=${autoplay}
@@ -109,7 +109,7 @@ export const SlidesPerView: Story = {
   name: "Multiple Slides (slidesPerView=2)",
   args: { slidesPerView: 2, loop: true },
   render: ({ loop, slidesPerView }) => html`
-    <div style="max-width:700px;padding:32px 40px;">
+    <div style="width:100%;padding:16px 0;">
       <sp-carousel ?loop=${loop} slides-per-view=${slidesPerView} show-dots show-arrows>
         <sp-carousel-slide>
           <div style=${slideStyle("#6366f1")}>Slide 1</div>
@@ -131,7 +131,7 @@ export const SlidesPerView: Story = {
 export const WithImages: Story = {
   name: "Image Gallery",
   render: () => html`
-    <div style="max-width:600px;padding:32px 40px;">
+    <div style="width:100%;padding:16px 0;">
       <sp-carousel loop show-dots show-arrows>
         <sp-carousel-slide>
           <img
@@ -163,7 +163,7 @@ export const Vertical: Story = {
   name: "Vertical Orientation",
   args: { orientation: "vertical", loop: true },
   render: ({ loop }) => html`
-    <div style="max-width:400px;padding:32px 40px;">
+    <div style="width:100%;padding:16px 0;">
       <sp-carousel orientation="vertical" ?loop=${loop} show-dots show-arrows style="height:280px;">
         <sp-carousel-slide>
           <div style=${slideStyle("#6366f1")}>Slide 1</div>

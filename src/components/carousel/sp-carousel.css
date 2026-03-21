@@ -1,14 +1,13 @@
 :host {
   display: block;
-  position: relative;
+  width: 100%;
 }
 
 .sp-carousel {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  outline: none;
+  width: 100%;
 }
 
 /* ---- Track ---- */
@@ -16,6 +15,7 @@
 .sp-carousel-track-wrapper {
   overflow: hidden;
   position: relative;
+  width: 100%;
   border-radius: 8px;
 }
 
@@ -68,23 +68,23 @@
 }
 
 .sp-carousel-arrow--prev {
-  left: -18px;
+  left: 10px;
 }
 
 .sp-carousel-arrow--next {
-  right: -18px;
+  right: 10px;
 }
 
 /* Vertical orientation: arrows go top/bottom */
 :host([orientation="vertical"]) .sp-carousel-arrow--prev {
-  top: -18px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 :host([orientation="vertical"]) .sp-carousel-arrow--next {
   top: auto;
-  bottom: -18px;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
 }

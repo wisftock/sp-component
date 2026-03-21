@@ -1,0 +1,33 @@
+:host {
+  display: inline-block;
+}
+
+.sp-tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.sp-tooltip {
+  position: absolute;
+  z-index: 9999;
+  background: #1f2937;
+  color: white;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  max-width: 240px;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.sp-tooltip--visible {
+  opacity: 1;
+}
+
+:host([disabled]) .sp-tooltip {
+  display: none;
+}

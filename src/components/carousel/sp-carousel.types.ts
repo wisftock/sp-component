@@ -1,4 +1,5 @@
 export type SpCarouselOrientation = "horizontal" | "vertical";
+export type SpCarouselEffect = "slide" | "fade";
 
 export interface SpCarouselProps {
   currentIndex: number;
@@ -9,4 +10,7 @@ export interface SpCarouselProps {
   showDots: boolean;
   showArrows: boolean;
   slidesPerView: number;
+  effect: SpCarouselEffect;
+  gap: number;
+  pauseOnHover: boolean;
 }

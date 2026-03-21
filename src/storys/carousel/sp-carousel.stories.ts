@@ -5,7 +5,7 @@ import "../../components/carousel/sp-carousel.js";
 import "../../components/carousel/sp-carousel-slide.js";
 
 const slideStyle = (bg: string) =>
-  `display:flex;align-items:center;justify-content:center;height:220px;border-radius:8px;font-size:1.5rem;font-weight:600;color:#fff;background:${bg}`;
+  `display:flex;align-items:center;justify-content:center;height:260px;border-radius:8px;font-size:1.5rem;font-weight:600;color:#fff;background:${bg}`;
 
 const meta: Meta<SpCarouselProps> = {
   title: "Components/Carousel",
@@ -45,6 +45,19 @@ const meta: Meta<SpCarouselProps> = {
       control: "number",
       description: "Number of slides visible at once",
     },
+    effect: {
+      control: "select",
+      options: ["slide", "fade"],
+      description: "Transition effect between slides",
+    },
+    gap: {
+      control: "number",
+      description: "Gap in px between slides",
+    },
+    pauseOnHover: {
+      control: "boolean",
+      description: "Pause autoplay when hovering",
+    },
   },
   args: {
     currentIndex: 0,
@@ -55,8 +68,11 @@ const meta: Meta<SpCarouselProps> = {
     showDots: true,
     showArrows: true,
     slidesPerView: 1,
+    effect: "slide",
+    gap: 0,
+    pauseOnHover: true,
   },
-  render: ({ loop, autoplay, interval, orientation, showDots, showArrows, slidesPerView }) => html`
+  render: ({ loop, autoplay, interval, orientation, showDots, showArrows, slidesPerView, effect, gap, pauseOnHover }) => html`
     <div style="width:100%;padding:16px 0;">
       <sp-carousel
         ?loop=${loop}
@@ -66,6 +82,9 @@ const meta: Meta<SpCarouselProps> = {
         ?show-dots=${showDots}
         ?show-arrows=${showArrows}
         slides-per-view=${slidesPerView}
+        effect=${effect}
+        gap=${gap}
+        ?pause-on-hover=${pauseOnHover}
       >
         <sp-carousel-slide>
           <div style=${slideStyle("#6366f1")}>Slide 1</div>
@@ -94,7 +113,22 @@ export const WithLoop: Story = {
 };
 
 export const Autoplay: Story = {
-  args: { autoplay: true, loop: true, interval: 2500 },
+  args: { autoplay: true, loop: true, interval: 2500, pauseOnHover: true },
+};
+
+export const FadeEffect: Story = {
+  name: "Fade Effect",
+  args: { effect: "fade", loop: true },
+};
+
+export const AutoplayWithPause: Story = {
+  name: "Autoplay + Pause on Hover",
+  args: { autoplay: true, loop: true, interval: 2000, pauseOnHover: true },
+};
+
+export const WithGap: Story = {
+  name: "Multiple Slides with Gap",
+  args: { slidesPerView: 2, loop: true, gap: 16 },
 };
 
 export const NoArrows: Story = {

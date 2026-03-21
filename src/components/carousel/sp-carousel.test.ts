@@ -193,4 +193,82 @@ describe("sp-carousel", () => {
     el._onTouchEnd({ changedTouches: [{ clientX: 120, clientY: 0 }] } as unknown as TouchEvent);
     expect(el.currentIndex).toBe(0);
   });
+
+  // ---- Mouse drag ----
+
+  it("mouse drag left advances slide", async () => {
+    await el.updateComplete;
+    el._onMouseDown({ button: 0, clientX: 200, clientY: 0 } as MouseEvent);
+    // simulate move > threshold
+    window.dispatchEvent(new MouseEvent("mousemove", { clientX: 140, clientY: 0 }));
+    window.dispatchEvent(new MouseEvent("mouseup"));
+    expect(el.currentIndex).toBe(1);
+  });
+
+  it("mouse drag right goes back (with loop)", async () => {
+    el.loop = true;
+    await el.updateComplete;
+    el._onMouseDown({ button: 0, clientX: 100, clientY: 0 } as MouseEvent);
+    window.dispatchEvent(new MouseEvent("mousemove", { clientX: 160, clientY: 0 }));
+    window.dispatchEvent(new MouseEvent("mouseup"));
+    expect(el.currentIndex).toBe(2);
+  });
+
+  it("mouse drag below threshold does not change slide", async () => {
+    await el.updateComplete;
+    el._onMouseDown({ button: 0, clientX: 100, clientY: 0 } as MouseEvent);
+    window.dispatchEvent(new MouseEvent("mousemove", { clientX: 120, clientY: 0 }));
+    window.dispatchEvent(new MouseEvent("mouseup"));
+    expect(el.currentIndex).toBe(0);
+  });
+
+  it("non-left mouse button does not start drag", async () => {
+    await el.updateComplete;
+    el._onMouseDown({ button: 1, clientX: 100, clientY: 0 } as MouseEvent);
+    window.dispatchEvent(new MouseEvent("mousemove", { clientX: 20, clientY: 0 }));
+    window.dispatchEvent(new MouseEvent("mouseup"));
+    expect(el.currentIndex).toBe(0);
+  });
+
+  // ---- Effect: fade ----
+
+  it("defaults to slide effect", async () => {
+    await el.updateComplete;
+    expect(el.effect).toBe("slide");
+  });
+
+  it("accepts fade effect", async () => {
+    el.effect = "fade";
+    await el.updateComplete;
+    expect(el.getAttribute("effect")).toBe("fade");
+  });
+
+  // ---- Pause on hover ----
+
+  it("pause-on-hover stops autoplay on mouseenter", async () => {
+    el.autoplay = true;
+    el.pauseOnHover = true;
+    await el.updateComplete;
+    const stopSpy = vi.spyOn(el as any, "_stopAutoplay");
+    el._onMouseEnter();
+    expect(stopSpy).toHaveBeenCalledOnce();
+  });
+
+  it("pause-on-hover resumes autoplay on mouseleave", async () => {
+    el.autoplay = true;
+    el.pauseOnHover = true;
+    await el.updateComplete;
+    const startSpy = vi.spyOn(el as any, "_startAutoplay");
+    el._onMouseLeave();
+    expect(startSpy).toHaveBeenCalledOnce();
+  });
+
+  it("mouseleave without pauseOnHover does not restart autoplay", async () => {
+    el.autoplay = false;
+    el.pauseOnHover = false;
+    await el.updateComplete;
+    const startSpy = vi.spyOn(el as any, "_startAutoplay");
+    el._onMouseLeave();
+    expect(startSpy).not.toHaveBeenCalled();
+  });
 });

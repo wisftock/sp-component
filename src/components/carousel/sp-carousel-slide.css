@@ -5,9 +5,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  transition: transform 0.35s ease;
-  will-change: transform;
   flex-shrink: 0;
+  will-change: transform, opacity;
 }
 
 :host([active]) {

@@ -1,0 +1,53 @@
+:host {
+  display: block;
+}
+
+:host([orientation="vertical"]) {
+  display: inline-flex;
+  height: 100%;
+  align-self: stretch;
+}
+
+.sp-divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+:host([orientation="vertical"]) .sp-divider {
+  flex-direction: column;
+  height: 100%;
+  width: auto;
+}
+
+.sp-divider-line {
+  flex: 1;
+  border: none;
+  margin: 0;
+}
+
+:host([orientation="horizontal"]) .sp-divider-line {
+  border-top: 1px solid #e5e7eb;
+}
+
+:host([orientation="vertical"]) .sp-divider-line {
+  border-left: 1px solid #e5e7eb;
+  height: 100%;
+  width: 0;
+}
+
+:host([variant="dashed"]) .sp-divider-line {
+  border-style: dashed !important;
+}
+
+:host([variant="dotted"]) .sp-divider-line {
+  border-style: dotted !important;
+}
+
+.sp-divider-label {
+  flex-shrink: 0;
+  padding: 0 12px;
+  font-size: 12px;
+  color: #9ca3af;
+  white-space: nowrap;
+}

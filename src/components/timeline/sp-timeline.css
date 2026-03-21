@@ -1,0 +1,95 @@
+:host {
+  display: block;
+}
+
+.sp-timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.sp-timeline-item {
+  display: flex;
+  gap: 16px;
+}
+
+.sp-timeline-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.sp-timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #d1d5db;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px #d1d5db;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.sp-timeline-item--default .sp-timeline-dot {
+  background: #6b7280;
+  box-shadow: 0 0 0 2px #6b7280;
+}
+
+.sp-timeline-item--success .sp-timeline-dot {
+  background: #22c55e;
+  box-shadow: 0 0 0 2px #22c55e;
+}
+
+.sp-timeline-item--warning .sp-timeline-dot {
+  background: #f59e0b;
+  box-shadow: 0 0 0 2px #f59e0b;
+}
+
+.sp-timeline-item--error .sp-timeline-dot {
+  background: #ef4444;
+  box-shadow: 0 0 0 2px #ef4444;
+}
+
+.sp-timeline-item--info .sp-timeline-dot {
+  background: #3b82f6;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.sp-timeline-line {
+  width: 2px;
+  flex: 1;
+  background: #e5e7eb;
+  min-height: 24px;
+  margin-top: 4px;
+}
+
+.sp-timeline-content {
+  padding-bottom: 24px;
+  flex: 1;
+}
+
+.sp-timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.sp-timeline-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.sp-timeline-time {
+  font-size: 12px;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.sp-timeline-description {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 4px 0 0;
+  line-height: 1.5;
+}

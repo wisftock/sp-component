@@ -18,6 +18,10 @@ export function switchTemplate(this: SpSwitchComponent): TemplateResult {
           aria-describedby=${this.hint ? "sp-switch-desc" : nothing}
           @change=${this._handleChange}
         />
+        ${(this.onLabel || this.offLabel) ? html`
+          <span class="sp-switch-track-label" aria-hidden="true">
+            ${this.checked ? this.onLabel : this.offLabel}
+          </span>` : nothing}
         <span class="sp-switch-thumb"></span>
       </span>
       ${this.label

@@ -9,4 +9,7 @@ export interface SpTabProps {
   panel: string;
   disabled: boolean;
   active: boolean;
+  icon?: string;
+  badge?: string | number;
+  closable?: boolean;
 }

@@ -2,7 +2,7 @@ import { LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./sp-input.css?inline";
 import { inputTemplate } from "./sp-input.template.js";
-import type { SpInputType, SpInputSize } from "./sp-input.types.js";
+import type { SpInputType, SpInputSize, SpInputMode } from "./sp-input.types.js";
 
 /**
  * Reusable input component compatible with any web framework.
@@ -88,6 +88,9 @@ export class SpInputComponent extends LitElement {
 
   @property({ type: String })
   label = "";
+
+  @property({ type: String })
+  inputmode: SpInputMode = "text";
 
   override render() {
     return inputTemplate.call(this);

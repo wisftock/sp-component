@@ -26,6 +26,17 @@ export class SpDividerComponent extends LitElement {
   @property({ type: String })
   label = "";
 
+  /** Top/bottom margin in px for horizontal, left/right for vertical */
+  @property({ type: Number })
+  spacing: number | undefined = undefined;
+
+  _getDividerStyle(): string {
+    if (!this.spacing) return "";
+    return this.orientation === "vertical"
+      ? `margin-left: ${this.spacing}px; margin-right: ${this.spacing}px;`
+      : `margin-top: ${this.spacing}px; margin-bottom: ${this.spacing}px;`;
+  }
+
   override render() {
     return dividerTemplate.call(this);
   }

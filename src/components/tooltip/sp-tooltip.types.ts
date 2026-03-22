@@ -9,4 +9,7 @@ export interface SpTooltipProps {
   disabled: boolean;
   open: boolean;
   distance: number;
+  showDelay: number;
+  hideDelay: number;
+  maxWidth: string;
 }

@@ -33,7 +33,15 @@ export function comboboxTemplate(this: SpComboboxComponent): TemplateResult {
           @keydown=${this._handleKeydown}
         />
         ${this.clearable && this.value ? html`<button class="sp-combobox-clear" type="button" @click=${this._handleClear} aria-label="Clear">✕</button>` : nothing}
-        <span class="sp-combobox-arrow" aria-hidden="true">▾</span>
+        <button
+          class="sp-combobox-arrow-btn"
+          type="button"
+          tabindex="-1"
+          aria-label=${this._open ? "Close dropdown" : "Open dropdown"}
+          aria-expanded=${this._open ? "true" : "false"}
+          ?disabled=${this.disabled}
+          @click=${this._handleToggleDropdown}
+        ><span class="sp-combobox-arrow" aria-hidden="true">▾</span></button>
       </div>
       ${this._open ? html`
         <div

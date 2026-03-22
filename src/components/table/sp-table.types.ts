@@ -19,4 +19,7 @@ export interface SpTableProps {
   emptyText: string;
   sortKey: string;
   sortDirection: SpTableSortDirection;
+  stickyHeader: boolean;
+  selectable: boolean;
+  caption: string;
 }

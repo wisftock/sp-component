@@ -4,6 +4,7 @@ export interface SpSelectOption {
   value: string;
   label: string;
   disabled?: boolean;
+  group?: string;
 }
 
 export interface SpSelectProps {

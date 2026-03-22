@@ -4,6 +4,7 @@ import type { SpRadioComponent } from "./sp-radio.js";
 export function radioTemplate(this: SpRadioComponent): TemplateResult {
   const labelClass = `sp-radio-label${this.disabled ? " sp-radio-label--disabled" : ""}`;
   const controlClass = `sp-radio-control${this.checked ? " sp-radio-control--checked" : ""}`;
+  const hasDesc = !!(this.error || this.hint);
 
   return html`
     <label class=${labelClass}>
@@ -15,17 +16,25 @@ export function radioTemplate(this: SpRadioComponent): TemplateResult {
           name=${this.name || nothing}
           value=${this.value}
           aria-invalid=${this.error ? "true" : nothing}
-          aria-describedby=${this.error ? "sp-radio-desc" : nothing}
+          aria-describedby=${hasDesc ? "sp-radio-desc" : nothing}
           @change=${this._handleChange}
         />
         ${this.checked ? html`<span class="sp-radio-dot"></span>` : nothing}
       </span>
-      ${this.label
-        ? html`<span class="sp-radio-text">${this.label}</span>`
-        : html`<slot></slot>`}
+      <span class="sp-radio-label-content">
+        ${this.label
+          ? html`<span class="sp-radio-text">${this.label}</span>`
+          : html`<slot></slot>`}
+        ${this.description
+          ? html`<span class="sp-radio-description">${this.description}</span>`
+          : nothing}
+      </span>
     </label>
     ${this.error
       ? html`<span id="sp-radio-desc" class="sp-radio-error" role="alert">${this.error}</span>`
+      : nothing}
+    ${!this.error && this.hint
+      ? html`<span id="sp-radio-desc" class="sp-radio-hint">${this.hint}</span>`
       : nothing}
   `;
 }

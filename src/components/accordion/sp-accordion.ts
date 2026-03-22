@@ -27,12 +27,46 @@ export class SpAccordionComponent extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     this.addEventListener("sp-toggle", this._handleItemToggle as EventListener);
+    this.addEventListener("keydown", this._handleKeydown as EventListener);
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("sp-toggle", this._handleItemToggle as EventListener);
+    this.removeEventListener("keydown", this._handleKeydown as EventListener);
   }
+
+  private readonly _handleKeydown = (e: KeyboardEvent) => {
+    const items = [...this.querySelectorAll<HTMLElement>("sp-accordion-item:not([disabled])")];
+    if (!items.length) return;
+
+    // Find which item's trigger button is currently focused
+    const focused = items.findIndex(item => {
+      const trigger = (item as any).shadowRoot?.querySelector(".sp-accordion-trigger");
+      return trigger && (document.activeElement === item || trigger === (item.shadowRoot?.activeElement));
+    });
+
+    let next = focused;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      next = focused < items.length - 1 ? focused + 1 : 0;
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      next = focused > 0 ? focused - 1 : items.length - 1;
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      next = 0;
+    } else if (e.key === "End") {
+      e.preventDefault();
+      next = items.length - 1;
+    } else {
+      return;
+    }
+
+    const target = items[next];
+    const trigger = (target as any).shadowRoot?.querySelector<HTMLElement>(".sp-accordion-trigger");
+    trigger?.focus();
+  };
 
   private readonly _handleItemToggle = (e: CustomEvent<{ open: boolean; value: string }>) => {
     if (!this.multiple && e.detail.open) {

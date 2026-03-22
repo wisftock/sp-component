@@ -61,6 +61,15 @@ export class SpOtpInputComponent extends LitElement implements SpOtpInputProps {
   @property({ type: String, reflect: true })
   size: SpOtpInputProps["size"] = "md";
 
+  @property({ type: Boolean, attribute: "auto-submit" })
+  autoSubmit: boolean = false;
+
+  @property({ type: String })
+  separator: string = "";
+
+  @property({ type: Number, attribute: "separator-index" })
+  separatorIndex: number = -1;
+
   @state()
   _values: string[] = [];
 

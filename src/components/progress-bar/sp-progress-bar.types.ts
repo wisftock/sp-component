@@ -7,4 +7,7 @@ export interface SpProgressBarProps {
   indeterminate: boolean;
   label: string;
   showValue: boolean;
+  striped: boolean;
+  animated: boolean;
+  height?: number;
 }

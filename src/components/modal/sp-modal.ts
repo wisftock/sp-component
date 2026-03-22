@@ -88,6 +88,8 @@ export class SpModalComponent extends LitElement {
   override disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("keydown", this._handleKeydown);
+    // Ensure body scroll is restored if component is removed while open
+    document.body.style.overflow = "";
   }
 
   override render() {
@@ -99,6 +101,7 @@ export class SpModalComponent extends LitElement {
       const dialog = this.shadowRoot?.querySelector("dialog");
       if (!dialog) return;
       if (this.open) {
+        document.body.style.overflow = "hidden";
         this._previousFocus = document.activeElement;
         dialog.showModal();
         this.dispatchEvent(
@@ -109,6 +112,7 @@ export class SpModalComponent extends LitElement {
           els[0]?.focus();
         });
       } else {
+        document.body.style.overflow = "";
         dialog.close();
         this.dispatchEvent(
           new CustomEvent("sp-hide", { bubbles: true, composed: true }),

@@ -1,15 +1,21 @@
-:host { display: inline-block; }
+:host {
+  display: inline-block;
+  --sp-rating-color: #f59e0b;
+}
 .sp-rating { display: inline-flex; align-items: center; gap: 2px; }
-.sp-rating-star { background: none; border: none; cursor: pointer; padding: 2px; color: #d1d5db; transition: color 0.15s, transform 0.1s; display: inline-flex; align-items: center; justify-content: center; }
+.sp-rating-star { background: none; border: none; cursor: pointer; padding: 4px; color: #d1d5db; transition: color 0.15s, transform 0.1s; display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
 .sp-rating-star svg { display: block; }
+:host([size="sm"]) .sp-rating-star { min-width: 32px; min-height: 32px; }
 :host([size="sm"]) .sp-rating-star svg { width: 16px; height: 16px; }
 :host([size="md"]) .sp-rating-star svg { width: 24px; height: 24px; }
 :host([size="lg"]) .sp-rating-star svg { width: 32px; height: 32px; }
-.sp-rating-star--active { color: #f59e0b; }
+.sp-rating-star--active { color: var(--sp-rating-color); }
 .sp-rating-star:hover:not(:disabled) { transform: scale(1.15); }
 .sp-rating-star:disabled { cursor: not-allowed; opacity: 0.6; }
 :host([readonly]) .sp-rating-star { cursor: default; pointer-events: none; }
 :host([disabled]) .sp-rating-star { cursor: not-allowed; pointer-events: none; opacity: 0.5; }
+.sp-rating-clear { background: none; border: none; cursor: pointer; padding: 4px 6px; color: #94a3b8; font-size: 0.75rem; line-height: 1; transition: color 0.15s; }
+.sp-rating-clear:hover { color: #ef4444; }
 
 .sp-rating-star:focus-visible {
   outline: 2px solid #3b82f6;

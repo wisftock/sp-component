@@ -47,6 +47,8 @@ export class SpDrawerComponent extends LitElement {
   closeOnOverlay = true;
 
   private _previousFocus: Element | null = null;
+  private _touchStartX = 0;
+  private _touchStartY = 0;
 
   private _getFocusableElements(): HTMLElement[] {
     const dialog = this.shadowRoot?.querySelector("dialog");
@@ -92,6 +94,8 @@ export class SpDrawerComponent extends LitElement {
   override disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("keydown", this._handleKeydown);
+    // Ensure body scroll is restored if component is removed while open
+    document.body.style.overflow = "";
   }
 
   override render() {
@@ -103,8 +107,12 @@ export class SpDrawerComponent extends LitElement {
       const dialog = this.shadowRoot?.querySelector("dialog");
       if (!dialog) return;
       if (this.open) {
+        document.body.style.overflow = "hidden";
         this._previousFocus = document.activeElement;
         dialog.showModal();
+        // Attach touch listeners for swipe-to-close
+        dialog.addEventListener("touchstart", this._handleTouchStart, { passive: true });
+        dialog.addEventListener("touchend", this._handleTouchEnd, { passive: true });
         this.dispatchEvent(
           new CustomEvent("sp-show", { bubbles: true, composed: true }),
         );
@@ -113,6 +121,10 @@ export class SpDrawerComponent extends LitElement {
           els[0]?.focus();
         });
       } else {
+        document.body.style.overflow = "";
+        const dialogEl = dialog;
+        dialogEl.removeEventListener("touchstart", this._handleTouchStart);
+        dialogEl.removeEventListener("touchend", this._handleTouchEnd);
         dialog.close();
         this.dispatchEvent(
           new CustomEvent("sp-hide", { bubbles: true, composed: true }),
@@ -129,6 +141,36 @@ export class SpDrawerComponent extends LitElement {
       }
     }
   }
+
+  private readonly _handleTouchStart = (e: TouchEvent): void => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    this._touchStartX = touch.clientX;
+    this._touchStartY = touch.clientY;
+  };
+
+  private readonly _handleTouchEnd = (e: TouchEvent): void => {
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+    const dx = touch.clientX - this._touchStartX;
+    const dy = touch.clientY - this._touchStartY;
+    const THRESHOLD = 80;
+
+    let shouldClose = false;
+    if (this.placement === "right" && dx > THRESHOLD && Math.abs(dy) < Math.abs(dx)) {
+      shouldClose = true;
+    } else if (this.placement === "left" && dx < -THRESHOLD && Math.abs(dy) < Math.abs(dx)) {
+      shouldClose = true;
+    } else if (this.placement === "bottom" && dy > THRESHOLD && Math.abs(dx) < Math.abs(dy)) {
+      shouldClose = true;
+    } else if (this.placement === "top" && dy < -THRESHOLD && Math.abs(dx) < Math.abs(dy)) {
+      shouldClose = true;
+    }
+
+    if (shouldClose) {
+      this.open = false;
+    }
+  };
 
   _getPanelStyle(): string {
     if (this.placement === "left" || this.placement === "right") {

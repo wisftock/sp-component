@@ -137,3 +137,16 @@ dialog::backdrop {
   padding: 16px 20px 20px;
   border-top: 1px solid #e5e7eb;
 }
+
+@media (max-width: 480px) {
+  :host([placement="left"]) dialog,
+  :host([placement="right"]) dialog {
+    width: 100vw !important;
+  }
+
+  :host([placement="left"]) .sp-drawer-panel,
+  :host([placement="right"]) .sp-drawer-panel {
+    width: 100vw;
+    max-width: 100vw;
+  }
+}

@@ -1,5 +1,5 @@
 import { LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import styles from "./sp-pagination.css?inline";
 import { paginationTemplate } from "./sp-pagination.template.js";
 
@@ -8,13 +8,16 @@ import { paginationTemplate } from "./sp-pagination.template.js";
  *
  * @element sp-pagination
  *
- * @prop {number}  page         - Current page number (1-based)
- * @prop {number}  total        - Total number of items
- * @prop {number}  pageSize     - Number of items per page
- * @prop {number}  siblingCount - Number of page buttons shown on each side of current
- * @prop {boolean} disabled     - Disables all pagination controls
+ * @prop {number}   page            - Current page number (1-based)
+ * @prop {number}   total           - Total number of items
+ * @prop {number}   pageSize        - Number of items per page
+ * @prop {number[]} pageSizeOptions - Renders a page-size select when set
+ * @prop {number}   siblingCount    - Number of page buttons shown on each side of current
+ * @prop {boolean}  disabled        - Disables all pagination controls
+ * @prop {boolean}  showJumpTo      - Show "Go to page" input field
  *
- * @fires {CustomEvent<{ page: number }>} sp-change - Emitted when the page changes
+ * @fires {CustomEvent<{ page: number }>}     sp-change           - Emitted when the page changes
+ * @fires {CustomEvent<{ pageSize: number }>} sp-page-size-change - Emitted when page size changes
  */
 @customElement("sp-pagination")
 export class SpPaginationComponent extends LitElement {
@@ -29,11 +32,20 @@ export class SpPaginationComponent extends LitElement {
   @property({ type: Number })
   pageSize = 10;
 
+  @property({ type: Array })
+  pageSizeOptions: number[] = [];
+
   @property({ type: Number })
   siblingCount = 1;
 
   @property({ type: Boolean, reflect: true })
   disabled = false;
+
+  @property({ type: Boolean })
+  showJumpTo = false;
+
+  @state()
+  private _jumpValue = "";
 
   get totalPages(): number {
     return Math.max(1, Math.ceil(this.total / this.pageSize));
@@ -71,6 +83,34 @@ export class SpPaginationComponent extends LitElement {
         composed: true,
       }),
     );
+  }
+
+  _handlePageSizeChange(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    const newSize = Number(select.value);
+    if (isNaN(newSize) || newSize <= 0) return;
+    this.pageSize = newSize;
+    this.page = 1;
+    this.dispatchEvent(
+      new CustomEvent("sp-page-size-change", {
+        detail: { pageSize: newSize },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  _handleJumpInput(e: Event) {
+    this._jumpValue = (e.target as HTMLInputElement).value;
+  }
+
+  _handleJumpSubmit(e: Event) {
+    e.preventDefault();
+    const num = parseInt(this._jumpValue, 10);
+    if (!isNaN(num)) {
+      this._goTo(num);
+      this._jumpValue = "";
+    }
   }
 
   override render() {

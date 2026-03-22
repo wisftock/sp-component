@@ -1,5 +1,5 @@
 import { LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import styles from "./sp-select.css?inline";
 import { selectTemplate } from "./sp-select.template.js";
 import type { SpSelectSize, SpSelectOption } from "./sp-select.types.js";
@@ -52,6 +52,12 @@ export class SpSelectComponent extends LitElement {
   @property({ type: Boolean })
   multiple = false;
 
+  @property({ type: Number })
+  maxSelections = 0;
+
+  @state()
+  _selectedValues: string[] = [];
+
   @property({ type: Array })
   options: SpSelectOption[] = [];
 
@@ -70,7 +76,24 @@ export class SpSelectComponent extends LitElement {
 
   readonly _handleChange = (e: Event) => {
     const select = e.target as HTMLSelectElement;
-    this.value = select.value;
+    if (this.multiple) {
+      const selected = [...select.options]
+        .filter(o => o.selected)
+        .map(o => o.value);
+      // Enforce maxSelections
+      if (this.maxSelections > 0 && selected.length > this.maxSelections) {
+        // Revert the change — deselect options that were just added beyond max
+        const prev = this._selectedValues;
+        [...select.options].forEach(o => {
+          o.selected = prev.includes(o.value);
+        });
+        return;
+      }
+      this._selectedValues = selected;
+      this.value = selected.join(",");
+    } else {
+      this.value = select.value;
+    }
     this.dispatchEvent(
       new CustomEvent("sp-change", {
         detail: { value: this.value },

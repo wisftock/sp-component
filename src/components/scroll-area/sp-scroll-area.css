@@ -21,6 +21,11 @@
   display: none;
 }
 
+/* Smooth scroll */
+.sp-scroll-area-viewport--smooth {
+  scroll-behavior: smooth;
+}
+
 /* Orientation variants */
 .sp-scroll-area--vertical .sp-scroll-area-viewport {
   overflow-x: hidden;

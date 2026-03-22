@@ -8,11 +8,15 @@ import { tabTemplate } from "./sp-tab.template.js";
  *
  * @element sp-tab
  *
- * @prop {string}  panel    - ID of the panel this tab activates
- * @prop {boolean} disabled - Disables the tab
- * @prop {boolean} active   - Whether this tab is currently active (set by sp-tabs)
+ * @prop {string}         panel    - ID of the panel this tab activates
+ * @prop {boolean}        disabled - Disables the tab
+ * @prop {boolean}        active   - Whether this tab is currently active (set by sp-tabs)
+ * @prop {string}         icon     - Optional icon text/emoji rendered before the label
+ * @prop {string|number}  badge    - Optional badge count/label shown next to the label
+ * @prop {boolean}        closable - Shows a close button; emits sp-tab-close when clicked
  *
- * @fires {CustomEvent<{ panel: string }>} sp-tab-click - Emitted when the tab is clicked
+ * @fires {CustomEvent<{ panel: string }>} sp-tab-click  - Emitted when the tab is clicked
+ * @fires {CustomEvent<{ key: string }>}   sp-tab-close  - Emitted when the close button is clicked
  *
  * @slot - Tab label content
  */
@@ -28,6 +32,15 @@ export class SpTabComponent extends LitElement {
 
   @property({ type: Boolean, reflect: true })
   active = false;
+
+  @property({ type: String })
+  icon = "";
+
+  @property()
+  badge: string | number | undefined = undefined;
+
+  @property({ type: Boolean, reflect: true })
+  closable = false;
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -62,6 +75,17 @@ export class SpTabComponent extends LitElement {
         }),
       );
     }
+  };
+
+  readonly _handleClose = (e: Event) => {
+    e.stopPropagation();
+    this.dispatchEvent(
+      new CustomEvent("sp-tab-close", {
+        detail: { key: this.panel },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   };
 }
 

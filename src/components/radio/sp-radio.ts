@@ -14,7 +14,9 @@ import type { SpRadioSize } from "./sp-radio.types.js";
  * @prop {boolean}       disabled - Disables the radio
  * @prop {SpRadioSize}   size     - Size: sm | md | lg
  * @prop {string}        label    - Label text (uses slot if not provided)
- * @prop {string}        name     - Native input name (set by sp-radio-group)
+ * @prop {string}        name        - Native input name (set by sp-radio-group)
+ * @prop {string}        description - Small description text rendered below the label
+ * @prop {string}        hint        - Hint text shown below the radio (hidden when error is set)
  *
  * @fires {CustomEvent<{ value: string }>} sp-change - Emitted when this radio is selected
  *
@@ -52,6 +54,12 @@ export class SpRadioComponent extends LitElement {
 
   @property({ type: String })
   error = "";
+
+  @property({ type: String })
+  hint = "";
+
+  @property({ type: String })
+  description = "";
 
   override render() {
     return radioTemplate.call(this);

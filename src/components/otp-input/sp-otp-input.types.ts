@@ -10,4 +10,7 @@ export interface SpOtpInputProps {
   placeholder: string;
   label: string;
   size: "sm" | "md" | "lg";
+  autoSubmit: boolean;
+  separator: string;
+  separatorIndex: number;
 }

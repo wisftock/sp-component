@@ -15,4 +15,7 @@ export interface SpToastProps {
   position: SpToastPosition;
   open: boolean;
   closable: boolean;
+  action: string;
+  actionHref: string;
+  pauseOnHover: boolean;
 }

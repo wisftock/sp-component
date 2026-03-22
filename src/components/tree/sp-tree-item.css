@@ -114,3 +114,9 @@
 .sp-tree-item-children[hidden] {
   display: none;
 }
+
+@media (max-width: 640px) {
+  .sp-tree-item-children {
+    padding-left: 12px;
+  }
+}

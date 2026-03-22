@@ -14,6 +14,10 @@ export interface SpNumberInputProps {
   hint: string;
   error: string;
   placeholder: string;
+  prefix: string;
+  suffix: string;
+  fullWidth: boolean;
+  formatter: ((value: number) => string) | null;
 }
 
 export interface SpNumberInputEventDetail {

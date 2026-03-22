@@ -2,6 +2,8 @@ export type SpInputType = "text" | "email" | "password" | "number" | "search" | 
 
 export type SpInputSize = "sm" | "md" | "lg";
 
+export type SpInputMode = "text" | "numeric" | "decimal" | "email" | "tel" | "url" | "search";
+
 export interface SpInputProps {
   type: SpInputType;
   value: string;

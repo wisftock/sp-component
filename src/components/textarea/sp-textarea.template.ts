@@ -21,6 +21,7 @@ export function textareaTemplate(this: SpTextareaComponent): TemplateResult {
         part="textarea"
         class=${classMap({
           "sp-textarea--error": !!this.error,
+          "sp-textarea--auto-resize": this.autoResize,
         })}
         rows=${this.rows}
         placeholder=${this.placeholder || nothing}
@@ -31,7 +32,7 @@ export function textareaTemplate(this: SpTextareaComponent): TemplateResult {
         maxlength=${this.maxlength > 0 ? this.maxlength : nothing}
         .value=${this.value}
         aria-invalid=${this.error ? "true" : nothing}
-        aria-describedby=${(this.error || this.hint) ? "sp-textarea-desc" : nothing}
+        aria-describedby=${(this.error || this.hint || this.maxlength > 0) ? "sp-textarea-desc" : nothing}
         aria-required=${this.required ? "true" : nothing}
         @input=${this._handleInput}
         @change=${this._handleChange}

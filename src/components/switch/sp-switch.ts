@@ -48,6 +48,14 @@ export class SpSwitchComponent extends LitElement {
   @property({ type: String, reflect: true })
   size: SpSwitchSize = "md";
 
+  /** Label shown inside the track when checked */
+  @property({ type: String, attribute: "on-label" })
+  onLabel = "";
+
+  /** Label shown inside the track when unchecked */
+  @property({ type: String, attribute: "off-label" })
+  offLabel = "";
+
   @property({ type: String })
   label = "";
 

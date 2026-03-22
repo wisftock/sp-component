@@ -12,10 +12,14 @@ import type {
  *
  * @element sp-scroll-area
  *
- * @prop {SpScrollAreaOrientation} orientation - "vertical" | "horizontal" | "both"
- * @prop {SpScrollAreaScrollbar}   scrollbar   - "auto" | "always" | "never"
- * @prop {string}                  maxHeight   - CSS max-height value
- * @prop {string}                  maxWidth    - CSS max-width value
+ * @prop {SpScrollAreaOrientation} orientation   - "vertical" | "horizontal" | "both"
+ * @prop {SpScrollAreaScrollbar}   scrollbar     - "auto" | "always" | "never"
+ * @prop {string}                  maxHeight     - CSS max-height value
+ * @prop {string}                  maxWidth      - CSS max-width value
+ * @prop {number}                  hideDelay     - Delay in ms before auto-hiding scrollbar (default 1000)
+ * @prop {boolean}                 smoothScroll  - Enable smooth scroll behaviour
+ *
+ * @fires {CustomEvent<{ scrollTop: number; scrollLeft: number }>} sp-scroll - Emitted on scroll
  *
  * @slot - Scrollable content
  */
@@ -34,6 +38,12 @@ export class SpScrollAreaComponent extends LitElement {
 
   @property({ type: String, attribute: "max-width" })
   maxWidth = "";
+
+  @property({ type: Number, attribute: "hide-delay" })
+  hideDelay = 1000;
+
+  @property({ type: Boolean, attribute: "smooth-scroll" })
+  smoothScroll = false;
 
   @state()
   _thumbHeight = 100;
@@ -74,7 +84,21 @@ export class SpScrollAreaComponent extends LitElement {
     }
     this._scrollTimeout = setTimeout(() => {
       this._scrolling = false;
-    }, 1000);
+    }, this.hideDelay);
+
+    const viewport = this._getViewport();
+    if (viewport) {
+      this.dispatchEvent(
+        new CustomEvent("sp-scroll", {
+          detail: {
+            scrollTop: viewport.scrollTop,
+            scrollLeft: viewport.scrollLeft,
+          },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
   };
 
   private _updateThumbs(): void {

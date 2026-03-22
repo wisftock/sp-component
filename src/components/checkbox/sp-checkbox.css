@@ -8,6 +8,7 @@
   gap: 8px;
   cursor: pointer;
   user-select: none;
+  touch-action: manipulation;
 }
 
 .sp-checkbox-label--disabled {
@@ -37,6 +38,12 @@
   height: 100%;
   margin: 0;
   cursor: inherit;
+  /* Touch-friendly: expand tap area to at least 44x44px */
+  min-width: 44px;
+  min-height: 44px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .sp-checkbox-control--checked,

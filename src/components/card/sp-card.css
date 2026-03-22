@@ -1,12 +1,61 @@
 :host {
   display: block;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .sp-card {
+  position: relative;
   background: white;
   border-radius: 8px;
   overflow: hidden;
   box-sizing: border-box;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+/* Clickable */
+.sp-card--clickable {
+  cursor: pointer;
+}
+
+.sp-card--clickable:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-1px);
+}
+
+.sp-card--clickable:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Href link wrapper */
+.sp-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Loading overlay */
+.sp-card-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(229,231,235,0.7) 25%, rgba(243,244,246,0.7) 50%, rgba(229,231,235,0.7) 75%);
+  background-size: 200% 100%;
+  animation: sp-card-shimmer 1.5s infinite;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+@keyframes sp-card-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (max-width: 640px) {
+  :host {
+    display: block;
+    width: 100%;
+  }
 }
 
 :host([shadow="none"]) .sp-card {
@@ -54,6 +103,13 @@
 @media (prefers-reduced-motion: reduce) {
   :host {
     transition: none !important;
+  }
+  .sp-card {
+    transition: none !important;
+  }
+  .sp-card-loading-overlay {
+    animation: none;
+    background: rgba(229, 231, 235, 0.7);
   }
   button, a, [role="button"] {
     transition: none !important;

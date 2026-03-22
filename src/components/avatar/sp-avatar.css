@@ -3,13 +3,19 @@
   flex-shrink: 0;
 }
 
+.sp-avatar-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
 .sp-avatar {
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #e5e7eb;
-  color: #6b7280;
+  background: var(--sp-avatar-bg, #e5e7eb);
+  color: var(--sp-avatar-color, #6b7280);
   font-weight: 600;
   user-select: none;
   flex-shrink: 0;
@@ -71,8 +77,62 @@ img {
   height: 100%;
 }
 
+/* Shimmer / loading state */
+.sp-avatar-shimmer {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+  background-size: 200% 100%;
+  animation: sp-avatar-shimmer 1.5s infinite;
+}
+
+@keyframes sp-avatar-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Status dot */
+.sp-avatar-status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: block;
+}
+
+:host([size="sm"]) .sp-avatar-status {
+  width: 9px;
+  height: 9px;
+}
+
+:host([size="md"]) .sp-avatar-status {
+  width: 11px;
+  height: 11px;
+}
+
+:host([size="lg"]) .sp-avatar-status {
+  width: 14px;
+  height: 14px;
+}
+
+:host([size="xl"]) .sp-avatar-status {
+  width: 17px;
+  height: 17px;
+}
+
+.sp-avatar-status--online  { background: #22c55e; }
+.sp-avatar-status--offline { background: #9ca3af; }
+.sp-avatar-status--away    { background: #f59e0b; }
+.sp-avatar-status--busy    { background: #ef4444; }
+
 @media (prefers-reduced-motion: reduce) {
   :host {
     transition: none !important;
+  }
+  .sp-avatar-shimmer {
+    animation: none;
+    background: #e5e7eb;
   }
 }

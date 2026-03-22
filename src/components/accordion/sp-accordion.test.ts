@@ -46,7 +46,7 @@ describe("sp-accordion-item", () => {
     await el.updateComplete;
     expect(el.open).toBe(false);
     const content = el.shadowRoot?.querySelector(".sp-accordion-content");
-    expect(content?.hasAttribute("hidden")).toBe(true);
+    expect(content?.getAttribute("aria-hidden")).toBe("true");
   });
 
   it("opens on click", async () => {
@@ -56,7 +56,7 @@ describe("sp-accordion-item", () => {
     await el.updateComplete;
     expect(el.open).toBe(true);
     const content = el.shadowRoot?.querySelector(".sp-accordion-content");
-    expect(content?.hasAttribute("hidden")).toBe(false);
+    expect(content?.getAttribute("aria-hidden")).toBe("false");
   });
 
   it("closes on second click when open", async () => {

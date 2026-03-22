@@ -9,10 +9,12 @@ import type { SpSkeletonVariant } from "./sp-skeleton.types.js";
  *
  * @element sp-skeleton
  *
- * @prop {SpSkeletonVariant} variant  - Shape: text | circle | rect
+ * @prop {SpSkeletonVariant} variant  - Shape: text | circle | rect | title
  * @prop {string}            width    - CSS width value (e.g. "200px", "100%")
  * @prop {string}            height   - CSS height value (e.g. "16px", "48px")
  * @prop {boolean}           animated - Enables shimmer animation (default true)
+ * @prop {boolean}           shimmer  - Shimmer wave animation; when false, static color (default true)
+ * @prop {number}            lines    - Number of text lines when variant="text" (default 3)
  */
 @customElement("sp-skeleton")
 export class SpSkeletonComponent extends LitElement {
@@ -29,6 +31,12 @@ export class SpSkeletonComponent extends LitElement {
 
   @property({ type: Boolean, reflect: true })
   animated = true;
+
+  @property({ type: Boolean })
+  shimmer = true;
+
+  @property({ type: Number })
+  lines = 3;
 
   /** Builds the inline style string from width/height props. */
   _buildStyle(): string {

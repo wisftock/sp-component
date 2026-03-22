@@ -8,7 +8,7 @@ import type { SpDividerComponent } from "./sp-divider.js";
  */
 export function dividerTemplate(this: SpDividerComponent): TemplateResult {
   return html`
-    <div class="sp-divider" role="separator" aria-orientation=${this.orientation}>
+    <div class="sp-divider" role="separator" aria-orientation=${this.orientation} style=${this._getDividerStyle()}>
       <span class="sp-divider-line"></span>
       ${this.label
         ? html`<span class="sp-divider-label">${this.label}</span><span class="sp-divider-line"></span>`

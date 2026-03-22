@@ -38,6 +38,15 @@ export class SpProgressBarComponent extends LitElement {
   @property({ type: Boolean, attribute: "show-value" })
   showValue = false;
 
+  @property({ type: Boolean, reflect: true })
+  striped = false;
+
+  @property({ type: Boolean, reflect: true })
+  animated = false;
+
+  @property({ type: Number })
+  height: number | undefined = undefined;
+
   override render() {
     return progressBarTemplate.call(this);
   }

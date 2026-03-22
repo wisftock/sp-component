@@ -1,4 +1,5 @@
 :host { display: block; font-family: inherit; }
+.sp-combobox-wrapper { position: relative; }
 .sp-combobox-label { display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 4px; }
 .sp-required { color: #ef4444; }
 .sp-combobox-container { position: relative; display: flex; align-items: center; border: 1px solid #d1d5db; border-radius: 4px; background: white; transition: border-color 0.2s; }
@@ -10,8 +11,10 @@
 :host([size="lg"]) .sp-combobox-input { padding: 12px 16px; font-size: 16px; }
 .sp-combobox-clear { background: none; border: none; cursor: pointer; color: #9ca3af; padding: 0 4px; }
 .sp-combobox-clear:hover { color: #374151; }
-.sp-combobox-arrow { padding: 0 10px; color: #6b7280; font-size: 12px; pointer-events: none; flex-shrink: 0; }
-.sp-combobox-dropdown { position: absolute; top: 100%; left: 0; right: 0; z-index: 9999; background: white; border: 1px solid #e5e7eb; border-radius: 6px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); margin-top: 4px; max-height: 240px; overflow-y: auto; }
+.sp-combobox-arrow-btn { display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; padding: 0 10px; align-self: stretch; color: #6b7280; flex-shrink: 0; }
+.sp-combobox-arrow-btn:disabled { cursor: not-allowed; }
+.sp-combobox-arrow { color: #6b7280; font-size: 12px; pointer-events: none; }
+.sp-combobox-dropdown { position: absolute; top: 100%; left: 0; right: 0; z-index: 9999; background: white; border: 1px solid #e5e7eb; border-radius: 6px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); margin-top: 4px; max-height: var(--sp-combobox-max-height, 280px); overflow-y: auto; }
 .sp-combobox-option { padding: 8px 12px; font-size: 14px; color: #374151; cursor: pointer; }
 .sp-combobox-option:hover:not(.sp-combobox-option--disabled) { background: #f3f4f6; }
 .sp-combobox-option--selected { color: #3b82f6; font-weight: 500; background: #eff6ff; }
@@ -23,6 +26,10 @@
 :host([disabled]) .sp-combobox-input { cursor: not-allowed; }
 .sp-combobox-option--highlighted { background: #eff6ff; }
 .sp-combobox-input:focus-visible { outline: 2px solid rgba(59,130,246,0.5); outline-offset: 1px; }
+@media (max-width: 479px) {
+  .sp-combobox-wrapper { width: 100%; }
+  .sp-combobox-dropdown { left: 0; right: 0; width: 100%; }
+}
 @media (prefers-reduced-motion: reduce) {
   .sp-combobox-container { transition: none; }
   .sp-combobox-input { transition: none; }

@@ -70,8 +70,76 @@
   color: #9ca3af;
 }
 
+.sp-stat-icon {
+  margin-right: 4px;
+  font-size: 15px;
+}
+
+/* ---- Trend CSS custom properties ---- */
+.sp-stat-trend--up {
+  color: var(--sp-stat-trend-up-color, #16a34a);
+}
+
+.sp-stat-trend--down {
+  color: var(--sp-stat-trend-down-color, #dc2626);
+}
+
+.sp-stat-trend--neutral {
+  color: var(--sp-stat-trend-neutral-color, #6b7280);
+}
+
+/* ---- Loading skeleton ---- */
+
+.sp-stat--loading {
+  gap: 8px;
+}
+
+.sp-stat-skeleton {
+  display: block;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: sp-stat-shimmer 1.4s ease infinite;
+}
+
+.sp-stat-skeleton--label {
+  height: 13px;
+  width: 80px;
+}
+
+.sp-stat-skeleton--value {
+  height: 36px;
+  width: 120px;
+}
+
+.sp-stat-skeleton--trend {
+  height: 13px;
+  width: 60px;
+}
+
+@keyframes sp-stat-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ---- Responsive grid ---- */
+
+@media (max-width: 640px) {
+  :host {
+    min-width: 0;
+  }
+
+  .sp-stat-value {
+    font-size: 28px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   :host {
     transition: none !important;
+  }
+
+  .sp-stat-skeleton {
+    animation: none;
   }
 }

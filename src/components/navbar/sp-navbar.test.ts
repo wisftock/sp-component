@@ -16,7 +16,7 @@ describe("sp-navbar", () => {
   it("renders a header element in shadow DOM", async () => {
     const el = createElement();
     await el.updateComplete;
-    expect(el.shadowRoot?.querySelector("header.sp-navbar")).not.toBeNull();
+    expect(el.shadowRoot?.querySelector("nav.sp-navbar")).not.toBeNull();
   });
 
   it("renders start slot container", async () => {

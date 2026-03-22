@@ -22,6 +22,31 @@ export class SpKbdComponent extends LitElement {
   @property({ type: String, reflect: true })
   size: SpKbdSize = "md";
 
+  /** Array of keys for multi-key shortcuts e.g. ["Ctrl","Shift","K"] */
+  @property({ type: Array })
+  keys: string[] = [];
+
+  /** Platform for symbol mapping: "auto" | "mac" | "win" */
+  @property({ type: String })
+  platform: "auto" | "mac" | "win" = "auto";
+
+  _isMac(): boolean {
+    if (this.platform === "mac") return true;
+    if (this.platform === "win") return false;
+    return typeof navigator !== "undefined" && /mac/i.test(navigator.platform);
+  }
+
+  _resolveKey(key: string): string {
+    if (!this._isMac()) return key;
+    const map: Record<string, string> = {
+      Ctrl: "⌘", Control: "⌘",
+      Alt: "⌥", Option: "⌥",
+      Shift: "⇧",
+      Meta: "⌘",
+    };
+    return map[key] ?? key;
+  }
+
   override render() {
     return kbdTemplate.call(this);
   }

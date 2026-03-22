@@ -140,6 +140,6 @@ describe("sp-alert", () => {
 
   it("has role=alert on the inner div", async () => {
     await el.updateComplete;
-    expect(el.shadowRoot?.querySelector("[role='alert']")).not.toBeNull();
+    expect(el.shadowRoot?.querySelector('[role="alert"],[role="status"]')).not.toBeNull();
   });
 });

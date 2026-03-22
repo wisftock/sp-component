@@ -3,10 +3,10 @@ import type { SpNavbarComponent } from "./sp-navbar.js";
 
 export function navbarTemplate(this: SpNavbarComponent): TemplateResult {
   return html`
-    <header class="sp-navbar">
+    <nav class="sp-navbar sp-navbar--elevation-${this.elevation}" aria-label=${this.navLabel}>
       <div class="sp-navbar-start"><slot name="start"></slot></div>
       <div class="sp-navbar-center"><slot name="center"></slot></div>
       <div class="sp-navbar-end"><slot name="end"></slot></div>
-    </header>
+    </nav>
   `;
 }

@@ -45,6 +45,12 @@
 
 .sp-accordion-content {
   overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
+}
+
+:host([open]) .sp-accordion-content {
+  max-height: 2000px;
 }
 
 .sp-accordion-body {
@@ -58,6 +64,17 @@
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+@media (max-width: 479px) {
+  .sp-accordion-trigger {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .sp-accordion-body {
+    padding: 0 12px 12px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

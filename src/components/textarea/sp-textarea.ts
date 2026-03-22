@@ -68,6 +68,9 @@ export class SpTextareaComponent extends LitElement {
   @property({ type: String, reflect: true })
   resize: SpTextareaResize = "vertical";
 
+  @property({ type: Boolean, attribute: "auto-resize", reflect: true })
+  autoResize = false;
+
   @property({ type: String })
   error = "";
 
@@ -84,6 +87,10 @@ export class SpTextareaComponent extends LitElement {
   readonly _handleInput = (e: Event) => {
     const textarea = e.target as HTMLTextAreaElement;
     this.value = textarea.value;
+    if (this.autoResize) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
     this.dispatchEvent(
       new CustomEvent("sp-input", {
         detail: { value: this.value },

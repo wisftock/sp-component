@@ -5,9 +5,11 @@ export interface SpTimelineItem {
   description?: string;
   time?: string;
   variant?: SpTimelineItemVariant;
+  icon?: string;
 }
 
 export interface SpTimelineProps {
   items: SpTimelineItem[];
   reverse: boolean;
+  alternate: boolean;
 }

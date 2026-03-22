@@ -6,6 +6,7 @@ export interface SpStepperStep {
   label: string;
   description?: string;
   status?: SpStepStatus;
+  optional?: boolean;
 }
 
 export interface SpStepperProps {
@@ -13,4 +14,6 @@ export interface SpStepperProps {
   activeStep: number;
   orientation: SpStepperOrientation;
   linear: boolean;
+  editable: boolean;
+  showProgress: boolean;
 }

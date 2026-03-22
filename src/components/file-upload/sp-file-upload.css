@@ -26,6 +26,37 @@
   outline-offset: 2px;
 }
 
+.sp-file-item {
+  flex-wrap: wrap;
+}
+
+.sp-file-progress {
+  width: 100%;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.sp-file-progress-bar {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 480px) {
+  .sp-file-dropzone {
+    padding: 20px 16px;
+  }
+
+  .sp-file-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   :host {
     transition: none !important;

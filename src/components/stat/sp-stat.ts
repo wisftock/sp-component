@@ -44,6 +44,12 @@ export class SpStatComponent extends LitElement {
   @property({ type: String })
   description = "";
 
+  @property({ type: Boolean, reflect: true })
+  loading = false;
+
+  @property({ type: String })
+  icon = "";
+
   override render() {
     return statTemplate.call(this);
   }

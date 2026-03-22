@@ -44,6 +44,14 @@ export class SpRatingComponent extends LitElement {
   @property({ type: String })
   label = "Rating";
 
+  /** Tooltip labels per star position, e.g. ["Poor","Fair","Good","Very good","Excellent"] */
+  @property({ type: Array })
+  labels: string[] = [];
+
+  /** Show a clear button to reset to 0 */
+  @property({ type: Boolean })
+  clearable = false;
+
   private _hoverValue = 0;
 
   _getStars(): Array<{ index: number; fill: number }> {
@@ -70,6 +78,12 @@ export class SpRatingComponent extends LitElement {
   readonly _handleLeave = () => {
     this._hoverValue = 0;
     this.requestUpdate();
+  };
+
+  readonly _handleClear = () => {
+    if (this.disabled || this.readonly) return;
+    this.value = 0;
+    this.dispatchEvent(new CustomEvent("sp-change", { detail: { value: 0 }, bubbles: true, composed: true }));
   };
 
   override render() {

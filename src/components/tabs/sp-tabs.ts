@@ -85,6 +85,11 @@ export class SpTabsComponent extends LitElement {
     if (panel) this._activateTab(panel);
   };
 
+  _scrollNav(delta: number): void {
+    const nav = this.shadowRoot?.querySelector(".sp-tabs-nav") as HTMLElement | null;
+    if (nav) nav.scrollLeft += delta;
+  }
+
   private _activateTab(panel: string): void {
     this.active = panel;
     this.dispatchEvent(

@@ -27,15 +27,24 @@ export function fileUploadTemplate(this: SpFileUploadComponent): TemplateResult 
         ${this.hint ? html`<span class="sp-file-hint">${this.hint}</span>` : nothing}
       </div>
       ${this._validationError || this.error ? html`<span class="sp-file-error">${this._validationError || this.error}</span>` : nothing}
-      ${this._files.length > 0 ? html`
+      ${this.showFileList && this._files.length > 0 ? html`
         <ul class="sp-file-list">
-          ${this._files.map((file, i) => html`
-            <li class="sp-file-item">
-              <span class="sp-file-name">${file.name}</span>
-              <span class="sp-file-size">${this._formatSize(file.size)}</span>
-              <button class="sp-file-remove" type="button" @click=${() => this._removeFile(i)} aria-label="Remove file">✕</button>
-            </li>
-          `)}
+          ${this._files.map((file, i) => {
+            const fileProgress = this.progress?.[file.name];
+            const hasProgress = typeof fileProgress === "number";
+            return html`
+              <li class="sp-file-item">
+                <span class="sp-file-name">${file.name}</span>
+                <span class="sp-file-size">${this._formatSize(file.size)}</span>
+                <button class="sp-file-remove" type="button" @click=${() => this._removeFile(i)} aria-label="Remove file">✕</button>
+                ${hasProgress
+                  ? html`<div class="sp-file-progress" role="progressbar" aria-valuenow=${fileProgress} aria-valuemin="0" aria-valuemax="100">
+                      <div class="sp-file-progress-bar" style="width: ${fileProgress}%"></div>
+                    </div>`
+                  : nothing}
+              </li>
+            `;
+          })}
         </ul>
       ` : nothing}
     </div>

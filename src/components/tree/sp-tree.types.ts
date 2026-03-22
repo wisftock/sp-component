@@ -13,4 +13,5 @@ export interface SpTreeItemProps {
   disabled: boolean;
   icon: string;
   loading: boolean;
+  level: number;
 }

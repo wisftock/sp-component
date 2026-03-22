@@ -6,6 +6,9 @@ function createElement(trigger = "hover"): SpTooltipComponent {
   const el = document.createElement("sp-tooltip") as SpTooltipComponent;
   el.setAttribute("trigger", trigger);
   el.content = "Tooltip text";
+  // Disable delays so tests don't need to wait for timers
+  el.showDelay = 0;
+  el.hideDelay = 0;
   document.body.appendChild(el);
   return el;
 }

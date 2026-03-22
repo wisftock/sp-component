@@ -126,6 +126,22 @@ export class SpComboboxComponent extends LitElement {
     document.removeEventListener("mousedown", this._handleOutsideClick);
   }
 
+  readonly _handleToggleDropdown = (e: Event) => {
+    e.stopPropagation();
+    if (this.disabled) return;
+    if (this._open) {
+      this._open = false;
+      this._searchText = "";
+      this._highlightedIndex = null;
+    } else {
+      this._open = true;
+      this._searchText = "";
+      // Focus the input so keyboard nav works
+      this.renderRoot.querySelector<HTMLInputElement>(".sp-combobox-input")?.focus();
+    }
+    this.requestUpdate();
+  };
+
   readonly _handleInputFocus = () => {
     this._open = true;
     this._searchText = "";
@@ -189,10 +205,12 @@ export class SpComboboxComponent extends LitElement {
       e.preventDefault();
       this._highlightedIndex = currentIdx < options.length - 1 ? currentIdx + 1 : 0;
       this.requestUpdate();
+      this.updateComplete.then(() => this._scrollHighlightedIntoView());
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       this._highlightedIndex = currentIdx > 0 ? currentIdx - 1 : options.length - 1;
       this.requestUpdate();
+      this.updateComplete.then(() => this._scrollHighlightedIntoView());
     } else if (e.key === "Enter" && currentIdx >= 0) {
       e.preventDefault();
       const opt = options[currentIdx];
@@ -218,12 +236,20 @@ export class SpComboboxComponent extends LitElement {
       e.preventDefault();
       this._highlightedIndex = 0;
       this.requestUpdate();
+      this.updateComplete.then(() => this._scrollHighlightedIntoView());
     } else if (e.key === "End") {
       e.preventDefault();
       this._highlightedIndex = options.length - 1;
       this.requestUpdate();
+      this.updateComplete.then(() => this._scrollHighlightedIntoView());
     }
   };
+
+  private _scrollHighlightedIntoView(): void {
+    if (this._highlightedIndex === null) return;
+    const el = this.renderRoot.querySelector<HTMLElement>(`#sp-combo-opt-${this._highlightedIndex}`);
+    el?.scrollIntoView({ block: "nearest" });
+  }
 
   override render() {
     return comboboxTemplate.call(this);

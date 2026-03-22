@@ -1,4 +1,4 @@
-import { html, nothing, type TemplateResult } from "lit";
+import { html, type TemplateResult } from "lit";
 import type { SpAccordionItemComponent } from "./sp-accordion-item.js";
 
 export function accordionItemTemplate(this: SpAccordionItemComponent): TemplateResult {
@@ -22,7 +22,6 @@ export function accordionItemTemplate(this: SpAccordionItemComponent): TemplateR
         role="region"
         aria-labelledby="acc-trigger-${this._id}"
         aria-hidden=${this.open ? "false" : "true"}
-        ?hidden=${!this.open}
       >
         <div class="sp-accordion-body"><slot></slot></div>
       </div>

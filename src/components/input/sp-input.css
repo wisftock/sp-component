@@ -124,18 +124,44 @@ input::placeholder {
 
 /* ---- Messages ---- */
 
+.sp-input-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  min-height: 16px;
+}
+
 .sp-input-error {
-  display: block;
   font-size: 12px;
   color: #ef4444;
-  margin-top: 4px;
 }
 
 .sp-input-hint {
-  display: block;
   font-size: 12px;
   color: #6b7280;
-  margin-top: 4px;
+}
+
+.sp-input-count {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+@media (max-width: 479px) {
+  :host {
+    width: 100%;
+  }
+
+  .sp-input-wrapper {
+    width: 100%;
+  }
+
+  .sp-input-container {
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -49,6 +49,16 @@ export class SpFileUploadComponent extends LitElement {
   @property({ type: String, reflect: true })
   variant: SpFileUploadVariant = "default";
 
+  @property({ type: Boolean, attribute: "show-file-list" })
+  showFileList = true;
+
+  /**
+   * Map of file name -> upload progress (0-100).
+   * Consumer sets this after receiving sp-change event.
+   */
+  @property({ type: Object })
+  progress: Record<string, number> = {};
+
   _dragging = false;
   _files: File[] = [];
   _validationError = "";

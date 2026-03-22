@@ -35,8 +35,9 @@ export function inputTemplate(this: SpInputComponent): TemplateResult {
           name=${this.name || nothing}
           maxlength=${this.maxlength > 0 ? this.maxlength : nothing}
           minlength=${this.minlength > 0 ? this.minlength : nothing}
+          inputmode=${this.inputmode || nothing}
           aria-invalid=${this.error ? "true" : nothing}
-          aria-describedby=${(this.error || this.hint) ? "sp-input-desc" : nothing}
+          aria-describedby=${(this.error || this.hint || this.maxlength > 0) ? "sp-input-desc" : nothing}
           aria-required=${this.required ? "true" : nothing}
           @input=${this._handleInput}
           @change=${this._handleChange}
@@ -55,11 +56,16 @@ export function inputTemplate(this: SpInputComponent): TemplateResult {
           : nothing}
         <slot name="suffix"></slot>
       </div>
-      ${this.error
-        ? html`<span id="sp-input-desc" class="sp-input-error" role="alert">${this.error}</span>`
-        : this.hint
-          ? html`<span id="sp-input-desc" class="sp-input-hint">${this.hint}</span>`
+      <div class="sp-input-footer">
+        ${this.error
+          ? html`<span id="sp-input-desc" class="sp-input-error" role="alert">${this.error}</span>`
+          : this.hint
+            ? html`<span id="sp-input-desc" class="sp-input-hint">${this.hint}</span>`
+            : html`<span></span>`}
+        ${this.maxlength > 0
+          ? html`<span class="sp-input-count" aria-live="polite">${this.value.length} / ${this.maxlength}</span>`
           : nothing}
+      </div>
     </div>
   `;
 }

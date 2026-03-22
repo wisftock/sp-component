@@ -4,9 +4,12 @@ import type { SpSplitPanelComponent } from "./sp-split-panel.js";
 export function splitPanelTemplate(
   this: SpSplitPanelComponent,
 ): TemplateResult {
+  // On mobile (< 480px) auto-switch to vertical orientation
+  const effectiveOrientation = this._isMobile ? "vertical" : this.orientation;
+
   return html`
     <div
-      class="sp-split-panel sp-split-panel--${this.orientation} ${this._dragging ? "sp-split-panel--dragging" : ""}"
+      class="sp-split-panel sp-split-panel--${effectiveOrientation} ${this._dragging ? "sp-split-panel--dragging" : ""}"
       style="--position: ${this._currentPosition}%"
     >
       <div class="sp-split-panel-start">
@@ -15,12 +18,14 @@ export function splitPanelTemplate(
       <div
         class="sp-split-panel-divider"
         role="separator"
+        aria-label="Resize handle"
         aria-valuenow=${this._currentPosition}
         aria-valuemin=${this.min}
         aria-valuemax=${this.max}
-        aria-orientation=${this.orientation}
+        aria-orientation=${effectiveOrientation}
         tabindex=${this.disabled ? "-1" : "0"}
         @mousedown=${this._startDrag}
+        @dblclick=${this._handleDividerDblClick}
         @touchstart=${this._startTouchDrag}
         @keydown=${this._handleDividerKeydown}
       >
@@ -31,7 +36,7 @@ export function splitPanelTemplate(
               fill="currentColor"
               aria-hidden="true"
             >
-              ${this.orientation === "horizontal"
+              ${effectiveOrientation === "horizontal"
                 ? html`
                     <circle cx="3" cy="3" r="1.2"></circle>
                     <circle cx="7" cy="3" r="1.2"></circle>

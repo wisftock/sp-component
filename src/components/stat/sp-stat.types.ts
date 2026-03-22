@@ -8,4 +8,6 @@ export interface SpStatProps {
   trend: SpStatTrend;
   trendValue: string;
   description: string;
+  loading: boolean;
+  icon: string;
 }

@@ -1,16 +1,21 @@
-import { html, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
 import type { SpRatingComponent } from "./sp-rating.js";
 
 export function ratingTemplate(this: SpRatingComponent): TemplateResult {
   return html`
     <div class="sp-rating" role="radiogroup" aria-label=${this.label} @mouseleave=${this._handleLeave}>
-      ${this._getStars().map(({ index, fill }) => html`
+      ${this._getStars().map(({ index, fill }) => {
+        const tooltipLabel = this.labels[index - 1] ?? ("Rate " + index + " out of " + this.max);
+        return html`
         <button
           class=${classMap({ "sp-rating-star": true, "sp-rating-star--active": fill > 0 })}
           type="button"
           ?disabled=${this.disabled}
-          aria-label=${"Rate " + index + " out of " + this.max}
+          tabindex=${this.readonly ? "-1" : "0"}
+          aria-label=${tooltipLabel}
+          aria-pressed=${this.value === index ? "true" : "false"}
+          title=${tooltipLabel}
           @click=${() => this._handleClick(index)}
           @mouseenter=${() => this._handleHover(index)}
         >
@@ -23,7 +28,16 @@ export function ratingTemplate(this: SpRatingComponent): TemplateResult {
             }
           </svg>
         </button>
-      `)}
+      `})}
+      ${this.clearable && this.value > 0 ? html`
+        <button
+          class="sp-rating-clear"
+          type="button"
+          aria-label="Clear rating"
+          title="Clear rating"
+          @click=${this._handleClear}
+        >✕</button>
+      ` : nothing}
     </div>
   `;
 }

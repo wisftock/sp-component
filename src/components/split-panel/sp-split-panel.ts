@@ -15,6 +15,7 @@ import type { SpSplitPanelOrientation } from "./sp-split-panel.types.js";
  * @prop {number}                  max         - Maximum percentage for first panel
  * @prop {number}                  snap        - Snap to this position when close (0 = no snap)
  * @prop {boolean}                 disabled    - Disable dragging
+ * @prop {string}                  storageKey  - When set, save/restore position from localStorage
  *
  * @fires {CustomEvent<{position:number}>} sp-resize     - Emitted during drag
  * @fires {CustomEvent<{position:number}>} sp-resize-end - Emitted when drag ends
@@ -45,18 +46,54 @@ export class SpSplitPanelComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  @property({ type: String, attribute: "storage-key" })
+  storageKey = "";
+
   @state()
   _dragging = false;
+
+  @state()
+  _isMobile = false;
 
   @state()
   _currentPosition = 50;
 
   private _dragStartPos = 0;
   private _dragStartPosition = 0;
+  private _mobileQuery: MediaQueryList | null = null;
+  private _mobileListener: ((e: MediaQueryListEvent) => void) | null = null;
 
   override connectedCallback() {
     super.connectedCallback();
+
+    // Restore from localStorage if storageKey is set
+    if (this.storageKey) {
+      const saved = localStorage.getItem(this.storageKey);
+      if (saved !== null) {
+        const parsed = parseFloat(saved);
+        if (!isNaN(parsed)) {
+          this.position = parsed;
+        }
+      }
+    }
     this._currentPosition = this.position;
+
+    // Responsive: detect mobile
+    if (typeof window.matchMedia === "function") {
+      this._mobileQuery = window.matchMedia("(max-width: 479px)");
+      this._isMobile = this._mobileQuery.matches;
+      this._mobileListener = (e: MediaQueryListEvent) => {
+        this._isMobile = e.matches;
+      };
+      this._mobileQuery.addEventListener("change", this._mobileListener);
+    }
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    if (this._mobileQuery && this._mobileListener) {
+      this._mobileQuery.removeEventListener("change", this._mobileListener);
+    }
   }
 
   override willUpdate(changed: Map<string, unknown>) {
@@ -87,6 +124,9 @@ export class SpSplitPanelComponent extends LitElement {
     window.removeEventListener("mousemove", this._onMouseMove);
     window.removeEventListener("mouseup", this._onMouseUp);
     this.position = this._currentPosition;
+    if (this.storageKey) {
+      localStorage.setItem(this.storageKey, String(this._currentPosition));
+    }
     this.dispatchEvent(
       new CustomEvent("sp-resize-end", {
         detail: { position: this._currentPosition },
@@ -123,9 +163,35 @@ export class SpSplitPanelComponent extends LitElement {
     window.removeEventListener("touchmove", this._onTouchMove);
     window.removeEventListener("touchend", this._onTouchEnd);
     this.position = this._currentPosition;
+    if (this.storageKey) {
+      localStorage.setItem(this.storageKey, String(this._currentPosition));
+    }
     this.dispatchEvent(
       new CustomEvent("sp-resize-end", {
         detail: { position: this._currentPosition },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  };
+
+  _handleDividerDblClick = (): void => {
+    if (this.disabled) return;
+    this._currentPosition = 50;
+    this.position = 50;
+    if (this.storageKey) {
+      localStorage.setItem(this.storageKey, "50");
+    }
+    this.dispatchEvent(
+      new CustomEvent("sp-resize", {
+        detail: { position: 50 },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    this.dispatchEvent(
+      new CustomEvent("sp-resize-end", {
+        detail: { position: 50 },
         bubbles: true,
         composed: true,
       }),

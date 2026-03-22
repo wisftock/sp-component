@@ -16,7 +16,7 @@ describe("sp-sidebar", () => {
   it("renders an aside element in shadow DOM", async () => {
     const el = createElement();
     await el.updateComplete;
-    expect(el.shadowRoot?.querySelector("aside.sp-sidebar")).not.toBeNull();
+    expect(el.shadowRoot?.querySelector("nav.sp-sidebar")).not.toBeNull();
   });
 
   it("is open by default", async () => {

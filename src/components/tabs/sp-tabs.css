@@ -2,10 +2,48 @@
   display: block;
 }
 
+.sp-tabs-nav-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .sp-tabs-nav {
   display: flex;
   border-bottom: 1px solid #e5e7eb;
   overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+  min-width: 0;
+}
+
+.sp-tabs-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.sp-tabs-scroll-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #6b7280;
+  padding: 0 4px;
+  line-height: 1;
+  border-bottom: 1px solid #e5e7eb;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.sp-tabs-scroll-btn:hover {
+  color: #374151;
+  background: #f3f4f6;
+}
+
+.sp-tabs-scroll-btn:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
 }
 
 .sp-tabs-content {
@@ -18,18 +56,26 @@
   gap: 0;
 }
 
+:host([placement="left"]) .sp-tabs-nav-wrapper {
+  flex-direction: column;
+  border-right: 1px solid #e5e7eb;
+}
+
 :host([placement="left"]) .sp-tabs-nav {
   flex-direction: column;
   border-bottom: none;
-  border-right: 1px solid #e5e7eb;
   padding-right: 0;
+}
+
+:host([placement="right"]) .sp-tabs-nav-wrapper {
+  flex-direction: column;
+  border-left: 1px solid #e5e7eb;
+  order: 1;
 }
 
 :host([placement="right"]) .sp-tabs-nav {
   flex-direction: column;
   border-bottom: none;
-  border-left: 1px solid #e5e7eb;
-  order: 1;
 }
 
 :host([placement="left"]) .sp-tabs-content,
@@ -44,6 +90,11 @@
 }
 
 :host([placement="bottom"]) .sp-tabs-nav {
+  border-bottom: none;
+  border-top: 1px solid #e5e7eb;
+}
+
+:host([placement="bottom"]) .sp-tabs-scroll-btn {
   border-bottom: none;
   border-top: 1px solid #e5e7eb;
 }

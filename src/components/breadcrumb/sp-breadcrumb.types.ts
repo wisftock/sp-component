@@ -1,5 +1,6 @@
 export interface SpBreadcrumbProps {
   separator: string;
+  maxItems: number;
 }
 
 export interface SpBreadcrumbItemProps {

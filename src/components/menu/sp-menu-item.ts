@@ -1,5 +1,5 @@
 import { LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import styles from "./sp-menu-item.css?inline";
 import { menuItemTemplate } from "./sp-menu-item.template.js";
 
@@ -11,6 +11,8 @@ import { menuItemTemplate } from "./sp-menu-item.template.js";
  * @prop {string}  value    - Value associated with this item
  * @prop {boolean} disabled - Disables interaction with this item
  * @prop {boolean} danger   - Renders the item in a danger/destructive style
+ * @prop {boolean} divider  - Renders a separator <hr> instead of a clickable item
+ * @prop {boolean} checked  - Renders a checkmark before the label
  *
  * @fires {CustomEvent<{ value: string }>} sp-select - Emitted when the item is selected
  *
@@ -31,6 +33,19 @@ export class SpMenuItemComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   danger = false;
 
+  @property({ type: Boolean, reflect: true })
+  divider = false;
+
+  @property({ type: Boolean, reflect: true })
+  checked = false;
+
+  @state()
+  _submenuOpen = false;
+
+  /** Child items for submenu support. Set programmatically or via JSON attribute. */
+  @property({ type: Array })
+  children: unknown[] = [];
+
   override connectedCallback(): void {
     super.connectedCallback();
     if (!this.disabled) {
@@ -43,7 +58,7 @@ export class SpMenuItemComponent extends LitElement {
   }
 
   readonly _handleClick = (): void => {
-    if (!this.disabled) {
+    if (!this.disabled && !this.divider) {
       this.dispatchEvent(
         new CustomEvent("sp-select", {
           detail: { value: this.value },
@@ -59,6 +74,14 @@ export class SpMenuItemComponent extends LitElement {
       e.preventDefault();
       this._handleClick();
     }
+  };
+
+  readonly _handleMouseEnter = (): void => {
+    this._submenuOpen = true;
+  };
+
+  readonly _handleMouseLeave = (): void => {
+    this._submenuOpen = false;
   };
 }
 

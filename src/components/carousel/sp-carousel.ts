@@ -21,6 +21,7 @@ import type { SpCarouselOrientation, SpCarouselEffect } from "./sp-carousel.type
  * @prop {number}                gap           - Gap in px between slides (default 0)
  * @prop {boolean}               pauseOnHover  - Pause autoplay when mouse is over the carousel
  * @prop {string}                label         - Accessible label for the carousel region
+ * @prop {boolean}               lazyLoad      - Only render/load images for current slide ±1
  *
  * @fires {CustomEvent<{ index: number }>} sp-slide-change - Emitted when the active slide changes
  *
@@ -65,6 +66,9 @@ export class SpCarouselComponent extends LitElement {
 
   @property({ type: String })
   label = "";
+
+  @property({ type: Boolean, attribute: "lazy-load" })
+  lazyLoad = false;
 
   @state()
   private _slideCount = 0;
@@ -127,6 +131,23 @@ export class SpCarouselComponent extends LitElement {
       const el = slide as HTMLElement;
       const isActive = i === this.currentIndex;
       const isVisible = i >= this.currentIndex && i < this.currentIndex + this.slidesPerView;
+
+      // Lazy load: only load images within current ±1 range
+      if (this.lazyLoad) {
+        const inRange = Math.abs(i - this.currentIndex) <= 1;
+        const imgs = slide.querySelectorAll<HTMLImageElement>("img[data-src]");
+        imgs.forEach((img) => {
+          if (inRange && img.dataset["src"]) {
+            img.src = img.dataset["src"];
+            img.removeAttribute("data-src");
+          }
+        });
+        // Also handle native lazy on slot images
+        const allImgs = slide.querySelectorAll<HTMLImageElement>("img");
+        allImgs.forEach((img) => {
+          img.loading = inRange ? "eager" : "lazy";
+        });
+      }
 
       slide.setAttribute("aria-hidden", isVisible ? "false" : "true");
       slide.setAttribute("aria-roledescription", "slide");

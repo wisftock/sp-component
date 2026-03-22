@@ -18,6 +18,9 @@ export function otpInputTemplate(this: SpOtpInputComponent): TemplateResult {
         cells,
         (i) => i,
         (i) => html`
+          ${this.separator && this.separatorIndex >= 0 && i === this.separatorIndex
+            ? html`<span class="sp-otp-separator">${this.separator}</span>`
+            : nothing}
           <input
             class="sp-otp-cell"
             type=${this.inputType === "number" ? "tel" : this.inputType}

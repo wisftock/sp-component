@@ -11,6 +11,12 @@
   z-index: 1000;
 }
 
+:host([sticky]) {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
 .sp-navbar {
   display: flex;
   align-items: center;
@@ -51,10 +57,23 @@
   justify-content: flex-end;
 }
 
+.sp-navbar--elevation-sm { box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.sp-navbar--elevation-md { box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
+}
+
+/* Responsive: hide center on small screens */
+@media (max-width: 639px) {
+  .sp-navbar-center {
+    display: none;
+  }
+  .sp-navbar {
+    padding: 0 16px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

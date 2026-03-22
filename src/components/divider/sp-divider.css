@@ -1,5 +1,6 @@
 :host {
   display: block;
+  --sp-divider-color: #e5e7eb;
 }
 
 :host([orientation="vertical"]) {
@@ -27,11 +28,11 @@
 }
 
 :host([orientation="horizontal"]) .sp-divider-line {
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--sp-divider-color);
 }
 
 :host([orientation="vertical"]) .sp-divider-line {
-  border-left: 1px solid #e5e7eb;
+  border-left: 1px solid var(--sp-divider-color);
   height: 100%;
   width: 0;
 }

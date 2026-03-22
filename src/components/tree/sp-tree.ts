@@ -1,4 +1,4 @@
-import { LitElement, unsafeCSS } from "lit";
+import { LitElement, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./sp-tree.css?inline";
 import { treeTemplate } from "./sp-tree.template.js";
@@ -26,6 +26,9 @@ export class SpTreeComponent extends LitElement {
 
   @property({ type: String, attribute: "selected-values" })
   selectedValues = "";
+
+  @property({ type: String })
+  label = "";
 
   private _getVisibleItems(): SpTreeItemComponent[] {
     return this._getVisibleItemsFrom(this);
@@ -131,6 +134,20 @@ export class SpTreeComponent extends LitElement {
       const prev = focused > 0 ? focused - 1 : items.length - 1;
       const row = items[prev]?.shadowRoot?.querySelector<HTMLElement>(".sp-tree-item-row");
       row?.focus();
+    } else if (e.key === "ArrowRight" && focused >= 0) {
+      const item = items[focused];
+      if (item && item._hasChildren && !item.expanded) {
+        item.expanded = true;
+        item.dispatchEvent(new CustomEvent("sp-expand", { detail: { value: item.value }, bubbles: true, composed: true }));
+        e.preventDefault();
+      }
+    } else if (e.key === "ArrowLeft" && focused >= 0) {
+      const item = items[focused];
+      if (item && item._hasChildren && item.expanded) {
+        item.expanded = false;
+        item.dispatchEvent(new CustomEvent("sp-collapse", { detail: { value: item.value }, bubbles: true, composed: true }));
+        e.preventDefault();
+      }
     }
   };
 

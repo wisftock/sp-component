@@ -69,6 +69,9 @@ export class SpColorPickerComponent extends LitElement {
   _open = false;
 
   @state()
+  _recentColors: string[] = [];
+
+  @state()
   _h = 0;
 
   @state()
@@ -142,6 +145,7 @@ export class SpColorPickerComponent extends LitElement {
   _emitChange() {
     const val = this._formatValue();
     this.value = val;
+    this._addToRecentColors(val);
     this.dispatchEvent(
       new CustomEvent("sp-change", {
         detail: { value: val },
@@ -177,7 +181,14 @@ export class SpColorPickerComponent extends LitElement {
     this._emitChange();
   };
 
+  _addToRecentColors(color: string) {
+    const normalized = color.toLowerCase();
+    const filtered = this._recentColors.filter((c) => c.toLowerCase() !== normalized);
+    this._recentColors = [normalized, ...filtered].slice(0, 8);
+  }
+
   _selectSwatch(color: string) {
+    this._addToRecentColors(color);
     this.value = color;
     this._parseHex(color);
     this._open = false;

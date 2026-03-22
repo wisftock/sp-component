@@ -22,6 +22,10 @@ import type { SpNumberInputSize } from "./sp-number-input.types.js";
  * @prop {string}              hint        - Hint text (shown when no error)
  * @prop {string}              error       - Error message
  * @prop {string}              placeholder - Placeholder text
+ * @prop {string}              prefix      - Inline prefix text (e.g. "$")
+ * @prop {string}              suffix      - Inline suffix text (e.g. "%")
+ * @prop {boolean}             fullWidth   - Makes the control full-width
+ * @prop {Function}            formatter   - Custom display formatter (value: number) => string
  *
  * @fires {CustomEvent<{ value: number }>} sp-input  - Emitted on every input change
  * @fires {CustomEvent<{ value: number }>} sp-change - Emitted on confirmed change
@@ -33,6 +37,8 @@ export class SpNumberInputComponent extends LitElement {
 
   readonly #internals: ElementInternals;
   #initialValue = 0;
+  #longPressTimer: ReturnType<typeof setTimeout> | null = null;
+  #rapidInterval: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
     super();
@@ -78,9 +84,34 @@ export class SpNumberInputComponent extends LitElement {
   @property({ type: String })
   placeholder = "";
 
+  @property({ type: String })
+  prefix = "";
+
+  @property({ type: String })
+  suffix = "";
+
+  @property({ type: Boolean, reflect: true })
+  fullWidth = false;
+
+  /** Custom display formatter: (value: number) => string */
+  formatter: ((value: number) => string) | null = null;
+
+  /** Returns the display string for the current value, applying formatter if set. */
+  _getDisplayValue(): string {
+    if (this.formatter) {
+      return this.formatter(this.value);
+    }
+    return String(this.value);
+  }
+
   override connectedCallback(): void {
     super.connectedCallback();
     this.#initialValue = this.value;
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this._clearLongPress();
   }
 
   override render() {
@@ -158,6 +189,38 @@ export class SpNumberInputComponent extends LitElement {
         composed: true,
       }),
     );
+  }
+
+  /** Start long-press acceleration for increment button */
+  _handleIncMouseDown(): void {
+    if (this.disabled || this.readonly) return;
+    this.#longPressTimer = setTimeout(() => {
+      this.#rapidInterval = setInterval(() => {
+        this._increment();
+      }, 100);
+    }, 500);
+  }
+
+  /** Start long-press acceleration for decrement button */
+  _handleDecMouseDown(): void {
+    if (this.disabled || this.readonly) return;
+    this.#longPressTimer = setTimeout(() => {
+      this.#rapidInterval = setInterval(() => {
+        this._decrement();
+      }, 100);
+    }, 500);
+  }
+
+  /** Clear long-press timers */
+  _clearLongPress(): void {
+    if (this.#longPressTimer) {
+      clearTimeout(this.#longPressTimer);
+      this.#longPressTimer = null;
+    }
+    if (this.#rapidInterval) {
+      clearInterval(this.#rapidInterval);
+      this.#rapidInterval = null;
+    }
   }
 }
 

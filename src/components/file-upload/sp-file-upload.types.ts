@@ -9,4 +9,6 @@ export interface SpFileUploadProps {
   hint: string;
   error: string;
   variant: SpFileUploadVariant;
+  showFileList: boolean;
+  progress: Record<string, number>;
 }

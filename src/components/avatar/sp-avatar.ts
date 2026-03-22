@@ -2,18 +2,20 @@ import { LitElement, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import styles from "./sp-avatar.css?inline";
 import { avatarTemplate } from "./sp-avatar.template.js";
-import type { SpAvatarShape, SpAvatarSize } from "./sp-avatar.types.js";
+import type { SpAvatarShape, SpAvatarSize, SpAvatarStatus } from "./sp-avatar.types.js";
 
 /**
  * An avatar component that displays an image, initials, or a placeholder icon.
  *
  * @element sp-avatar
  *
- * @prop {string}        src       - Image URL
- * @prop {string}        alt       - Image alt text
- * @prop {string}        initials  - Text initials shown when no image is available
- * @prop {SpAvatarShape} shape     - Shape: circle | square
- * @prop {SpAvatarSize}  size      - Size: sm | md | lg | xl
+ * @prop {string}           src      - Image URL
+ * @prop {string}           alt      - Image alt text
+ * @prop {string}           initials - Text initials shown when no image is available
+ * @prop {SpAvatarShape}    shape    - Shape: circle | square
+ * @prop {SpAvatarSize}     size     - Size: sm | md | lg | xl
+ * @prop {SpAvatarStatus}   status   - Status dot: online | offline | away | busy
+ * @prop {boolean}          loading  - Show shimmer loading state
  */
 @customElement("sp-avatar")
 export class SpAvatarComponent extends LitElement {
@@ -33,6 +35,12 @@ export class SpAvatarComponent extends LitElement {
 
   @property({ type: String, reflect: true })
   size: SpAvatarSize = "md";
+
+  @property({ type: String, reflect: true })
+  status: SpAvatarStatus | undefined = undefined;
+
+  @property({ type: Boolean, reflect: true })
+  loading = false;
 
   @state()
   _imageError = false;

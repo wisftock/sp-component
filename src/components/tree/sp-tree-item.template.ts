@@ -16,6 +16,7 @@ export function treeItemTemplate(this: SpTreeItemComponent): TemplateResult {
         aria-selected=${this.selected}
         aria-expanded=${this._hasChildren ? String(this.expanded) : nothing}
         aria-disabled=${this.disabled}
+        aria-level=${this.level}
         tabindex=${this.disabled ? "-1" : "0"}
         @click=${this._handleClick}
         @keydown=${this._handleKeydown}

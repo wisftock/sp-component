@@ -9,8 +9,10 @@ export function carouselTemplate(this: SpCarouselComponent): TemplateResult {
   return html`
     <div
       class="sp-carousel"
+      role="region"
       aria-roledescription="carousel"
-      aria-label=${this.label || "carousel"}
+      aria-label=${this.label || "Carousel"}
+      tabindex="0"
       @mouseenter=${this._onMouseEnter}
       @mouseleave=${this._onMouseLeave}
     >

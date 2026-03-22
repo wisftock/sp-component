@@ -32,6 +32,14 @@ export class SpStepperComponent extends LitElement {
   @property({ type: Boolean })
   linear = true;
 
+  /** Allow clicking completed steps to go back */
+  @property({ type: Boolean })
+  editable = false;
+
+  /** Show "Step N of M" progress text */
+  @property({ type: Boolean, attribute: "show-progress" })
+  showProgress = false;
+
   override render() {
     return stepperTemplate.call(this);
   }
@@ -42,6 +50,14 @@ export class SpStepperComponent extends LitElement {
     if (index < this.activeStep) return "complete";
     if (index === this.activeStep) return "current";
     return "upcoming";
+  }
+
+  _isStepClickable(index: number): boolean {
+    if (index === this.activeStep) return false;
+    // Going back is always allowed (editable means completed steps are re-editable)
+    if (index < this.activeStep) return true;
+    // Going forward only allowed in non-linear mode
+    return !this.linear;
   }
 
   readonly _handleStepClick = (index: number): void => {

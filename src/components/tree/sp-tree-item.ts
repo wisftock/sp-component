@@ -48,6 +48,9 @@ export class SpTreeItemComponent extends LitElement {
   @property({ type: Boolean })
   loading = false;
 
+  @property({ type: Number })
+  level = 1;
+
   @state()
   _hasChildren = false;
 

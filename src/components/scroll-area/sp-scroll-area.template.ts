@@ -16,7 +16,10 @@ export function scrollAreaTemplate(
       class="sp-scroll-area sp-scroll-area--${this.orientation} ${this._scrolling ? "sp-scroll-area--scrolling" : ""}"
       style=${styleStr || nothing}
     >
-      <div class="sp-scroll-area-viewport" @scroll=${this._onScroll}>
+      <div
+        class="sp-scroll-area-viewport${this.smoothScroll ? " sp-scroll-area-viewport--smooth" : ""}"
+        @scroll=${this._onScroll}
+      >
         <slot></slot>
       </div>
 

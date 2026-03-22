@@ -34,6 +34,19 @@ export class SpTagComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  /** Icon/emoji shown before the label */
+  @property({ type: String })
+  icon = "";
+
+  /** Makes the tag interactive (hover effect, sp-click event) */
+  @property({ type: Boolean, reflect: true })
+  clickable = false;
+
+  readonly _handleClick = (e: Event): void => {
+    if (!this.clickable || this.disabled) return;
+    this.dispatchEvent(new CustomEvent("sp-click", { bubbles: true, composed: true }));
+  };
+
   readonly _handleRemove = (e: Event): void => {
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent("sp-remove", { bubbles: true, composed: true }));

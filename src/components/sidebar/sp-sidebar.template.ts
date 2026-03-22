@@ -3,14 +3,15 @@ import type { SpSidebarComponent } from "./sp-sidebar.js";
 
 export function sidebarTemplate(this: SpSidebarComponent): TemplateResult {
   return html`
-    <aside class="sp-sidebar" style=${this._getSidebarStyle()}>
+    <nav class="sp-sidebar" style=${this._getSidebarStyle()} aria-label=${this.navLabel}>
       ${this.collapsible
         ? html`
             <button
               class="sp-sidebar-toggle"
               type="button"
               @click=${this._handleCollapse}
-              aria-label=${this.collapsed ? "Expand" : "Collapse"}
+              aria-label=${this.collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              aria-expanded=${!this.collapsed ? "true" : "false"}
             >
               ${this.collapsed ? "›" : "‹"}
             </button>
@@ -21,6 +22,6 @@ export function sidebarTemplate(this: SpSidebarComponent): TemplateResult {
         <slot></slot>
         <slot name="footer"></slot>
       </div>
-    </aside>
+    </nav>
   `;
 }

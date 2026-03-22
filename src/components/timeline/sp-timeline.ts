@@ -22,6 +22,9 @@ export class SpTimelineComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   reverse = false;
 
+  @property({ type: Boolean, reflect: true })
+  alternate = false;
+
   override render() {
     return timelineTemplate.call(this);
   }

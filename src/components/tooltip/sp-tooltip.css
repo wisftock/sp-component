@@ -18,10 +18,19 @@
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.15s;
-  max-width: 240px;
+  max-width: var(--sp-tooltip-max-width, 200px);
   white-space: normal;
   text-align: center;
   line-height: 1.4;
+  word-break: break-word;
+  /* Prevent overflow on mobile */
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .sp-tooltip {
+    max-width: calc(100vw - 32px) !important;
+  }
 }
 
 .sp-tooltip--visible {

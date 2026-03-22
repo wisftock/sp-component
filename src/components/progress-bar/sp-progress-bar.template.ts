@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { styleMap } from "lit/directives/style-map.js";
 import type { SpProgressBarComponent } from "./sp-progress-bar.js";
 
 /**
@@ -8,6 +9,8 @@ import type { SpProgressBarComponent } from "./sp-progress-bar.js";
  * Call as: progressBarTemplate.call(this) inside render()
  */
 export function progressBarTemplate(this: SpProgressBarComponent): TemplateResult {
+  const trackStyles = this.height !== undefined ? { height: `${this.height}px` } : {};
+
   return html`
     <div class="sp-progress-wrapper">
       ${this.label || this.showValue
@@ -24,6 +27,7 @@ export function progressBarTemplate(this: SpProgressBarComponent): TemplateResul
         : nothing}
       <div
         class="sp-progress-track"
+        style=${styleMap(trackStyles)}
         role="progressbar"
         aria-valuenow=${this.indeterminate ? nothing : this.value}
         aria-valuemin="0"
@@ -34,6 +38,8 @@ export function progressBarTemplate(this: SpProgressBarComponent): TemplateResul
           class=${classMap({
             "sp-progress-fill": true,
             "sp-progress-fill--indeterminate": this.indeterminate,
+            "sp-progress-fill--striped": this.striped && !this.indeterminate,
+            "sp-progress-fill--animated": this.striped && this.animated && !this.indeterminate,
           })}
           style=${this.indeterminate
             ? ""

@@ -107,6 +107,30 @@ textarea.sp-textarea--error:focus-visible {
   margin-left: auto;
 }
 
+/* ---- Auto-resize ---- */
+
+textarea.sp-textarea--auto-resize {
+  resize: none;
+  overflow: hidden;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 479px) {
+  :host {
+    width: 100%;
+  }
+
+  .sp-textarea-wrapper {
+    width: 100%;
+  }
+
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   textarea {
     transition: none;

@@ -4,4 +4,6 @@ export interface SpBadgeProps {
   variant: SpBadgeVariant;
   pill: boolean;
   pulsing: boolean;
+  max: number;
+  removable: boolean;
 }

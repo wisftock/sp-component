@@ -38,15 +38,9 @@ export class SpAlertComponent extends LitElement {
     return alertTemplate.call(this);
   }
 
-  /** Returns the unicode icon character for the current variant. */
-  _getIcon(): string {
-    const icons: Record<SpAlertVariant, string> = {
-      info: "\u2139",
-      success: "\u2713",
-      warning: "\u26A0",
-      error: "\u2715",
-    };
-    return icons[this.variant];
+  /** Returns aria role based on variant urgency */
+  _getRole(): string {
+    return this.variant === "error" || this.variant === "warning" ? "alert" : "status";
   }
 
   readonly _handleClose = () => {

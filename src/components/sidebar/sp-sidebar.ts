@@ -45,12 +45,20 @@ export class SpSidebarComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   bordered = false;
 
+  /** Width when collapsed (default "60px") */
+  @property({ type: String, attribute: "collapsed-width" })
+  collapsedWidth = "60px";
+
+  /** aria-label for the sidebar nav landmark */
+  @property({ type: String, attribute: "nav-label" })
+  navLabel = "Sidebar navigation";
+
   override render() {
     return sidebarTemplate.call(this);
   }
 
   _getSidebarStyle(): string {
-    return `width: ${this.collapsed ? "60px" : this.width};`;
+    return `width: ${this.collapsed ? this.collapsedWidth : this.width};`;
   }
 
   readonly _handleCollapse = (): void => {

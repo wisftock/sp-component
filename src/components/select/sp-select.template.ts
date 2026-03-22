@@ -8,6 +8,16 @@ import type { SpSelectComponent } from "./sp-select.js";
  * Call as: selectTemplate.call(this) inside render()
  */
 export function selectTemplate(this: SpSelectComponent): TemplateResult {
+  // Group options by their group property (undefined = no group)
+  const groups = new Map<string | undefined, typeof this.options>();
+  for (const opt of this.options) {
+    const key = opt.group;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(opt);
+  }
+  const hasGroups = this.options.some(o => o.group);
+  const selectedCount = this._selectedValues.length;
+
   return html`
     <div class="sp-select-wrapper">
       ${this.label
@@ -38,19 +48,38 @@ export function selectTemplate(this: SpSelectComponent): TemplateResult {
           ${this.placeholder
             ? html`<option value="" disabled ?selected=${!this.value}>${this.placeholder}</option>`
             : nothing}
-          ${this.options.map(
-            (opt) =>
-              html`<option
-                value=${opt.value}
-                ?disabled=${opt.disabled ?? false}
-                ?selected=${opt.value === this.value}
-              >${opt.label}</option>`,
-          )}
+          ${hasGroups
+            ? [...groups.entries()].map(([groupName, opts]) =>
+                groupName
+                  ? html`<optgroup label=${groupName}>
+                      ${opts.map(opt => html`<option
+                        value=${opt.value}
+                        ?disabled=${opt.disabled ?? false}
+                        ?selected=${this.multiple ? this._selectedValues.includes(opt.value) : opt.value === this.value}
+                      >${opt.label}</option>`)}
+                    </optgroup>`
+                  : opts.map(opt => html`<option
+                      value=${opt.value}
+                      ?disabled=${opt.disabled ?? false}
+                      ?selected=${this.multiple ? this._selectedValues.includes(opt.value) : opt.value === this.value}
+                    >${opt.label}</option>`)
+              )
+            : this.options.map(
+                (opt) =>
+                  html`<option
+                    value=${opt.value}
+                    ?disabled=${opt.disabled ?? false}
+                    ?selected=${this.multiple ? this._selectedValues.includes(opt.value) : opt.value === this.value}
+                  >${opt.label}</option>`,
+              )}
         </select>
         ${!this.multiple
           ? html`<span class="sp-select-arrow" aria-hidden="true">▾</span>`
           : nothing}
       </div>
+      ${this.multiple && selectedCount > 0
+        ? html`<span class="sp-select-count-badge">${selectedCount} selected</span>`
+        : nothing}
       ${this.error
         ? html`<span id="sp-select-desc" class="sp-select-error" role="alert">${this.error}</span>`
         : nothing}

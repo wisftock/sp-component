@@ -3,9 +3,24 @@ import { classMap } from "lit/directives/class-map.js";
 import type { SpStatComponent } from "./sp-stat.js";
 
 export function statTemplate(this: SpStatComponent): TemplateResult {
+  if (this.loading) {
+    return html`
+      <div class="sp-stat sp-stat--loading">
+        <span class="sp-stat-skeleton sp-stat-skeleton--label"></span>
+        <span class="sp-stat-skeleton sp-stat-skeleton--value"></span>
+        <span class="sp-stat-skeleton sp-stat-skeleton--trend"></span>
+      </div>
+    `;
+  }
+
   return html`
     <div class="sp-stat">
-      ${this.label ? html`<span class="sp-stat-label">${this.label}</span>` : nothing}
+      ${this.label
+        ? html`<span class="sp-stat-label">
+            ${this.icon ? html`<span class="sp-stat-icon">${this.icon}</span>` : nothing}
+            ${this.label}
+          </span>`
+        : nothing}
       <div class="sp-stat-value-row">
         ${this.prefix ? html`<span class="sp-stat-prefix">${this.prefix}</span>` : nothing}
         <span class="sp-stat-value"><slot>${this.value}</slot></span>

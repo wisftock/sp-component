@@ -3,7 +3,8 @@
     "allow": [
       "Bash(for dir:*)",
       "Bash(do echo:*)",
-      "Read(//mnt/storage-files/Project/libreria-component/src/components/**)"
+      "Read(//mnt/storage-files/Project/libreria-component/src/components/**)",
+      "Bash(npm run:*)"
     ]
   }
 }

@@ -166,6 +166,41 @@
   outline-offset: 2px;
 }
 
+/* ---- Responsive: mobile ---- */
+
+@media (max-width: 480px) {
+  .sp-carousel-arrow {
+    width: 32px;
+    height: 32px;
+  }
+
+  .sp-carousel-arrow svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .sp-carousel-arrow--prev {
+    left: 6px;
+  }
+
+  .sp-carousel-arrow--next {
+    right: 6px;
+  }
+
+  .sp-carousel-dots {
+    gap: 4px;
+  }
+
+  .sp-carousel-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .sp-carousel-dot--active {
+    width: 18px;
+  }
+}
+
 /* ---- Reduced motion ---- */
 
 @media (prefers-reduced-motion: reduce) {

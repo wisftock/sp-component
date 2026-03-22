@@ -2,7 +2,83 @@
   display: block;
 }
 
+.sp-pagination-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .sp-pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sp-pagination-label {
+  font-size: 13px;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.sp-pagination-size {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.sp-pagination-size-select {
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  font-family: inherit;
+  background: white;
+  cursor: pointer;
+}
+
+.sp-pagination-jump {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.sp-pagination-jump-input {
+  width: 56px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  font-family: inherit;
+  text-align: center;
+}
+
+.sp-pagination-jump-btn {
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background: white;
+  font-size: 13px;
+  font-family: inherit;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.sp-pagination-jump-btn:hover:not(:disabled) {
+  background: #f3f4f6;
+}
+
+/* Mobile: hide page numbers, show only current/total */
+.sp-pagination-mobile-label {
+  display: none;
+  font-size: 14px;
+  color: #374151;
+}
+
+.sp-pagination-pages {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -65,6 +141,24 @@
 .sp-pagination-btn:focus-visible {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
+}
+
+/* Responsive: on mobile show only prev/next + current page indicator */
+@media (max-width: 480px) {
+  .sp-pagination-pages {
+    display: none;
+  }
+  .sp-pagination-mobile-label {
+    display: inline;
+  }
+  .sp-pagination-first,
+  .sp-pagination-last {
+    display: none;
+  }
+  .sp-pagination-size,
+  .sp-pagination-jump {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

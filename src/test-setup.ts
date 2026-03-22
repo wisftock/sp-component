@@ -40,7 +40,7 @@ class _PatchedFormData extends _OriginalFormData {
     if (form) {
       form.querySelectorAll("*").forEach((el) => {
         const value = _formValueMap.get(el as HTMLElement);
-        const name = el.getAttribute("name");
+        const name = (el as HTMLElement & { name?: string }).name || el.getAttribute("name");
         if (name && value !== null && value !== undefined) {
           this.append(name, value as string);
         }

@@ -1,0 +1,46 @@
+:host {
+  display: inline-block;
+}
+
+.sp-button-group {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+:host([orientation="vertical"]) .sp-button-group {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Attached — horizontal */
+:host([attached]) .sp-button-group {
+  gap: 0;
+}
+
+:host([attached]) ::slotted(sp-button:not(:first-child)) {
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+:host([attached]) ::slotted(sp-button:not(:last-child)) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Attached — vertical */
+:host([attached][orientation="vertical"]) ::slotted(sp-button:not(:first-child)) {
+  border-left: unset;
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+:host([attached][orientation="vertical"]) ::slotted(sp-button:not(:last-child)) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}

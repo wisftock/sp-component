@@ -1,0 +1,63 @@
+/* -------------------------------------------------------
+   sp-kbd — Component styles
+   Styled to look like a physical keyboard key.
+   ------------------------------------------------------- */
+
+:host {
+  display: inline-block;
+  vertical-align: middle;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+/* ---- Base key ---- */
+
+kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.8em;
+  padding: 0.2em 0.5em;
+  background: linear-gradient(to bottom, #f9fafb, #f3f4f6);
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  box-shadow:
+    inset 0 -1px 0 #9ca3af,
+    0 1px 3px rgba(0, 0, 0, 0.12);
+  color: #1f2937;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ---- Size variants ---- */
+
+:host([size="sm"]) kbd {
+  font-size: 10px;
+  min-width: 1.6em;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+}
+
+:host([size="md"]) kbd {
+  font-size: 13px;
+}
+
+:host([size="lg"]) kbd {
+  font-size: 16px;
+  min-width: 2em;
+  padding: 0.25em 0.6em;
+  border-radius: 5px;
+}
+
+/* ---- Reduced motion ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

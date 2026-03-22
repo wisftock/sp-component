@@ -1,0 +1,52 @@
+/* -------------------------------------------------------
+   sp-context-menu — Component styles
+   ------------------------------------------------------- */
+
+:host {
+  display: contents;
+}
+
+/* ---- Trigger wrapper ---- */
+
+.sp-context-menu-trigger {
+  display: contents;
+}
+
+/* ---- Menu panel ---- */
+
+.sp-context-menu-panel {
+  position: fixed;
+  z-index: 9999;
+  min-width: 160px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.06);
+  padding: 4px 0;
+  animation: sp-context-menu-fadein 0.12s ease;
+}
+
+@keyframes sp-context-menu-fadein {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ---- Default slot items (generic styling) ---- */
+
+::slotted([slot="menu"]) {
+  display: block;
+}
+
+/* ---- Reduced motion ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-context-menu-panel {
+    animation: none;
+  }
+}

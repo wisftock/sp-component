@@ -54,3 +54,4 @@ export * from "./components/command-palette/index.js";
 export * from "./components/split-panel/index.js";
 export * from "./components/scroll-area/index.js";
 export * from "./components/tree/index.js";
+export * from "./components/gallery/index.js";

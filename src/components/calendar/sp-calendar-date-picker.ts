@@ -185,7 +185,7 @@ export class SpCalendarDatePickerComponent extends LitElement {
     }
   }
 
-  private _handleCalendarChange = (e: CustomEvent<any>): void => {
+  _handleCalendarChange = (e: CustomEvent<any>): void => {
     const detail = e.detail;
     if (this.mode === "range") {
       this.valueStart = detail.valueStart ?? "";
@@ -206,7 +206,7 @@ export class SpCalendarDatePickerComponent extends LitElement {
     this.dispatchEvent(new CustomEvent("sp-change", { detail, bubbles: true, composed: true }));
   };
 
-  private _handleOutsideClick = (e: MouseEvent): void => {
+  _handleOutsideClick = (e: MouseEvent): void => {
     const path = e.composedPath();
     if (path.length === 0) return;
     const target = path[0] as Node;

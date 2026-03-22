@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+.sp-checkbox-group {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sp-checkbox-group-legend {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+:host([error]) .sp-checkbox-group-legend {
+  color: #ef4444;
+}
+
+.sp-checkbox-group-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+:host([orientation="horizontal"]) .sp-checkbox-group-options {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.sp-checkbox-group-error {
+  display: block;
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 4px;
+}
+
+.sp-checkbox-group-hint {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}

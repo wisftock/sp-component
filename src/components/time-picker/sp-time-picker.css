@@ -1,0 +1,307 @@
+/* -------------------------------------------------------
+   sp-time-picker — Component styles
+   ------------------------------------------------------- */
+
+:host {
+  display: block;
+  font-family: inherit;
+  position: relative;
+}
+
+/* ---- Label ---- */
+
+.sp-time-picker-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.sp-required {
+  color: #ef4444;
+}
+
+/* ---- Field (trigger) ---- */
+
+.sp-time-picker-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-width: 160px;
+}
+
+.sp-time-picker-field:hover:not(.sp-time-picker-field--disabled) {
+  border-color: #9ca3af;
+}
+
+.sp-time-picker-field--open {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.sp-time-picker-field--error {
+  border-color: #ef4444;
+}
+
+.sp-time-picker-field--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f9fafb;
+}
+
+/* ---- Icon ---- */
+
+.sp-time-picker-icon {
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+/* ---- Input ---- */
+
+.sp-time-picker-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: inherit;
+  color: #111827;
+  padding: 8px 0;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.sp-time-picker-input::placeholder {
+  color: #9ca3af;
+}
+
+.sp-time-picker-input:disabled {
+  cursor: not-allowed;
+}
+
+/* ---- Clear button ---- */
+
+.sp-time-picker-clear {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #9ca3af;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+.sp-time-picker-clear:hover {
+  color: #374151;
+}
+
+/* ---- Panel ---- */
+
+.sp-time-picker-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 1000;
+  width: 220px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+/* ---- Columns ---- */
+
+.sp-time-picker-columns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 16px 16px 8px;
+}
+
+.sp-time-picker-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.sp-time-picker-sep {
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 2px;
+}
+
+.sp-time-picker-arrow {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #6b7280;
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sp-time-picker-arrow:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.sp-time-picker-value {
+  font-size: 20px;
+  font-weight: 600;
+  font-family: monospace;
+  color: #111827;
+  min-width: 2ch;
+  text-align: center;
+}
+
+.sp-time-picker-col--period .sp-time-picker-value {
+  font-size: 16px;
+  font-family: inherit;
+}
+
+/* ---- Presets ---- */
+
+.sp-time-picker-presets {
+  max-height: 160px;
+  overflow-y: auto;
+  border-top: 1px solid #f3f4f6;
+  padding: 4px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+.sp-time-picker-option {
+  display: block;
+  width: 100%;
+  padding: 6px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 13px;
+  font-family: monospace;
+  color: #374151;
+  transition: background 0.1s;
+}
+
+.sp-time-picker-option:hover {
+  background: #f3f4f6;
+}
+
+.sp-time-picker-option--selected {
+  background: #eff6ff;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* ---- Actions ---- */
+
+.sp-time-picker-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-top: 1px solid #f3f4f6;
+  gap: 8px;
+}
+
+.sp-time-picker-now,
+.sp-time-picker-ok {
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+
+.sp-time-picker-now {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.sp-time-picker-now:hover {
+  background: #e5e7eb;
+}
+
+.sp-time-picker-ok {
+  background: #3b82f6;
+  color: white;
+}
+
+.sp-time-picker-ok:hover {
+  background: #2563eb;
+}
+
+/* ---- Error & hint ---- */
+
+.sp-time-picker-error {
+  display: block;
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 4px;
+}
+
+.sp-time-picker-hint {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* ---- Sizes ---- */
+
+:host([size="sm"]) .sp-time-picker-field {
+  padding: 0 8px;
+}
+
+:host([size="sm"]) .sp-time-picker-input {
+  padding: 5px 0;
+  font-size: 12px;
+}
+
+:host([size="lg"]) .sp-time-picker-field {
+  padding: 0 16px;
+}
+
+:host([size="lg"]) .sp-time-picker-input {
+  padding: 12px 0;
+  font-size: 16px;
+}
+
+/* ---- Disabled ---- */
+
+:host([disabled]) .sp-time-picker-field {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f9fafb;
+}
+
+/* ---- Reduced motion ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-time-picker-field,
+  .sp-time-picker-arrow,
+  .sp-time-picker-option,
+  .sp-time-picker-now,
+  .sp-time-picker-ok {
+    transition: none;
+  }
+}

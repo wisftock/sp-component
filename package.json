@@ -1,5 +1,5 @@
 {
-  "name": "libreria-component",
+  "name": "sp-component",
   "version": "0.0.1",
   "description": "Librería de Web Components compatible con Angular, React, Vue y cualquier framework",
   "type": "module",

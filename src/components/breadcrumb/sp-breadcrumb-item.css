@@ -9,7 +9,7 @@
 }
 
 .sp-breadcrumb-link {
-  color: #3b82f6;
+  color: var(--sp-primary, #3b82f6);
   text-decoration: none;
   font-size: 14px;
 }
@@ -19,17 +19,17 @@
 }
 
 .sp-breadcrumb-separator {
-  color: #9ca3af;
+  color: var(--sp-text-placeholder, #9ca3af);
   font-size: 14px;
 }
 
 .sp-breadcrumb-current {
-  color: #6b7280;
+  color: var(--sp-text-muted, #6b7280);
   font-size: 14px;
 }
 
 .sp-breadcrumb-link:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--sp-primary, #3b82f6);
   outline-offset: 2px;
 }
 

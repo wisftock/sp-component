@@ -11,7 +11,7 @@ dialog {
 }
 
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--sp-overlay, rgba(0, 0, 0, 0.5));
 }
 
 :host([placement="right"]) dialog {
@@ -35,7 +35,7 @@ dialog::backdrop {
 }
 
 .sp-drawer-panel {
-  background: white;
+  background: var(--sp-bg, white);
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -91,7 +91,7 @@ dialog::backdrop {
   border: none;
   cursor: pointer;
   font-size: 18px;
-  color: #6b7280;
+  color: var(--sp-text-muted, #6b7280);
   padding: 4px;
   line-height: 1;
   border-radius: 4px;
@@ -99,12 +99,12 @@ dialog::backdrop {
 }
 
 .sp-drawer-close:hover {
-  color: #111827;
-  background: #f3f4f6;
+  color: var(--sp-text, #111827);
+  background: var(--sp-bg-muted, #f3f4f6);
 }
 
 .sp-drawer-close:focus-visible {
-  outline: 2px solid #2563eb;
+  outline: 2px solid var(--sp-primary-hover, #2563eb);
   outline-offset: 2px;
 }
 
@@ -128,14 +128,14 @@ dialog::backdrop {
   padding: 20px 20px 16px;
   font-size: 18px;
   font-weight: 600;
-  color: #111827;
-  border-bottom: 1px solid #e5e7eb;
+  color: var(--sp-text, #111827);
+  border-bottom: 1px solid var(--sp-border-subtle, #e5e7eb);
 }
 
 ::slotted([slot="footer"]) {
   display: block;
   padding: 16px 20px 20px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--sp-border-subtle, #e5e7eb);
 }
 
 @media (max-width: 480px) {

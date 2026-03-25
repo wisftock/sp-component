@@ -17,7 +17,7 @@ function createElement(): SpComboboxComponent {
   return el;
 }
 
-describe("sp-combobox", () => {
+describe("sp-combobox — single mode", () => {
   let el: SpComboboxComponent;
 
   beforeEach(() => {
@@ -184,5 +184,91 @@ describe("sp-combobox", () => {
     input.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
     await el.updateComplete;
     expect(el._open).toBe(false);
+  });
+});
+
+describe("sp-combobox — multiple mode", () => {
+  let el: SpComboboxComponent;
+
+  beforeEach(() => {
+    document.body.innerHTML = "";
+    el = document.createElement("sp-combobox") as SpComboboxComponent;
+    el.options = TEST_OPTIONS;
+    el.multiple = true;
+    document.body.appendChild(el);
+  });
+
+  it("renders multi-wrap instead of single input", async () => {
+    await el.updateComplete;
+    expect(el.shadowRoot?.querySelector(".sp-combobox-multi-wrap")).not.toBeNull();
+  });
+
+  it("adds values on selection and keeps dropdown open", async () => {
+    await el.updateComplete;
+    el._open = true;
+    el._handleSelect(TEST_OPTIONS[0]);
+    el._handleSelect(TEST_OPTIONS[1]);
+    expect(el.values).toEqual(["apple", "banana"]);
+    expect(el._open).toBe(true);
+  });
+
+  it("toggles off an already-selected value", async () => {
+    await el.updateComplete;
+    el._handleSelect(TEST_OPTIONS[0]);
+    el._handleSelect(TEST_OPTIONS[0]);
+    expect(el.values).toEqual([]);
+  });
+
+  it("emits sp-change with values array", async () => {
+    await el.updateComplete;
+    const listener = vi.fn();
+    el.addEventListener("sp-change", listener);
+    el._handleSelect(TEST_OPTIONS[0]);
+    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({ values: ["apple"] });
+  });
+
+  it("respects maxSelections", async () => {
+    el.maxSelections = 2;
+    await el.updateComplete;
+    el._handleSelect(TEST_OPTIONS[0]);
+    el._handleSelect(TEST_OPTIONS[1]);
+    el._handleSelect(TEST_OPTIONS[2]); // should be ignored
+    expect(el.values).toEqual(["apple", "banana"]);
+  });
+
+  it("shows tags for selected values", async () => {
+    el.values = ["apple", "banana"];
+    await el.updateComplete;
+    const tags = el.shadowRoot?.querySelectorAll(".sp-combobox-tag");
+    expect(tags?.length).toBe(2);
+  });
+
+  it("removes a value when tag × is clicked", async () => {
+    el.values = ["apple", "banana"];
+    await el.updateComplete;
+    const removeBtn = el.shadowRoot?.querySelector<HTMLButtonElement>(".sp-combobox-tag-remove")!;
+    removeBtn.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+    await el.updateComplete;
+    expect(el.values).not.toContain("apple");
+  });
+
+  it("removes last tag on Backspace when query is empty", async () => {
+    el.values = ["apple", "banana"];
+    await el.updateComplete;
+    const input = el.shadowRoot?.querySelector<HTMLInputElement>(".sp-ac-input--multi, .sp-combobox-input--multi")!;
+    el._searchText = "";
+    el._handleKeydown(new KeyboardEvent("keydown", { key: "Backspace" }));
+    await el.updateComplete;
+    expect(el.values).toEqual(["apple"]);
+  });
+
+  it("clears all values when clear button is clicked", async () => {
+    el.clearable = true;
+    el.values = ["apple", "banana"];
+    await el.updateComplete;
+    const clearBtn = el.shadowRoot?.querySelector<HTMLButtonElement>(".sp-combobox-clear")!;
+    clearBtn.click();
+    await el.updateComplete;
+    expect(el.values).toEqual([]);
   });
 });

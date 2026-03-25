@@ -62,27 +62,27 @@ a {
 
 :host([variant="primary"]) button,
 :host([variant="primary"]) a {
-  background-color: #3b82f6;
-  color: #ffffff;
+  background-color: var(--sp-primary, #3b82f6);
+  color: var(--sp-bg, #ffffff);
 }
 
 :host([variant="secondary"]) button,
 :host([variant="secondary"]) a {
-  background-color: #6b7280;
-  color: #ffffff;
+  background-color: var(--sp-text-muted, #6b7280);
+  color: var(--sp-bg, #ffffff);
 }
 
 :host([variant="ghost"]) button,
 :host([variant="ghost"]) a {
   background-color: transparent;
-  color: #3b82f6;
-  border: 1px solid #3b82f6;
+  color: var(--sp-primary, #3b82f6);
+  border: 1px solid var(--sp-primary, #3b82f6);
 }
 
 :host([variant="destructive"]) button,
 :host([variant="destructive"]) a {
-  background-color: #ef4444;
-  color: #ffffff;
+  background-color: var(--sp-error, #FF4D4F);
+  color: var(--sp-bg, #ffffff);
 }
 
 /* ---- Hover (only when not disabled/loading) ---- */
@@ -133,7 +133,7 @@ a {
 
 button:focus-visible,
 a:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--sp-primary, #3b82f6);
   outline-offset: 2px;
 }
 

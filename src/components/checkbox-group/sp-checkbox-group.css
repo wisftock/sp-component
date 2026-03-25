@@ -11,12 +11,12 @@
 .sp-checkbox-group-legend {
   font-size: 14px;
   font-weight: 500;
-  color: #374151;
+  color: var(--sp-text-secondary, #374151);
   margin-bottom: 8px;
 }
 
 :host([error]) .sp-checkbox-group-legend {
-  color: #ef4444;
+  color: var(--sp-error, #FF4D4F);
 }
 
 .sp-checkbox-group-options {
@@ -34,13 +34,13 @@
 .sp-checkbox-group-error {
   display: block;
   font-size: 12px;
-  color: #ef4444;
+  color: var(--sp-error, #FF4D4F);
   margin-top: 4px;
 }
 
 .sp-checkbox-group-hint {
   display: block;
   font-size: 12px;
-  color: #6b7280;
+  color: var(--sp-text-muted, #6b7280);
   margin-top: 4px;
 }

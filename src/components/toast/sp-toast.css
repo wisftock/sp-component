@@ -7,20 +7,20 @@
 .sp-toast-close { background: none; border: none; cursor: pointer; opacity: 0.6; font-size: 14px; padding: 0; flex-shrink: 0; }
 .sp-toast-close:hover { opacity: 1; }
 .sp-toast-action { background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 600; padding: 2px 6px; border-radius: 4px; flex-shrink: 0; text-decoration: none; }
-:host([variant="neutral"]) .sp-toast { background: #1f2937; color: white; }
+:host([variant="neutral"]) .sp-toast { background: var(--sp-text-secondary, #1f2937); color: var(--sp-bg, white); }
 :host([variant="neutral"]) .sp-toast-action { color: #93c5fd; }
-:host([variant="info"]) .sp-toast { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
-:host([variant="info"]) .sp-toast-action { color: #1d4ed8; }
+:host([variant="info"]) .sp-toast { background: var(--sp-primary-bg, #eff6ff); border: 1px solid #bfdbfe; color: #1e40af; }
+:host([variant="info"]) .sp-toast-action { color: var(--sp-primary-active, #1d4ed8); }
 :host([variant="success"]) .sp-toast { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
 :host([variant="success"]) .sp-toast-action { color: #15803d; }
-:host([variant="warning"]) .sp-toast { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+:host([variant="warning"]) .sp-toast { background: var(--sp-warning-bg, #FFFBE6); border: 1px solid #fde68a; color: #92400e; }
 :host([variant="warning"]) .sp-toast-action { color: #b45309; }
-:host([variant="error"]) .sp-toast { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+:host([variant="error"]) .sp-toast { background: var(--sp-error-bg, #FFF2F0); border: 1px solid #fecaca; color: #991b1b; }
 :host([variant="error"]) .sp-toast-action { color: #b91c1c; }
 
 .sp-toast-close:focus-visible,
 .sp-toast-action:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--sp-primary, #3b82f6);
   outline-offset: 2px;
 }
 

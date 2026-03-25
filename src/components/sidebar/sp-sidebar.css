@@ -1,11 +1,8 @@
-:host {
-  display: block;
-  height: 100%;
-}
+:host { display: block; height: 100%; }
 
 .sp-sidebar {
   height: 100%;
-  background: white;
+  background: var(--sp-bg, white);
   display: flex;
   flex-direction: column;
   transition: width 0.25s ease;
@@ -14,22 +11,10 @@
   box-sizing: border-box;
 }
 
-:host([bordered]) .sp-sidebar {
-  border-right: 1px solid #e5e7eb;
-}
+:host([bordered]) .sp-sidebar { border-right: 1px solid var(--sp-border-subtle, #e5e7eb); }
+:host([placement="right"]) :host([bordered]) .sp-sidebar { border-right: none; border-left: 1px solid var(--sp-border-subtle, #e5e7eb); }
 
-:host([placement="right"]) :host([bordered]) .sp-sidebar {
-  border-right: none;
-  border-left: 1px solid #e5e7eb;
-}
-
-.sp-sidebar-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+.sp-sidebar-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden; }
 
 .sp-sidebar-toggle {
   position: absolute;
@@ -39,8 +24,8 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 1px solid #e5e7eb;
-  background: white;
+  border: 1px solid var(--sp-border-subtle, #e5e7eb);
+  background: var(--sp-bg, white);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -49,36 +34,15 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
-.sp-sidebar-toggle:hover {
-  background: #f3f4f6;
-}
+.sp-sidebar-toggle:hover { background: var(--sp-bg-muted, #f3f4f6); }
 
-::slotted([slot="header"]) {
-  display: block;
-  padding: 16px;
-  border-bottom: 1px solid #f3f4f6;
-}
+::slotted([slot="header"]) { display: block; padding: 16px; border-bottom: 1px solid var(--sp-bg-muted, #f3f4f6); }
+::slotted([slot="footer"]) { display: block; padding: 16px; border-top: 1px solid var(--sp-bg-muted, #f3f4f6); margin-top: auto; }
 
-::slotted([slot="footer"]) {
-  display: block;
-  padding: 16px;
-  border-top: 1px solid #f3f4f6;
-  margin-top: auto;
-}
-
-.sp-sidebar-toggle:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
+.sp-sidebar-toggle:focus-visible { outline: 2px solid var(--sp-primary, #3b82f6); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
-  :host {
-    transition: none !important;
-  }
-  button, a, [role="button"] {
-    transition: none !important;
-  }
-  .sp-sidebar {
-    transition: none !important;
-  }
+  :host { transition: none !important; }
+  button, a, [role="button"] { transition: none !important; }
+  .sp-sidebar { transition: none !important; }
 }

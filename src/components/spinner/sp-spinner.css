@@ -1,4 +1,4 @@
-:host { display: inline-flex; align-items: center; justify-content: center; color: #3b82f6; }
+:host { display: inline-flex; align-items: center; justify-content: center; color: var(--sp-primary, #3b82f6); }
 .sp-spinner { display: flex; animation: sp-spin 0.75s linear infinite; }
 .sp-spinner svg { display: block; }
 :host([size="sm"]) .sp-spinner svg { width: 16px; height: 16px; }
@@ -7,15 +7,7 @@
 :host([size="xl"]) .sp-spinner svg { width: 48px; height: 48px; }
 .sp-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0; }
 @keyframes sp-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  .sp-spinner {
-    animation: none;
-    opacity: 0.6;
-  }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .sp-spinner { animation: none; opacity: 0.6; }
 }

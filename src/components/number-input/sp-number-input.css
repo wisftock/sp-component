@@ -2,213 +2,67 @@
    sp-number-input — Component styles
    ------------------------------------------------------- */
 
-:host {
-  display: block;
-  font-family: inherit;
-  box-sizing: border-box;
-}
+:host { display: block; font-family: inherit; box-sizing: border-box; }
 
-/* ---- Wrapper ---- */
-
-.sp-number-input {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* ---- Label ---- */
-
-.sp-number-input-label {
-  display: block;
-  font-size: 13px;
-  font-weight: 500;
-  color: #374151;
-  line-height: 1.4;
-}
-
-/* ---- Control row ---- */
+.sp-number-input { display: flex; flex-direction: column; gap: 4px; width: 100%; box-sizing: border-box; }
+.sp-number-input-label { display: block; font-size: 13px; font-weight: 500; color: var(--sp-text-secondary, #374151); line-height: 1.4; }
 
 .sp-number-input-control {
-  display: flex;
-  align-items: stretch;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  overflow: hidden;
-  background: #ffffff;
-  transition: border-color 0.2s;
+  display: flex; align-items: stretch;
+  border: 1px solid var(--sp-border, #d1d5db);
+  border-radius: 6px; overflow: hidden;
+  background: var(--sp-bg, #ffffff); transition: border-color 0.2s;
 }
 
 .sp-number-input-control:focus-within {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+  border-color: var(--sp-primary, #3b82f6);
+  box-shadow: 0 0 0 3px var(--sp-primary-focus, rgba(59, 130, 246, 0.12));
 }
-
-/* ---- Buttons ---- */
 
 .sp-number-input-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #f9fafb;
-  border: none;
-  color: #374151;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: inherit;
-  line-height: 1;
-  padding: 0;
-  flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--sp-bg-subtle, #f9fafb);
+  border: none; color: var(--sp-text-secondary, #374151);
+  cursor: pointer; font-size: 16px; font-family: inherit;
+  line-height: 1; padding: 0; flex-shrink: 0;
   transition: background 0.15s, color 0.15s;
-  user-select: none;
-  -webkit-user-select: none;
+  user-select: none; -webkit-user-select: none;
 }
 
-.sp-number-input-btn:hover {
-  background: #e5e7eb;
-  color: #111827;
-}
-
-.sp-number-input-btn:active {
-  background: #d1d5db;
-}
-
-.sp-number-input-btn:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: -2px;
-  z-index: 1;
-}
-
-.sp-number-input-btn--dec {
-  border-right: 1px solid #e5e7eb;
-}
-
-.sp-number-input-btn--inc {
-  border-left: 1px solid #e5e7eb;
-}
-
-/* ---- Input field ---- */
+.sp-number-input-btn:hover { background: var(--sp-border-subtle, #e5e7eb); color: var(--sp-text, #111827); }
+.sp-number-input-btn:active { background: var(--sp-border, #d1d5db); }
+.sp-number-input-btn:focus-visible { outline: 2px solid var(--sp-primary, #3b82f6); outline-offset: -2px; z-index: 1; }
+.sp-number-input-btn--dec { border-right: 1px solid var(--sp-border-subtle, #e5e7eb); }
+.sp-number-input-btn--inc { border-left: 1px solid var(--sp-border-subtle, #e5e7eb); }
 
 .sp-number-input-field {
-  flex: 1;
-  min-width: 0;
-  border: none;
-  outline: none;
-  text-align: center;
-  background: transparent;
-  font-family: inherit;
-  color: #111827;
-  box-sizing: border-box;
-
-  /* Remove native spinners */
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
-  appearance: textfield;
+  flex: 1; min-width: 0; border: none; outline: none; text-align: center;
+  background: transparent; font-family: inherit; color: var(--sp-text, #111827);
+  box-sizing: border-box; -webkit-appearance: none; -moz-appearance: textfield; appearance: textfield;
 }
 
 .sp-number-input-field::-webkit-outer-spin-button,
-.sp-number-input-field::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+.sp-number-input-field::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.sp-number-input-field::placeholder { color: var(--sp-text-placeholder, #9ca3af); }
 
-.sp-number-input-field::placeholder {
-  color: #9ca3af;
-}
+:host([size="sm"]) .sp-number-input-btn { width: 28px; height: 28px; font-size: 14px; }
+:host([size="sm"]) .sp-number-input-field { height: 28px; font-size: 12px; padding: 0 6px; }
+:host([size="sm"]) .sp-number-input-label { font-size: 12px; }
+:host([size="md"]) .sp-number-input-btn { width: 36px; height: 36px; font-size: 16px; }
+:host([size="md"]) .sp-number-input-field { height: 36px; font-size: 14px; padding: 0 8px; }
+:host([size="lg"]) .sp-number-input-btn { width: 44px; height: 44px; font-size: 18px; }
+:host([size="lg"]) .sp-number-input-field { height: 44px; font-size: 16px; padding: 0 10px; }
 
-/* ---- Size variants ---- */
+.sp-number-input--error .sp-number-input-control { border-color: var(--sp-error, #FF4D4F); }
+.sp-number-input--error .sp-number-input-control:focus-within { border-color: var(--sp-error, #FF4D4F); box-shadow: 0 0 0 3px var(--sp-error-focus, rgba(255, 77, 79, 0.12)); }
 
-:host([size="sm"]) .sp-number-input-btn {
-  width: 28px;
-  height: 28px;
-  font-size: 14px;
-}
+.sp-number-input--disabled .sp-number-input-control { background: var(--sp-bg-muted, #f3f4f6); border-color: var(--sp-border-subtle, #e5e7eb); cursor: not-allowed; }
+.sp-number-input--disabled .sp-number-input-btn { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+.sp-number-input--disabled .sp-number-input-field { color: var(--sp-text-placeholder, #9ca3af); cursor: not-allowed; pointer-events: none; }
 
-:host([size="sm"]) .sp-number-input-field {
-  height: 28px;
-  font-size: 12px;
-  padding: 0 6px;
-}
-
-:host([size="sm"]) .sp-number-input-label {
-  font-size: 12px;
-}
-
-:host([size="md"]) .sp-number-input-btn {
-  width: 36px;
-  height: 36px;
-  font-size: 16px;
-}
-
-:host([size="md"]) .sp-number-input-field {
-  height: 36px;
-  font-size: 14px;
-  padding: 0 8px;
-}
-
-:host([size="lg"]) .sp-number-input-btn {
-  width: 44px;
-  height: 44px;
-  font-size: 18px;
-}
-
-:host([size="lg"]) .sp-number-input-field {
-  height: 44px;
-  font-size: 16px;
-  padding: 0 10px;
-}
-
-/* ---- Error state ---- */
-
-.sp-number-input--error .sp-number-input-control {
-  border-color: #ef4444;
-}
-
-.sp-number-input--error .sp-number-input-control:focus-within {
-  border-color: #ef4444;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
-}
-
-/* ---- Disabled state ---- */
-
-.sp-number-input--disabled .sp-number-input-control {
-  background: #f3f4f6;
-  border-color: #e5e7eb;
-  cursor: not-allowed;
-}
-
-.sp-number-input--disabled .sp-number-input-btn {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.sp-number-input--disabled .sp-number-input-field {
-  color: #9ca3af;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-/* ---- Messages ---- */
-
-.sp-number-input-hint {
-  font-size: 12px;
-  color: #6b7280;
-  line-height: 1.4;
-}
-
-.sp-number-input-error {
-  font-size: 12px;
-  color: #ef4444;
-  line-height: 1.4;
-}
-
-/* ---- Reduced motion ---- */
+.sp-number-input-hint  { font-size: 12px; color: var(--sp-text-muted, #6b7280); line-height: 1.4; }
+.sp-number-input-error { font-size: 12px; color: var(--sp-error, #FF4D4F); line-height: 1.4; }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

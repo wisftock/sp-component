@@ -1,51 +1,21 @@
 :host { display: block; width: 100%; }
 .sp-progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.sp-progress-label { font-size: 14px; color: #374151; font-weight: 500; }
-.sp-progress-value { font-size: 12px; color: #6b7280; }
-.sp-progress-track { width: 100%; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
-.sp-progress-fill { height: 100%; border-radius: 4px; background: #3b82f6; transition: width 0.3s ease; }
+.sp-progress-label { font-size: 14px; color: var(--sp-text-secondary, #374151); font-weight: 500; }
+.sp-progress-value { font-size: 12px; color: var(--sp-text-muted, #6b7280); }
+.sp-progress-track { width: 100%; height: 8px; background: var(--sp-border-subtle, #e5e7eb); border-radius: 4px; overflow: hidden; }
+.sp-progress-fill { height: 100%; border-radius: 4px; background: var(--sp-primary, #3b82f6); transition: width 0.3s ease; }
 :host([variant="success"]) .sp-progress-fill { background: #22c55e; }
-:host([variant="warning"]) .sp-progress-fill { background: #f59e0b; }
-:host([variant="danger"]) .sp-progress-fill { background: #ef4444; }
+:host([variant="warning"]) .sp-progress-fill { background: var(--sp-warning, #FAAD14); }
+:host([variant="danger"])  .sp-progress-fill { background: var(--sp-error, #FF4D4F); }
 .sp-progress-fill--indeterminate { width: 40%; animation: sp-progress-indeterminate 1.5s ease-in-out infinite; }
-@keyframes sp-progress-indeterminate {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(350%); }
-}
-
-/* Striped pattern */
+@keyframes sp-progress-indeterminate { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
 .sp-progress-fill--striped {
-  background-image: linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.2) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.2) 75%,
-    transparent 75%,
-    transparent
-  );
+  background-image: linear-gradient(45deg, rgba(255,255,255,0.2) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, transparent 75%, transparent);
   background-size: 1rem 1rem;
 }
-
-/* Animated stripes (requires striped) */
-.sp-progress-fill--animated {
-  animation: sp-progress-stripes 1s linear infinite;
-}
-
-@keyframes sp-progress-stripes {
-  0% { background-position: 1rem 0; }
-  100% { background-position: 0 0; }
-}
-
+.sp-progress-fill--animated { animation: sp-progress-stripes 1s linear infinite; }
+@keyframes sp-progress-stripes { 0% { background-position: 1rem 0; } 100% { background-position: 0 0; } }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  .sp-progress-fill,
-  .sp-progress-track {
-    transition: none;
-  }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .sp-progress-fill, .sp-progress-track { transition: none; }
 }

@@ -1,6 +1,4 @@
-:host {
-  display: block;
-}
+:host { display: block; }
 
 .sp-pagination-wrapper {
   display: inline-flex;
@@ -17,7 +15,7 @@
 
 .sp-pagination-label {
   font-size: 13px;
-  color: #6b7280;
+  color: var(--sp-text-muted, #6b7280);
   white-space: nowrap;
 }
 
@@ -26,16 +24,17 @@
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: #6b7280;
+  color: var(--sp-text-muted, #6b7280);
 }
 
 .sp-pagination-size-select {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--sp-border-subtle, #e5e7eb);
   border-radius: 4px;
   padding: 2px 6px;
   font-size: 13px;
   font-family: inherit;
-  background: white;
+  background: var(--sp-bg, white);
+  color: var(--sp-text, #111827);
   cursor: pointer;
 }
 
@@ -44,23 +43,26 @@
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: #6b7280;
+  color: var(--sp-text-muted, #6b7280);
 }
 
 .sp-pagination-jump-input {
   width: 56px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--sp-border-subtle, #e5e7eb);
   border-radius: 4px;
   padding: 2px 6px;
   font-size: 13px;
   font-family: inherit;
   text-align: center;
+  background: var(--sp-bg, white);
+  color: var(--sp-text, #111827);
 }
 
 .sp-pagination-jump-btn {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--sp-border-subtle, #e5e7eb);
   border-radius: 4px;
-  background: white;
+  background: var(--sp-bg, white);
+  color: var(--sp-text-secondary, #374151);
   font-size: 13px;
   font-family: inherit;
   padding: 2px 8px;
@@ -68,14 +70,13 @@
 }
 
 .sp-pagination-jump-btn:hover:not(:disabled) {
-  background: #f3f4f6;
+  background: var(--sp-bg-muted, #f3f4f6);
 }
 
-/* Mobile: hide page numbers, show only current/total */
 .sp-pagination-mobile-label {
   display: none;
   font-size: 14px;
-  color: #374151;
+  color: var(--sp-text-secondary, #374151);
 }
 
 .sp-pagination-pages {
@@ -91,36 +92,33 @@
   min-width: 36px;
   height: 36px;
   padding: 0 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--sp-border-subtle, #e5e7eb);
   border-radius: 6px;
-  background: white;
+  background: var(--sp-bg, white);
   font-size: 14px;
-  color: #374151;
+  color: var(--sp-text-secondary, #374151);
   cursor: pointer;
   transition: all 0.15s;
   font-family: inherit;
 }
 
 .sp-pagination-btn:hover:not(:disabled) {
-  background: #f3f4f6;
-  border-color: #d1d5db;
+  background: var(--sp-bg-muted, #f3f4f6);
+  border-color: var(--sp-border, #d1d5db);
 }
 
 .sp-pagination-btn--active {
-  background: #3b82f6;
-  border-color: #3b82f6;
-  color: white;
+  background: var(--sp-primary, #3b82f6);
+  border-color: var(--sp-primary, #3b82f6);
+  color: var(--sp-bg, white);
   font-weight: 600;
 }
 
 .sp-pagination-btn--active:hover {
-  background: #2563eb;
+  background: var(--sp-primary-hover, #2563eb);
 }
 
-.sp-pagination-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
+.sp-pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .sp-pagination-dots {
   display: inline-flex;
@@ -128,7 +126,7 @@
   justify-content: center;
   min-width: 36px;
   height: 36px;
-  color: #9ca3af;
+  color: var(--sp-text-placeholder, #9ca3af);
   font-size: 14px;
 }
 
@@ -139,33 +137,18 @@
 }
 
 .sp-pagination-btn:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--sp-primary, #3b82f6);
   outline-offset: 2px;
 }
 
-/* Responsive: on mobile show only prev/next + current page indicator */
 @media (max-width: 480px) {
-  .sp-pagination-pages {
-    display: none;
-  }
-  .sp-pagination-mobile-label {
-    display: inline;
-  }
-  .sp-pagination-first,
-  .sp-pagination-last {
-    display: none;
-  }
-  .sp-pagination-size,
-  .sp-pagination-jump {
-    display: none;
-  }
+  .sp-pagination-pages { display: none; }
+  .sp-pagination-mobile-label { display: inline; }
+  .sp-pagination-first, .sp-pagination-last { display: none; }
+  .sp-pagination-size, .sp-pagination-jump { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :host {
-    transition: none !important;
-  }
-  button, a, [role="button"] {
-    transition: none !important;
-  }
+  :host { transition: none !important; }
+  button, a, [role="button"] { transition: none !important; }
 }

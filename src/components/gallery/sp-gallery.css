@@ -1,6 +1,6 @@
 :host {
   display: block;
-  --sp-gallery-bg: #f8fafc;
+  --sp-gallery-bg: var(--sp-bg-subtle, #f8fafc);
   --sp-gallery-item-radius: 10px;
   --sp-gallery-caption-bg: rgba(0, 0, 0, 0.55);
   --sp-gallery-caption-color: #ffffff;
@@ -9,8 +9,8 @@
   --sp-gallery-lightbox-bg: rgba(0, 0, 0, 0.92);
   --sp-gallery-lightbox-nav-bg: rgba(255, 255, 255, 0.12);
   --sp-gallery-lightbox-nav-hover: rgba(255, 255, 255, 0.22);
-  --sp-gallery-skeleton-bg: #e2e8f0;
-  --sp-gallery-skeleton-shine: #f1f5f9;
+  --sp-gallery-skeleton-bg: var(--sp-border-subtle, #e2e8f0);
+  --sp-gallery-skeleton-shine: var(--sp-bg-subtle, #f1f5f9);
 }
 
 /* ---- Grid layout ---- */
@@ -177,7 +177,7 @@
   justify-content: center;
   gap: 12px;
   padding: 48px 24px;
-  color: #94a3b8;
+  color: var(--sp-text-placeholder, #94a3b8);
   font-size: 0.9rem;
 }
 

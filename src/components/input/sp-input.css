@@ -13,12 +13,12 @@
   display: block;
   font-size: 14px;
   font-weight: 500;
-  color: #374151;
+  color: var(--sp-text-secondary, #374151);
   margin-bottom: 4px;
 }
 
 .sp-required {
-  color: #ef4444;
+  color: var(--sp-error, #FF4D4F);
 }
 
 /* ---- Container ---- */
@@ -27,26 +27,26 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--sp-border, #d1d5db);
   border-radius: 4px;
-  background: white;
+  background: var(--sp-bg, white);
   padding: 0 12px;
   transition: border-color 0.2s;
 }
 
 .sp-input-container:focus-within {
-  border-color: #3b82f6;
-  outline: 2px solid rgba(59, 130, 246, 0.2);
+  border-color: var(--sp-primary, #3b82f6);
+  outline: 2px solid var(--sp-primary-focus, rgba(59, 130, 246, 0.2));
   outline-offset: -1px;
 }
 
 .sp-input-container--error {
-  border-color: #ef4444;
+  border-color: var(--sp-error, #FF4D4F);
 }
 
 .sp-input-container--error:focus-within {
-  border-color: #ef4444;
-  outline-color: rgba(239, 68, 68, 0.2);
+  border-color: var(--sp-error, #FF4D4F);
+  outline-color: var(--sp-error-focus, rgba(255, 77, 79, 0.2));
 }
 
 /* ---- Input ---- */
@@ -58,13 +58,13 @@ input {
   background: transparent;
   font-size: 14px;
   font-family: inherit;
-  color: #111827;
+  color: var(--sp-text, #111827);
   padding: 8px 0;
   min-width: 0;
 }
 
 input::placeholder {
-  color: #9ca3af;
+  color: var(--sp-text-placeholder, #9ca3af);
 }
 
 /* ---- Sizes ---- */
@@ -92,7 +92,7 @@ input::placeholder {
 :host([disabled]) .sp-input-container {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #f9fafb;
+  background: var(--sp-bg-subtle, #f9fafb);
 }
 
 :host([disabled]) input {
@@ -102,7 +102,7 @@ input::placeholder {
 /* ---- Readonly ---- */
 
 :host([readonly]) .sp-input-container {
-  background: #f9fafb;
+  background: var(--sp-bg-subtle, #f9fafb);
 }
 
 /* ---- Clear button ---- */
@@ -111,7 +111,7 @@ input::placeholder {
   border: none;
   background: none;
   cursor: pointer;
-  color: #9ca3af;
+  color: var(--sp-text-placeholder, #9ca3af);
   padding: 0;
   display: flex;
   align-items: center;
@@ -119,7 +119,7 @@ input::placeholder {
 }
 
 .sp-input-clear:hover {
-  color: #374151;
+  color: var(--sp-text-secondary, #374151);
 }
 
 /* ---- Messages ---- */
@@ -134,17 +134,17 @@ input::placeholder {
 
 .sp-input-error {
   font-size: 12px;
-  color: #ef4444;
+  color: var(--sp-error, #FF4D4F);
 }
 
 .sp-input-hint {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--sp-text-muted, #6b7280);
 }
 
 .sp-input-count {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--sp-text-placeholder, #9ca3af);
   margin-left: auto;
   white-space: nowrap;
 }

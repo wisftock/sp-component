@@ -10,7 +10,7 @@
 
 .sp-tabs-nav {
   display: flex;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--sp-border-subtle, #e5e7eb);
   overflow-x: auto;
   scrollbar-width: none;
   flex: 1;
@@ -27,22 +27,22 @@
   border: none;
   cursor: pointer;
   font-size: 20px;
-  color: #6b7280;
+  color: var(--sp-text-muted, #6b7280);
   padding: 0 4px;
   line-height: 1;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--sp-border-subtle, #e5e7eb);
   height: 100%;
   display: flex;
   align-items: center;
 }
 
 .sp-tabs-scroll-btn:hover {
-  color: #374151;
-  background: #f3f4f6;
+  color: var(--sp-text-secondary, #374151);
+  background: var(--sp-bg-muted, #f3f4f6);
 }
 
 .sp-tabs-scroll-btn:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--sp-primary, #3b82f6);
   outline-offset: -2px;
 }
 
@@ -58,7 +58,7 @@
 
 :host([placement="left"]) .sp-tabs-nav-wrapper {
   flex-direction: column;
-  border-right: 1px solid #e5e7eb;
+  border-right: 1px solid var(--sp-border-subtle, #e5e7eb);
 }
 
 :host([placement="left"]) .sp-tabs-nav {
@@ -69,7 +69,7 @@
 
 :host([placement="right"]) .sp-tabs-nav-wrapper {
   flex-direction: column;
-  border-left: 1px solid #e5e7eb;
+  border-left: 1px solid var(--sp-border-subtle, #e5e7eb);
   order: 1;
 }
 
@@ -91,12 +91,12 @@
 
 :host([placement="bottom"]) .sp-tabs-nav {
   border-bottom: none;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--sp-border-subtle, #e5e7eb);
 }
 
 :host([placement="bottom"]) .sp-tabs-scroll-btn {
   border-bottom: none;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--sp-border-subtle, #e5e7eb);
 }
 
 :host([placement="left"]) sp-tab .sp-tab-button,

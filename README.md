@@ -1,6 +1,6 @@
 # SP Components
 
-A library of **42 Web Components** , compatible with any framework — Angular, React, Vue, Svelte, or plain HTML.
+A library of **57 Web Components** , compatible with any framework — Angular, React, Vue, Svelte, or plain HTML.
 
 - Zero runtime dependencies (only Lit)
 - Full TypeScript support

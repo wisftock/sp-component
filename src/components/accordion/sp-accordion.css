@@ -8,12 +8,12 @@
 }
 
 :host([variant="default"]) .sp-accordion {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--sp-bg, white);
+  border: 1px solid var(--sp-border-subtle, #e5e7eb);
 }
 
 :host([variant="bordered"]) .sp-accordion {
-  border: 2px solid #3b82f6;
+  border: 2px solid var(--sp-primary, #3b82f6);
 }
 
 :host([variant="ghost"]) .sp-accordion {
@@ -21,5 +21,5 @@
 }
 
 :host([variant="ghost"]) .sp-accordion .sp-accordion-item {
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--sp-bg-muted, #f3f4f6);
 }

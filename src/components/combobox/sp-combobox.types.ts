@@ -8,6 +8,7 @@ export interface SpComboboxOption {
 
 export interface SpComboboxProps {
   value: string;
+  values: string[];
   options: SpComboboxOption[];
   placeholder: string;
   disabled: boolean;
@@ -15,6 +16,8 @@ export interface SpComboboxProps {
   name: string;
   size: SpComboboxSize;
   clearable: boolean;
+  multiple: boolean;
+  maxSelections: number;
   error: string;
   hint: string;
   label: string;

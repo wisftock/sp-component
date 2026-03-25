@@ -9,7 +9,7 @@
   padding: 10px 16px;
   font-size: 14px;
   font-weight: 500;
-  color: #6b7280;
+  color: var(--sp-text-muted, #6b7280);
   border-bottom: 2px solid transparent;
   transition: color 0.15s, border-color 0.15s;
   white-space: nowrap;
@@ -17,12 +17,12 @@
 }
 
 .sp-tab-button:hover:not(:disabled) {
-  color: #374151;
+  color: var(--sp-text-secondary, #374151);
 }
 
 .sp-tab-button--active {
-  color: #3b82f6;
-  border-bottom-color: #3b82f6;
+  color: var(--sp-primary, #3b82f6);
+  border-bottom-color: var(--sp-primary, #3b82f6);
 }
 
 .sp-tab-button:disabled {
@@ -31,12 +31,12 @@
 }
 
 :host([active]) .sp-tab-button {
-  color: #3b82f6;
-  border-bottom-color: #3b82f6;
+  color: var(--sp-primary, #3b82f6);
+  border-bottom-color: var(--sp-primary, #3b82f6);
 }
 
 .sp-tab-button:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--sp-primary, #3b82f6);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -60,14 +60,14 @@
   font-size: 11px;
   font-weight: 600;
   border-radius: 9px;
-  background: #e5e7eb;
-  color: #374151;
+  background: var(--sp-border-subtle, #e5e7eb);
+  color: var(--sp-text-secondary, #374151);
   line-height: 1;
 }
 
 .sp-tab-button--active .sp-tab-badge {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: var(--sp-primary-bg-hover, #dbeafe);
+  color: var(--sp-primary-active, #1d4ed8);
 }
 
 .sp-tab-close {
@@ -80,13 +80,13 @@
   border-radius: 3px;
   font-size: 14px;
   line-height: 1;
-  color: #9ca3af;
+  color: var(--sp-text-placeholder, #9ca3af);
   cursor: pointer;
 }
 
 .sp-tab-close:hover {
-  background: #e5e7eb;
-  color: #374151;
+  background: var(--sp-border-subtle, #e5e7eb);
+  color: var(--sp-text-secondary, #374151);
 }
 
 @media (prefers-reduced-motion: reduce) {

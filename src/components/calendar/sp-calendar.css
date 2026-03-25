@@ -1,13 +1,13 @@
 :host {
   display: inline-block;
-  --sp-cal-bg: #ffffff;
-  --sp-cal-border: #e2e8f0;
+  --sp-cal-bg: var(--sp-bg, #ffffff);
+  --sp-cal-border: var(--sp-border-subtle, #e2e8f0);
   --sp-cal-radius: 12px;
-  --sp-cal-header-color: #0f172a;
-  --sp-cal-weekday-color: #94a3b8;
-  --sp-cal-day-color: #1e293b;
-  --sp-cal-day-outside-color: #cbd5e1;
-  --sp-cal-day-hover-bg: #f1f5f9;
+  --sp-cal-header-color: var(--sp-text, #0f172a);
+  --sp-cal-weekday-color: var(--sp-text-placeholder, #94a3b8);
+  --sp-cal-day-color: var(--sp-text-secondary, #1e293b);
+  --sp-cal-day-outside-color: var(--sp-border-strong, #cbd5e1);
+  --sp-cal-day-hover-bg: var(--sp-bg-subtle, #f1f5f9);
   --sp-cal-today-color: #6366f1;
   --sp-cal-selected-bg: #6366f1;
   --sp-cal-selected-color: #ffffff;
@@ -15,7 +15,7 @@
   --sp-cal-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   --sp-cal-range-bg: #e0e7ff;
   --sp-cal-range-preview-bg: #f0f3ff;
-  --sp-cal-event-dot-color: #f59e0b;
+  --sp-cal-event-dot-color: #FAAD14;
   --sp-cal-preset-border: #e2e8f0;
   --sp-cal-preset-hover-bg: #f1f5f9;
   font-family: inherit;
@@ -348,7 +348,7 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--sp-cal-event-dot-color, #f59e0b);
+  background: var(--sp-cal-event-dot-color, #FAAD14);
 }
 
 /* ---- Slide animations ---- */

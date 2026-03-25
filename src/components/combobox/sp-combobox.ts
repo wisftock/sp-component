@@ -5,11 +5,12 @@ import { comboboxTemplate } from "./sp-combobox.template.js";
 import type { SpComboboxSize, SpComboboxOption } from "./sp-combobox.types.js";
 
 /**
- * Searchable combobox (select with filter) component.
+ * Searchable combobox (select with filter) component. Supports single and multiple selection.
  *
  * @element sp-combobox
  *
- * @prop {string}               value          - Currently selected value
+ * @prop {string}               value          - Selected value (single mode)
+ * @prop {string[]}             values         - Selected values (multiple mode)
  * @prop {SpComboboxOption[]}   options        - Array of selectable options
  * @prop {string}               placeholder    - Input placeholder text
  * @prop {boolean}              disabled       - Disables the component
@@ -17,13 +18,16 @@ import type { SpComboboxSize, SpComboboxOption } from "./sp-combobox.types.js";
  * @prop {string}               name           - Native input name
  * @prop {SpComboboxSize}       size           - Size: sm | md | lg
  * @prop {boolean}              clearable      - Shows a clear button when value is set
+ * @prop {boolean}              multiple       - Enables multiple selection
+ * @prop {number}               maxSelections  - Maximum number of selections (0 = unlimited)
  * @prop {string}               error          - Error message
  * @prop {string}               hint           - Hint message
  * @prop {string}               label          - Label text
  * @prop {string}               noResultsText  - Text shown when no options match
  *
- * @fires {CustomEvent<{ value: string }>} sp-change - Emitted when selection changes
- * @fires {CustomEvent}                    sp-clear  - Emitted when the value is cleared
+ * @fires {CustomEvent<{ value: string }>}    sp-change - Single: emitted when selection changes
+ * @fires {CustomEvent<{ values: string[] }>} sp-change - Multiple: emitted when selection changes
+ * @fires {CustomEvent}                        sp-clear  - Emitted when the value is cleared
  *
  * @csspart input - The inner text input element
  */
@@ -41,6 +45,9 @@ export class SpComboboxComponent extends LitElement {
 
   @property({ type: String })
   value = "";
+
+  @property({ type: Array })
+  values: string[] = [];
 
   @property({ type: Array })
   options: SpComboboxOption[] = [];
@@ -62,6 +69,12 @@ export class SpComboboxComponent extends LitElement {
 
   @property({ type: Boolean })
   clearable = false;
+
+  @property({ type: Boolean })
+  multiple = false;
+
+  @property({ type: Number, attribute: "max-selections" })
+  maxSelections = 0;
 
   @property({ type: String })
   error = "";
@@ -95,15 +108,38 @@ export class SpComboboxComponent extends LitElement {
     return this._filteredOptions;
   }
 
-  override updated(changedProperties: Map<string, unknown>): void {
-    super.updated(changedProperties);
-    if (changedProperties.has("value") || changedProperties.has("required")) {
+  private _updateFormValue(): void {
+    if (this.multiple) {
+      const fd = new FormData();
+      this.values.forEach(v => fd.append(this.name || "values", v));
+      this.#internals.setFormValue(fd);
+      if (this.required && this.values.length === 0) {
+        this.#internals.setValidity({ valueMissing: true }, "Please select at least one value");
+      } else {
+        this.#internals.setValidity({});
+      }
+    } else {
       this.#internals.setFormValue(this.value);
       if (this.required && !this.value) {
         this.#internals.setValidity({ valueMissing: true }, "Please select a value");
       } else {
         this.#internals.setValidity({});
       }
+    }
+  }
+
+  formResetCallback(): void {
+    this.value = "";
+    this.values = [];
+    this._updateFormValue();
+    this.requestUpdate();
+  }
+
+  override updated(changedProperties: Map<string, unknown>): void {
+    super.updated(changedProperties);
+    const relevant = ["value", "values", "required", "multiple"];
+    if (relevant.some(k => changedProperties.has(k))) {
+      this._updateFormValue();
     }
   }
 
@@ -136,8 +172,9 @@ export class SpComboboxComponent extends LitElement {
     } else {
       this._open = true;
       this._searchText = "";
-      // Focus the input so keyboard nav works
-      this.renderRoot.querySelector<HTMLInputElement>(".sp-combobox-input")?.focus();
+      this.updateComplete.then(() => {
+        this.renderRoot.querySelector<HTMLInputElement>(".sp-combobox-input")?.focus();
+      });
     }
     this.requestUpdate();
   };
@@ -157,37 +194,67 @@ export class SpComboboxComponent extends LitElement {
 
   readonly _handleSelect = (option: SpComboboxOption) => {
     if (option.disabled) return;
+
+    if (this.multiple) {
+      const alreadySelected = this.values.includes(option.value);
+      if (alreadySelected) {
+        this.values = this.values.filter(v => v !== option.value);
+      } else if (this.maxSelections === 0 || this.values.length < this.maxSelections) {
+        this.values = [...this.values, option.value];
+      }
+      this._searchText = "";
+      this._highlightedIndex = null;
+      this._updateFormValue();
+      this.requestUpdate();
+      this.updateComplete.then(() => {
+        this.renderRoot.querySelector<HTMLInputElement>(".sp-combobox-input")?.focus();
+      });
+      this.dispatchEvent(new CustomEvent("sp-change", { detail: { values: this.values }, bubbles: true, composed: true }));
+      return;
+    }
+
     this.value = option.value;
     this._searchText = "";
     this._open = false;
     this._highlightedIndex = null;
-    this.#internals.setFormValue(this.value);
-    if (this.required && !this.value) {
-      this.#internals.setValidity({ valueMissing: true }, "Please select a value");
-    } else {
-      this.#internals.setValidity({});
-    }
+    this._updateFormValue();
     this.requestUpdate();
     this.dispatchEvent(new CustomEvent("sp-change", { detail: { value: this.value }, bubbles: true, composed: true }));
   };
 
+  readonly _handleRemoveValue = (val: string, e: Event) => {
+    e.stopPropagation();
+    this.values = this.values.filter(v => v !== val);
+    this._updateFormValue();
+    this.requestUpdate();
+    this.dispatchEvent(new CustomEvent("sp-change", { detail: { values: this.values }, bubbles: true, composed: true }));
+  };
+
   readonly _handleClear = (e: Event) => {
     e.stopPropagation();
-    this.value = "";
+    if (this.multiple) {
+      this.values = [];
+    } else {
+      this.value = "";
+    }
     this._searchText = "";
     this._open = false;
     this._highlightedIndex = null;
-    this.#internals.setFormValue(this.value);
-    if (this.required) {
-      this.#internals.setValidity({ valueMissing: true }, "Please select a value");
-    } else {
-      this.#internals.setValidity({});
-    }
+    this._updateFormValue();
     this.requestUpdate();
     this.dispatchEvent(new CustomEvent("sp-clear", { bubbles: true, composed: true }));
   };
 
   readonly _handleKeydown = (e: KeyboardEvent): void => {
+    // Backspace removes last tag in multiple mode
+    if (e.key === "Backspace" && this.multiple && this._searchText === "" && this.values.length > 0) {
+      this.values = this.values.slice(0, -1);
+      this._updateFormValue();
+      this.requestUpdate();
+      this.dispatchEvent(new CustomEvent("sp-change", { detail: { values: this.values }, bubbles: true, composed: true }));
+      return;
+    }
+
     if (!this._open) {
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
         e.preventDefault();
@@ -215,17 +282,7 @@ export class SpComboboxComponent extends LitElement {
       e.preventDefault();
       const opt = options[currentIdx];
       if (opt && !opt.disabled) {
-        this.value = opt.value;
-        this._open = false;
-        this._highlightedIndex = null;
-        this.#internals.setFormValue(this.value);
-        if (this.required && !this.value) {
-          this.#internals.setValidity({ valueMissing: true }, "Please select a value");
-        } else {
-          this.#internals.setValidity({});
-        }
-        this.dispatchEvent(new CustomEvent("sp-change", { detail: { value: this.value }, bubbles: true, composed: true }));
-        this.requestUpdate();
+        this._handleSelect(opt);
       }
     } else if (e.key === "Escape") {
       e.preventDefault();

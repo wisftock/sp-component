@@ -1,0 +1,52 @@
+image: node:20
+
+stages:
+  - test
+  - build
+  - deploy
+
+# Cache node_modules entre jobs para que no descargue todo cada vez
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - node_modules/
+
+# ── 1. Tests y type-check ─────────────────────────────────────────
+test:
+  stage: test
+  script:
+    - npm ci
+    - npm run type-check
+    - npm run test
+  coverage: '/^.*Tests.*\s(\d+)\s/'
+
+# ── 2. Build del Storybook ────────────────────────────────────────
+build-storybook:
+  stage: build
+  script:
+    - npm ci
+    - npm run build-storybook
+  artifacts:
+    paths:
+      - storybook-static/
+    expire_in: 1 hour
+  only:
+    - main
+    - master
+
+# ── 3. GitLab Pages ───────────────────────────────────────────────
+# El job debe llamarse exactamente "pages" para que GitLab lo reconozca
+pages:
+  stage: deploy
+  script:
+    - mv storybook-static public
+  artifacts:
+    paths:
+      - public
+  dependencies:
+    - build-storybook
+  only:
+    - main
+    - master

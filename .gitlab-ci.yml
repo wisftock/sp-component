@@ -13,7 +13,7 @@ cache:
   paths:
     - node_modules/
 
-# ── 1. Tests y type-check ─────────────────────────────────────────
+# ── 1. Tests y type-check
 test:
   stage: test
   script:
@@ -22,7 +22,7 @@ test:
     - npm run test
   coverage: '/^.*Tests.*\s(\d+)\s/'
 
-# ── 2. Build del Storybook ────────────────────────────────────────
+# ── 2. Build del Storybook
 build-storybook:
   stage: build
   script:
@@ -36,7 +36,7 @@ build-storybook:
     - main
     - master
 
-# ── 3. GitLab Pages ───────────────────────────────────────────────
+# ── 3. GitLab Pages
 # El job debe llamarse exactamente "pages" para que GitLab lo reconozca
 pages:
   stage: deploy

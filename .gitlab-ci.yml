@@ -50,3 +50,17 @@ pages:
   only:
     - main
     - master
+
+# ── 4. Publicar en npm (solo cuando se crea un tag v*)
+# Requiere variable CI/CD: NPM_TOKEN (Settings → CI/CD → Variables)
+publish-npm:
+  stage: deploy
+  script:
+    - npm ci
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+    - npm run build
+    - npm publish --access public
+  only:
+    - /^v\d+\.\d+\.\d+$/   # solo tags tipo v1.0.0
+  except:
+    - branches

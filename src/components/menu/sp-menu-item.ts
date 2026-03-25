@@ -42,9 +42,9 @@ export class SpMenuItemComponent extends LitElement {
   @state()
   _submenuOpen = false;
 
-  /** Child items for submenu support. Set programmatically or via JSON attribute. */
+  /** Submenu items. Set programmatically or via JSON attribute. */
   @property({ type: Array })
-  children: unknown[] = [];
+  items: unknown[] = [];
 
   override connectedCallback(): void {
     super.connectedCallback();

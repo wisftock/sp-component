@@ -30,6 +30,14 @@ import type { SpSelectSize, SpSelectOption } from "./sp-select.types.js";
 @customElement("sp-select")
 export class SpSelectComponent extends LitElement {
   static override styles = unsafeCSS(styles);
+  static formAssociated = true;
+
+  readonly #internals: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   @property({ type: String })
   value = "";
@@ -72,6 +80,25 @@ export class SpSelectComponent extends LitElement {
 
   override render() {
     return selectTemplate.call(this);
+  }
+
+  override updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has("value") || changedProperties.has("_selectedValues")) {
+      this.#internals.setFormValue(this.value);
+    }
+    if (changedProperties.has("value") || changedProperties.has("required")) {
+      if (this.required && !this.value) {
+        this.#internals.setValidity({ valueMissing: true }, "Please select an option");
+      } else {
+        this.#internals.setValidity({});
+      }
+    }
+  }
+
+  formResetCallback(): void {
+    this.value = "";
+    this._selectedValues = [];
+    this.#internals.setFormValue("");
   }
 
   readonly _handleChange = (e: Event) => {

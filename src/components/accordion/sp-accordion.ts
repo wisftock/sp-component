@@ -42,7 +42,7 @@ export class SpAccordionComponent extends LitElement {
 
     // Find which item's trigger button is currently focused
     const focused = items.findIndex(item => {
-      const trigger = (item as any).shadowRoot?.querySelector(".sp-accordion-trigger");
+      const trigger = item.shadowRoot?.querySelector(".sp-accordion-trigger");
       return trigger && (document.activeElement === item || trigger === (item.shadowRoot?.activeElement));
     });
 
@@ -64,7 +64,8 @@ export class SpAccordionComponent extends LitElement {
     }
 
     const target = items[next];
-    const trigger = (target as any).shadowRoot?.querySelector<HTMLElement>(".sp-accordion-trigger");
+    if (!target) return;
+    const trigger = target.shadowRoot?.querySelector<HTMLElement>(".sp-accordion-trigger");
     trigger?.focus();
   };
 

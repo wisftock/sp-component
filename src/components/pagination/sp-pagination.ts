@@ -45,7 +45,7 @@ export class SpPaginationComponent extends LitElement {
   showJumpTo = false;
 
   @state()
-  private _jumpValue = "";
+  _jumpValue = "";
 
   get totalPages(): number {
     return Math.max(1, Math.ceil(this.total / this.pageSize));

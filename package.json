@@ -11,6 +11,7 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./tokens.css": "./dist/tokens.css",
     "./components/*": {
       "import": "./dist/components/*/index.js",
       "types": "./dist/components/*/index.d.ts"

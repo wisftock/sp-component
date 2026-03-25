@@ -6,3 +6,5 @@ storybook-static/
 .env
 .env.local
 .env.*.local
+.claude
+.storybook

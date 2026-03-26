@@ -43,12 +43,19 @@ describe("sp-drawer", () => {
   it("calls close when open is set to false after being open", async () => {
     await el.updateComplete;
     const dialog = el.shadowRoot?.querySelector("dialog") as HTMLDialogElement;
-    vi.spyOn(dialog, "showModal").mockImplementation(() => {});
-    const closeSpy = vi.spyOn(dialog, "close").mockImplementation(() => {});
+    vi.spyOn(dialog, "showModal").mockImplementation(() => {
+      Object.defineProperty(dialog, "open", { configurable: true, get: () => true });
+    });
+    const closeSpy = vi.spyOn(dialog, "close").mockImplementation(() => {
+      Object.defineProperty(dialog, "open", { configurable: true, get: () => false });
+    });
     el.open = true;
     await el.updateComplete;
+    const hidePromise = new Promise<void>(resolve =>
+      el.addEventListener("sp-hide", () => resolve(), { once: true }),
+    );
     el.open = false;
-    await el.updateComplete;
+    await hidePromise;
     expect(closeSpy).toHaveBeenCalledOnce();
   });
 
@@ -133,8 +140,11 @@ describe("sp-drawer", () => {
     await el.updateComplete;
     const listener = vi.fn();
     el.addEventListener("sp-hide", listener);
+    const hidePromise = new Promise<void>(resolve =>
+      el.addEventListener("sp-hide", () => resolve(), { once: true }),
+    );
     el.open = false;
-    await el.updateComplete;
+    await hidePromise;
     expect(listener).toHaveBeenCalledOnce();
   });
 });

@@ -84,7 +84,7 @@ describe("sp-table", () => {
     await el.updateComplete;
     const loading = el.shadowRoot?.querySelector(".sp-table-loading");
     expect(loading).not.toBeNull();
-    expect(loading?.textContent?.trim()).toBe("Loading...");
+    expect(loading?.textContent?.trim()).toBe("Loading…");
   });
 
   it("does not show data rows when loading", async () => {

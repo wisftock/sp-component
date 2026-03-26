@@ -41,8 +41,12 @@ describe("sp-modal", () => {
   it("calls close when open is set to false after being open", async () => {
     await el.updateComplete;
     const dialog = el.shadowRoot?.querySelector("dialog") as HTMLDialogElement;
-    vi.spyOn(dialog, "showModal").mockImplementation(() => {});
-    const closeSpy = vi.spyOn(dialog, "close").mockImplementation(() => {});
+    vi.spyOn(dialog, "showModal").mockImplementation(() => {
+      Object.defineProperty(dialog, "open", { configurable: true, get: () => true });
+    });
+    const closeSpy = vi.spyOn(dialog, "close").mockImplementation(() => {
+      Object.defineProperty(dialog, "open", { configurable: true, get: () => false });
+    });
     el.open = true;
     await el.updateComplete;
     el.open = false;

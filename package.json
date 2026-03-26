@@ -1,6 +1,6 @@
 {
   "name": "sp-component",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Librería de Web Components compatible con Angular, React, Vue y cualquier framework",
   "type": "module",
   "main": "./dist/index.js",
@@ -24,6 +24,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
+    "demo": "vite --open /demo/index.html",
     "type-check": "tsc --noEmit --project tsconfig.build.json",
     "test": "vitest run --config vitest.config.ts",
     "test:watch": "vitest --config vitest.config.ts",

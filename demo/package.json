@@ -1,0 +1,8 @@
+{
+  "name": "sp-component-demo",
+  "private": true,
+  "scripts": {
+    "start": "node ../node_modules/vite/bin/vite.js --open",
+    "build": "node ../node_modules/vite/bin/vite.js build"
+  }
+}

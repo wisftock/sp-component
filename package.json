@@ -24,7 +24,6 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
-    "demo": "vite --open /demo/index.html",
     "type-check": "tsc --noEmit --project tsconfig.build.json",
     "test": "vitest run --config vitest.config.ts",
     "test:watch": "vitest --config vitest.config.ts",

@@ -1,4 +1,9 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host { display: contents; }
+
+/* Hide when not open — overrides the dialog { display: flex } rule below */
+dialog:not([open]) { display: none; }
 
 dialog {
   padding: 0;

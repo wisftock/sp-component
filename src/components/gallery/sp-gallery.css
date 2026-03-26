@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host {
   display: block;
   --sp-gallery-bg: var(--sp-bg-subtle, #f8fafc);

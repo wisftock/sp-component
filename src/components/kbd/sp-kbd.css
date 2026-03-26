@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 /* -------------------------------------------------------
    sp-kbd — Component styles
    Styled to look like a physical keyboard key.

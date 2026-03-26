@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host { display: inline-block; }
 .sp-popover-wrapper { position: relative; display: inline-flex; }
 .sp-popover-trigger { display: inline-flex; cursor: pointer; }

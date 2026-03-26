@@ -119,6 +119,7 @@ export class SpCalendarComponent extends LitElement {
   _slideDir: SpCalendarSlideDir = "";
 
   private _navigating = false;
+  private _slideDirTimer: ReturnType<typeof setTimeout> | null = null;
 
   override render() {
     return calendarTemplate.call(this);
@@ -142,6 +143,10 @@ export class SpCalendarComponent extends LitElement {
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.removeEventListener("keydown", this._handleKeydown);
+    if (this._slideDirTimer !== null) {
+      clearTimeout(this._slideDirTimer);
+      this._slideDirTimer = null;
+    }
   }
 
   override updated(changedProperties: Map<string, unknown>): void {
@@ -378,8 +383,10 @@ export class SpCalendarComponent extends LitElement {
   }
 
   _resetSlideDir(): void {
+    if (this._slideDirTimer !== null) clearTimeout(this._slideDirTimer);
     requestAnimationFrame(() => {
-      setTimeout(() => {
+      this._slideDirTimer = setTimeout(() => {
+        this._slideDirTimer = null;
         this._slideDir = "";
         this._navigating = false;
       }, 300);

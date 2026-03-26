@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host { display: inline-block; --sp-rating-color: var(--sp-warning, #FAAD14); }
 .sp-rating { display: inline-flex; align-items: center; gap: 2px; }
 .sp-rating-star { background: none; border: none; cursor: pointer; padding: 4px; color: var(--sp-border, #d1d5db); transition: color 0.15s, transform 0.1s; display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }

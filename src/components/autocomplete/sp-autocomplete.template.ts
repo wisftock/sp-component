@@ -50,6 +50,7 @@ export function autocompleteTemplate(this: SpAutocompleteComponent): TemplateRes
               aria-controls="sp-ac-listbox"
               aria-activedescendant=${this._highlightedIndex !== null ? `sp-ac-opt-${this._highlightedIndex}` : nothing}
               aria-invalid=${this.error ? "true" : nothing}
+              aria-describedby=${(this.error || this.hint) ? "sp-ac-desc" : nothing}
               aria-required=${this.required ? "true" : nothing}
               .value=${this._query}
               placeholder=${this.values.length === 0 ? this.placeholder : ""}

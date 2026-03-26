@@ -29,6 +29,7 @@ export class SpMenuComponent extends LitElement {
   open = false;
 
   private _prevOpen = false;
+  private _closeTimer: ReturnType<typeof setTimeout> | null = null;
 
   override render() {
     return menuTemplate.call(this);
@@ -59,6 +60,10 @@ export class SpMenuComponent extends LitElement {
     super.disconnectedCallback();
     document.removeEventListener("click", this._handleOutsideClick);
     this.removeEventListener("keydown", this._handleKeydown);
+    if (this._closeTimer !== null) {
+      clearTimeout(this._closeTimer);
+      this._closeTimer = null;
+    }
   }
 
   private readonly _handleKeydown = (e: KeyboardEvent): void => {
@@ -107,7 +112,9 @@ export class SpMenuComponent extends LitElement {
   };
 
   readonly _handleItemClick = (): void => {
-    setTimeout(() => {
+    if (this._closeTimer !== null) clearTimeout(this._closeTimer);
+    this._closeTimer = setTimeout(() => {
+      this._closeTimer = null;
       this.open = false;
     }, 0);
   };

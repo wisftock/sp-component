@@ -43,15 +43,34 @@ export class SpModalComponent extends LitElement {
   closeOnOverlay = true;
 
   private _previousFocus: Element | null = null;
+  private _afterHideTimer: ReturnType<typeof setTimeout> | null = null;
 
   private _getFocusableElements(): HTMLElement[] {
     const dialog = this.shadowRoot?.querySelector("dialog");
     if (!dialog) return [];
-    return Array.from(
-      dialog.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )
-    ).filter(el => !el.closest('[hidden]'));
+    const selector =
+      'a[href], button:not([disabled]), input:not([disabled]), ' +
+      'select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    // Elements inside the shadow DOM (e.g. close button)
+    const shadowEls = Array.from(
+      dialog.querySelectorAll<HTMLElement>(selector)
+    ).filter(el => !el.closest("[hidden]"));
+
+    // Elements from light DOM slots (e.g. footer buttons)
+    const slottedEls: HTMLElement[] = [];
+    dialog.querySelectorAll("slot").forEach(slotEl => {
+      (slotEl as HTMLSlotElement).assignedElements({ flatten: true }).forEach(assigned => {
+        if ((assigned as HTMLElement).matches?.(selector) && !assigned.closest("[hidden]")) {
+          slottedEls.push(assigned as HTMLElement);
+        }
+        assigned.querySelectorAll<HTMLElement>(selector).forEach(child => {
+          if (!child.closest("[hidden]")) slottedEls.push(child);
+        });
+      });
+    });
+
+    return [...shadowEls, ...slottedEls];
   }
 
   private _handleKeydown = (e: KeyboardEvent): void => {
@@ -66,13 +85,15 @@ export class SpModalComponent extends LitElement {
       if (focusable.length === 0) { e.preventDefault(); return; }
       const first = focusable[0]!;
       const last = focusable[focusable.length - 1]!;
+      // Active element is in shadow DOM for shadow elements, in document for slotted ones
+      const active = (this.shadowRoot?.activeElement ?? document.activeElement) as HTMLElement;
       if (e.shiftKey) {
-        if (document.activeElement === first || this.shadowRoot?.activeElement === first) {
+        if (active === first) {
           e.preventDefault();
           last.focus();
         }
       } else {
-        if (document.activeElement === last || this.shadowRoot?.activeElement === last) {
+        if (active === last) {
           e.preventDefault();
           first.focus();
         }
@@ -83,14 +104,27 @@ export class SpModalComponent extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     document.addEventListener("keydown", this._handleKeydown);
+    window.addEventListener("pagehide", this._handlePageHide);
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("keydown", this._handleKeydown);
-    // Ensure body scroll is restored if component is removed while open
+    window.removeEventListener("pagehide", this._handlePageHide);
     document.body.style.overflow = "";
+    if (this._afterHideTimer !== null) {
+      clearTimeout(this._afterHideTimer);
+      this._afterHideTimer = null;
+    }
   }
+
+  // Reset when navigating away so bfcache doesn't restore an open modal
+  private readonly _handlePageHide = () => {
+    if (this.open) {
+      this.open = false;
+      document.body.style.overflow = "";
+    }
+  };
 
   override render() {
     return modalTemplate.call(this);
@@ -98,9 +132,17 @@ export class SpModalComponent extends LitElement {
 
   override updated(changed: Map<string, unknown>) {
     if (changed.has("open")) {
+      // Skip on first render when transitioning undefined → false
+      if (!this.open && changed.get("open") === undefined) return;
+
       const dialog = this.shadowRoot?.querySelector("dialog");
       if (!dialog) return;
       if (this.open) {
+        // Cancel any pending sp-after-hide from a previous close
+        if (this._afterHideTimer !== null) {
+          clearTimeout(this._afterHideTimer);
+          this._afterHideTimer = null;
+        }
         document.body.style.overflow = "hidden";
         this._previousFocus = document.activeElement;
         dialog.showModal();
@@ -113,19 +155,18 @@ export class SpModalComponent extends LitElement {
         });
       } else {
         document.body.style.overflow = "";
-        dialog.close();
+        if (dialog.open) dialog.close();
         this.dispatchEvent(
           new CustomEvent("sp-hide", { bubbles: true, composed: true }),
         );
         (this._previousFocus as HTMLElement)?.focus?.();
         this._previousFocus = null;
-        setTimeout(
-          () =>
-            this.dispatchEvent(
-              new CustomEvent("sp-after-hide", { bubbles: true, composed: true }),
-            ),
-          300,
-        );
+        this._afterHideTimer = setTimeout(() => {
+          this._afterHideTimer = null;
+          this.dispatchEvent(
+            new CustomEvent("sp-after-hide", { bubbles: true, composed: true }),
+          );
+        }, 300);
       }
     }
   }

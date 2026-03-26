@@ -48,9 +48,10 @@ export function colorPickerTemplate(this: SpColorPickerComponent): TemplateResul
               role="dialog"
               aria-label="Color picker"
             >
-              <!-- Gradient canvas -->
+              <!-- Gradient canvas (accessible via hue/alpha sliders and hex input) -->
               <div
                 class="sp-color-picker-canvas"
+                aria-hidden="true"
                 style="background: linear-gradient(to bottom, transparent, black),
                        linear-gradient(to right, white, hsl(${this._h},100%,50%))"
                 @pointerdown=${this._startCanvasDrag}

@@ -67,6 +67,7 @@ export class SpScrollAreaComponent extends LitElement {
   private _dragStartX = 0;
   private _dragStartScrollLeft = 0;
   private _dragAxis: "vertical" | "horizontal" = "vertical";
+  private _activeDragThumb: HTMLElement | null = null;
 
   private _getViewport(): HTMLElement | null {
     return (
@@ -147,12 +148,10 @@ export class SpScrollAreaComponent extends LitElement {
     this._dragStartX = e.clientX;
     this._dragStartScrollLeft = viewport.scrollLeft;
 
-    (e.target as HTMLElement).addEventListener("pointermove", this._onThumbMove);
-    (e.target as HTMLElement).addEventListener(
-      "pointerup",
-      this._onThumbUp,
-      { once: true },
-    );
+    const thumb = e.target as HTMLElement;
+    this._activeDragThumb = thumb;
+    thumb.addEventListener("pointermove", this._onThumbMove);
+    thumb.addEventListener("pointerup", this._onThumbUp, { once: true });
   };
 
   private _onThumbMove = (e: PointerEvent): void => {
@@ -176,6 +175,7 @@ export class SpScrollAreaComponent extends LitElement {
 
   private _onThumbUp = (e: PointerEvent): void => {
     (e.target as HTMLElement).removeEventListener("pointermove", this._onThumbMove);
+    this._activeDragThumb = null;
   };
 
   override firstUpdated() {
@@ -195,6 +195,10 @@ export class SpScrollAreaComponent extends LitElement {
     super.disconnectedCallback();
     this._resizeObserver?.disconnect();
     if (this._scrollTimeout !== null) clearTimeout(this._scrollTimeout);
+    if (this._activeDragThumb) {
+      this._activeDragThumb.removeEventListener("pointermove", this._onThumbMove);
+      this._activeDragThumb = null;
+    }
   }
 
   override render() {

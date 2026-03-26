@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host {
   display: block;
   width: 100%;
@@ -49,6 +51,31 @@
 @keyframes sp-card-shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+}
+
+/* ── Skeleton loading ── */
+.sp-card-skeleton {
+  padding: 4px 0;
+}
+
+.sp-card-skeleton-line {
+  height: 12px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--sp-bg-muted, #f0f0f0) 25%, var(--sp-border-subtle, #e0e0e0) 50%, var(--sp-bg-muted, #f0f0f0) 75%);
+  background-size: 200% 100%;
+  animation: sp-card-shimmer 1.5s infinite;
+}
+
+.sp-card-skeleton-title {
+  height: 16px;
+  width: 60%;
+  margin-bottom: 16px;
+}
+
+.sp-card-skeleton-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 @media (max-width: 640px) {

@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host { display: block; }
 .sp-timeline { display: flex; flex-direction: column; }
 .sp-timeline-item { display: flex; gap: 16px; }

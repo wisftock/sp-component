@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host { display: block; }
 .sp-stepper { display: flex; align-items: flex-start; }
 :host([orientation="vertical"]) .sp-stepper { flex-direction: column; }

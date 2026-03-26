@@ -8,13 +8,26 @@ import type { SpCardComponent } from "./sp-card.js";
  * Call as: cardTemplate.call(this) inside render()
  */
 export function cardTemplate(this: SpCardComponent): TemplateResult {
-  const inner = html`
-    <slot name="image"></slot>
-    <slot name="header"></slot>
-    <slot></slot>
-    <slot name="footer"></slot>
-    ${this.loading ? html`<div class="sp-card-loading-overlay" aria-hidden="true"></div>` : nothing}
+  const skeleton = html`
+    <div class="sp-card-skeleton" aria-hidden="true">
+      <div class="sp-card-skeleton-line sp-card-skeleton-title"></div>
+      <div class="sp-card-skeleton-body">
+        <div class="sp-card-skeleton-line" style="width:100%"></div>
+        <div class="sp-card-skeleton-line" style="width:80%"></div>
+        <div class="sp-card-skeleton-line" style="width:60%"></div>
+      </div>
+      <div class="sp-card-skeleton-line sp-card-skeleton-footer" style="width:40%;margin-top:16px;"></div>
+    </div>
   `;
+
+  const inner = this.loading
+    ? skeleton
+    : html`
+      <slot name="image"></slot>
+      <slot name="header"></slot>
+      <slot></slot>
+      <slot name="footer"></slot>
+    `;
 
   return html`
     <div

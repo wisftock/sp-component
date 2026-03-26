@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host { display: block; }
 .sp-stat { display: flex; flex-direction: column; gap: 4px; }
 .sp-stat-label { font-size: 13px; font-weight: 500; color: var(--sp-text-muted, #6b7280); text-transform: uppercase; letter-spacing: 0.05em; }

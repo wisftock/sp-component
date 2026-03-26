@@ -58,6 +58,7 @@ export class SpToastComponent extends LitElement {
   pauseOnHover = false;
 
   private _timer: ReturnType<typeof setTimeout> | null = null;
+  private _afterHideTimer: ReturnType<typeof setTimeout> | null = null;
   private _pausedAt: number | null = null;
   private _remainingTime = 0;
   private _startTime = 0;
@@ -92,15 +93,20 @@ export class SpToastComponent extends LitElement {
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this._clearTimer();
+    if (this._afterHideTimer) {
+      clearTimeout(this._afterHideTimer);
+      this._afterHideTimer = null;
+    }
   }
 
   private _close() {
     this.open = false;
     this.dispatchEvent(new CustomEvent("sp-hide", { bubbles: true, composed: true }));
-    setTimeout(
-      () => this.dispatchEvent(new CustomEvent("sp-after-hide", { bubbles: true, composed: true })),
-      300,
-    );
+    if (this._afterHideTimer) clearTimeout(this._afterHideTimer);
+    this._afterHideTimer = setTimeout(() => {
+      this._afterHideTimer = null;
+      this.dispatchEvent(new CustomEvent("sp-after-hide", { bubbles: true, composed: true }));
+    }, 300);
   }
 
   readonly _handleClose = () => this._close();

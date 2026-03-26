@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 /* sp-tree */
 :host {
   display: block;

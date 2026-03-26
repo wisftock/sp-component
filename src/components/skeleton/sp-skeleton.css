@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host { display: block; width: 100%; }
 :host([variant="circle"]) { display: inline-block; width: auto; }
 .sp-skeleton { background: var(--sp-border-subtle, #e5e7eb); border-radius: 4px; }

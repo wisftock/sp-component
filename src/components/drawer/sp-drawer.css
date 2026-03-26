@@ -1,122 +1,131 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host { display: contents; }
 
+/* Hidden when not open */
+dialog:not([open]) { display: none; }
+
+/* ── Base dialog: transparent full-screen overlay ── */
 dialog {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
   padding: 0;
   border: none;
-  max-height: 100%;
-  max-width: 100%;
-  overflow: hidden;
   margin: 0;
   background: transparent;
+  overflow: hidden;
 }
 
 dialog::backdrop {
   background: var(--sp-overlay, rgba(0, 0, 0, 0.5));
 }
 
+/* ── Placement: flex layout positions the panel at the correct edge ── */
 :host([placement="right"]) dialog {
-  margin-left: auto;
-  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: stretch;
 }
 
 :host([placement="left"]) dialog {
-  margin-right: auto;
-  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
 :host([placement="top"]) dialog {
-  margin-bottom: auto;
-  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
 :host([placement="bottom"]) dialog {
-  margin-top: auto;
-  width: 100vw;
-}
-
-.sp-drawer-panel {
-  background: var(--sp-bg, white);
-  height: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  justify-content: flex-end;
+  align-items: stretch;
+}
+
+/* ── Panel ── */
+.sp-drawer-panel {
+  background: var(--sp-bg, white);
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   position: relative;
+  flex-shrink: 0;
 }
 
-:host([placement="left"]) .sp-drawer-panel {
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
-  animation: sp-drawer-left 0.25s ease;
-}
-
+/* Explicit height for left/right so panel fills full viewport height */
+:host([placement="left"]) .sp-drawer-panel,
 :host([placement="right"]) .sp-drawer-panel {
-  animation: sp-drawer-right 0.25s ease;
+  height: 100vh;
 }
 
-:host([placement="top"]) .sp-drawer-panel {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  animation: sp-drawer-top 0.25s ease;
-}
+/* Shadows */
+:host([placement="right"]) .sp-drawer-panel  { box-shadow: -4px 0 20px rgba(0,0,0,.15); }
+:host([placement="left"]) .sp-drawer-panel   { box-shadow:  4px 0 20px rgba(0,0,0,.15); }
+:host([placement="top"]) .sp-drawer-panel    { box-shadow:  0 4px 20px rgba(0,0,0,.15); }
+:host([placement="bottom"]) .sp-drawer-panel { box-shadow:  0 -4px 20px rgba(0,0,0,.15); }
 
-:host([placement="bottom"]) .sp-drawer-panel {
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-  animation: sp-drawer-bottom 0.25s ease;
-}
+/* ── Open animations ── */
+:host([placement="right"]) .sp-drawer-panel  { animation: sp-drawer-right  0.25s ease; }
+:host([placement="left"]) .sp-drawer-panel   { animation: sp-drawer-left   0.25s ease; }
+:host([placement="top"]) .sp-drawer-panel    { animation: sp-drawer-top    0.25s ease; }
+:host([placement="bottom"]) .sp-drawer-panel { animation: sp-drawer-bottom 0.25s ease; }
 
-@keyframes sp-drawer-right {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
-}
+/* ── Close animations ── */
+:host([closing][placement="right"]) .sp-drawer-panel  { animation: sp-drawer-right  0.25s ease reverse forwards; }
+:host([closing][placement="left"]) .sp-drawer-panel   { animation: sp-drawer-left   0.25s ease reverse forwards; }
+:host([closing][placement="top"]) .sp-drawer-panel    { animation: sp-drawer-top    0.25s ease reverse forwards; }
+:host([closing][placement="bottom"]) .sp-drawer-panel { animation: sp-drawer-bottom 0.25s ease reverse forwards; }
 
-@keyframes sp-drawer-left {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
-}
+@keyframes sp-drawer-right  { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes sp-drawer-left   { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes sp-drawer-top    { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes sp-drawer-bottom { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-@keyframes sp-drawer-top {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(0); }
-}
-
-@keyframes sp-drawer-bottom {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-
+/* ── Close button ── */
 .sp-drawer-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
+  top: 12px; right: 12px;
+  background: none; border: none;
+  cursor: pointer; font-size: 18px;
   color: var(--sp-text-muted, #6b7280);
-  padding: 4px;
-  line-height: 1;
-  border-radius: 4px;
-  z-index: 1;
+  padding: 4px; line-height: 1;
+  border-radius: 4px; z-index: 1;
 }
-
 .sp-drawer-close:hover {
   color: var(--sp-text, #111827);
   background: var(--sp-bg-muted, #f3f4f6);
 }
-
 .sp-drawer-close:focus-visible {
   outline: 2px solid var(--sp-primary-hover, #2563eb);
   outline-offset: 2px;
 }
 
+/* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  :host([placement="left"]) .sp-drawer-panel,
   :host([placement="right"]) .sp-drawer-panel,
+  :host([placement="left"]) .sp-drawer-panel,
   :host([placement="top"]) .sp-drawer-panel,
-  :host([placement="bottom"]) .sp-drawer-panel {
+  :host([placement="bottom"]) .sp-drawer-panel,
+  :host([closing][placement="right"]) .sp-drawer-panel,
+  :host([closing][placement="left"]) .sp-drawer-panel,
+  :host([closing][placement="top"]) .sp-drawer-panel,
+  :host([closing][placement="bottom"]) .sp-drawer-panel {
     animation: none;
   }
 }
 
+/* ── Slots ── */
 .sp-drawer-body {
   flex: 1;
   overflow-y: auto;
@@ -126,8 +135,7 @@ dialog::backdrop {
 ::slotted([slot="header"]) {
   display: block;
   padding: 20px 20px 16px;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 18px; font-weight: 600;
   color: var(--sp-text, #111827);
   border-bottom: 1px solid var(--sp-border-subtle, #e5e7eb);
 }
@@ -138,15 +146,10 @@ dialog::backdrop {
   border-top: 1px solid var(--sp-border-subtle, #e5e7eb);
 }
 
+/* ── Mobile ── */
 @media (max-width: 480px) {
-  :host([placement="left"]) dialog,
-  :host([placement="right"]) dialog {
-    width: 100vw !important;
-  }
-
   :host([placement="left"]) .sp-drawer-panel,
   :host([placement="right"]) .sp-drawer-panel {
-    width: 100vw;
-    max-width: 100vw;
+    width: 100vw !important;
   }
 }

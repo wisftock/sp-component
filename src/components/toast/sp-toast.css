@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host { display: block; pointer-events: none; }
 :host([open]) { pointer-events: auto; }
 .sp-toast { position: relative; display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-size: 14px; max-width: 360px; opacity: 0; transform: translateY(-8px); transition: opacity 0.25s, transform 0.25s; pointer-events: none; overflow: hidden; }

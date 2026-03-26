@@ -44,6 +44,8 @@ export class SpBadgeComponent extends LitElement {
   @state()
   _animating = false;
 
+  private _animTimer: ReturnType<typeof setTimeout> | null = null;
+
   /** Returns the capped display label when the slotted text is a number exceeding `max`. */
   _getDisplayContent(rawText: string): string {
     const num = Number(rawText.trim());
@@ -64,9 +66,21 @@ export class SpBadgeComponent extends LitElement {
     if (text !== this._prevContent) {
       this._animating = true;
       this._prevContent = text;
-      setTimeout(() => { this._animating = false; this.requestUpdate(); }, 200);
+      if (this._animTimer !== null) clearTimeout(this._animTimer);
+      this._animTimer = setTimeout(() => {
+        this._animTimer = null;
+        this._animating = false;
+      }, 200);
     }
   };
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    if (this._animTimer !== null) {
+      clearTimeout(this._animTimer);
+      this._animTimer = null;
+    }
+  }
 
   override render() {
     return badgeTemplate.call(this);

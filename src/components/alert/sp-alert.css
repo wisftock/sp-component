@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host { display: block; }
 .sp-alert { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; border-radius: 6px; border: 1px solid transparent; }
 .sp-alert-icon { flex-shrink: 0; font-size: 16px; line-height: 1.5; }

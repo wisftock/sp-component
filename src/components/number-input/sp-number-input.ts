@@ -120,8 +120,9 @@ export class SpNumberInputComponent extends LitElement {
 
   override updated(changedProperties: Map<string, unknown>): void {
     if (changedProperties.has("value") || changedProperties.has("required")) {
-      this.#internals.setFormValue(String(this.value));
-      if (this.required && this.value === null) {
+      const isEmpty = isNaN(this.value);
+      this.#internals.setFormValue(isEmpty ? "" : String(this.value));
+      if (this.required && isEmpty) {
         this.#internals.setValidity(
           { valueMissing: true },
           "This field is required",
@@ -164,9 +165,7 @@ export class SpNumberInputComponent extends LitElement {
   _handleInput(e: Event): void {
     const input = e.target as HTMLInputElement;
     const parsed = parseFloat(input.value);
-    if (!isNaN(parsed)) {
-      this.value = Math.min(this.max, Math.max(this.min, parsed));
-    }
+    this.value = input.value === "" ? NaN : isNaN(parsed) ? this.value : Math.min(this.max, Math.max(this.min, parsed));
     this.dispatchEvent(
       new CustomEvent("sp-input", {
         detail: { value: this.value },
@@ -179,9 +178,7 @@ export class SpNumberInputComponent extends LitElement {
   _handleChange(e: Event): void {
     const input = e.target as HTMLInputElement;
     const parsed = parseFloat(input.value);
-    if (!isNaN(parsed)) {
-      this.value = Math.min(this.max, Math.max(this.min, parsed));
-    }
+    this.value = input.value === "" ? NaN : isNaN(parsed) ? this.value : Math.min(this.max, Math.max(this.min, parsed));
     this.dispatchEvent(
       new CustomEvent("sp-change", {
         detail: { value: this.value },

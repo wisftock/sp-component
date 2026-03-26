@@ -49,6 +49,9 @@ export class SpDrawerComponent extends LitElement {
   private _previousFocus: Element | null = null;
   private _touchStartX = 0;
   private _touchStartY = 0;
+  private _afterHideTimer: ReturnType<typeof setTimeout> | null = null;
+  private _closeTimer: ReturnType<typeof setTimeout> | null = null;
+  private static readonly ANIM_DURATION = 250;
 
   private _getFocusableElements(): HTMLElement[] {
     const dialog = this.shadowRoot?.querySelector("dialog");
@@ -89,14 +92,29 @@ export class SpDrawerComponent extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     document.addEventListener("keydown", this._handleKeydown);
+    window.addEventListener("pagehide", this._handlePageHide);
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
     document.removeEventListener("keydown", this._handleKeydown);
-    // Ensure body scroll is restored if component is removed while open
+    window.removeEventListener("pagehide", this._handlePageHide);
     document.body.style.overflow = "";
+    const dialog = this.shadowRoot?.querySelector("dialog");
+    if (dialog) {
+      dialog.removeEventListener("touchstart", this._handleTouchStart);
+      dialog.removeEventListener("touchend", this._handleTouchEnd);
+    }
+    if (this._closeTimer !== null) { clearTimeout(this._closeTimer); this._closeTimer = null; }
+    if (this._afterHideTimer !== null) { clearTimeout(this._afterHideTimer); this._afterHideTimer = null; }
   }
+
+  private readonly _handlePageHide = () => {
+    if (this.open) {
+      this.open = false;
+      document.body.style.overflow = "";
+    }
+  };
 
   override render() {
     return drawerTemplate.call(this);
@@ -104,13 +122,15 @@ export class SpDrawerComponent extends LitElement {
 
   override updated(changed: Map<string, unknown>) {
     if (changed.has("open")) {
+      // Skip on first render when transitioning undefined → false
+      if (!this.open && changed.get("open") === undefined) return;
+
       const dialog = this.shadowRoot?.querySelector("dialog");
       if (!dialog) return;
       if (this.open) {
         document.body.style.overflow = "hidden";
         this._previousFocus = document.activeElement;
         dialog.showModal();
-        // Attach touch listeners for swipe-to-close
         dialog.addEventListener("touchstart", this._handleTouchStart, { passive: true });
         dialog.addEventListener("touchend", this._handleTouchEnd, { passive: true });
         this.dispatchEvent(
@@ -121,23 +141,34 @@ export class SpDrawerComponent extends LitElement {
           els[0]?.focus();
         });
       } else {
-        document.body.style.overflow = "";
-        const dialogEl = dialog;
-        dialogEl.removeEventListener("touchstart", this._handleTouchStart);
-        dialogEl.removeEventListener("touchend", this._handleTouchEnd);
-        dialog.close();
-        this.dispatchEvent(
-          new CustomEvent("sp-hide", { bubbles: true, composed: true }),
-        );
-        (this._previousFocus as HTMLElement)?.focus?.();
+        // Cancel pending close if somehow retriggered
+        if (this._closeTimer !== null) { clearTimeout(this._closeTimer); this._closeTimer = null; }
+
+        // Play close animation, then actually close
+        this.setAttribute("closing", "");
+        const prev = this._previousFocus;
         this._previousFocus = null;
-        setTimeout(
-          () =>
+        dialog.removeEventListener("touchstart", this._handleTouchStart);
+        dialog.removeEventListener("touchend", this._handleTouchEnd);
+
+        this._closeTimer = setTimeout(() => {
+          this._closeTimer = null;
+          this.removeAttribute("closing");
+          document.body.style.overflow = "";
+          if (dialog.open) dialog.close();
+          this.dispatchEvent(
+            new CustomEvent("sp-hide", { bubbles: true, composed: true }),
+          );
+          (prev as HTMLElement)?.focus?.();
+
+          if (this._afterHideTimer !== null) { clearTimeout(this._afterHideTimer); this._afterHideTimer = null; }
+          this._afterHideTimer = setTimeout(() => {
+            this._afterHideTimer = null;
             this.dispatchEvent(
               new CustomEvent("sp-after-hide", { bubbles: true, composed: true }),
-            ),
-          300,
-        );
+            );
+          }, 50);
+        }, SpDrawerComponent.ANIM_DURATION);
       }
     }
   }

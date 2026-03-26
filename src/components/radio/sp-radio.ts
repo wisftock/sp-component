@@ -69,6 +69,11 @@ export class SpRadioComponent extends LitElement {
     this.#internals.setFormValue(this.checked ? this.value : null);
   }
 
+  formResetCallback(): void {
+    this.checked = false;
+    this.#internals.setFormValue(null);
+  }
+
   readonly _handleChange = (e: Event): void => {
     const input = e.target as HTMLInputElement;
     if (input.checked) {

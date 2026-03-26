@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host { display: inline-block; }
 .sp-switch-label { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
 .sp-switch-label--disabled { opacity: 0.5; cursor: not-allowed; }

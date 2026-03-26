@@ -88,8 +88,12 @@ export class SpComboboxComponent extends LitElement {
   @property({ type: String, attribute: "no-results-text" })
   noResultsText = "No results found";
 
+  @state()
   _searchText = "";
+
+  @state()
   _open = false;
+
   _focused = false;
 
   @state()
@@ -132,7 +136,6 @@ export class SpComboboxComponent extends LitElement {
     this.value = "";
     this.values = [];
     this._updateFormValue();
-    this.requestUpdate();
   }
 
   override updated(changedProperties: Map<string, unknown>): void {
@@ -148,7 +151,6 @@ export class SpComboboxComponent extends LitElement {
       this._open = false;
       this._searchText = "";
       this._highlightedIndex = null;
-      this.requestUpdate();
     }
   };
 
@@ -176,20 +178,17 @@ export class SpComboboxComponent extends LitElement {
         this.renderRoot.querySelector<HTMLInputElement>(".sp-combobox-input")?.focus();
       });
     }
-    this.requestUpdate();
   };
 
   readonly _handleInputFocus = () => {
     this._open = true;
     this._searchText = "";
-    this.requestUpdate();
   };
 
   readonly _handleInputInput = (e: Event) => {
     this._searchText = (e.target as HTMLInputElement).value;
     this._open = true;
     this._highlightedIndex = null;
-    this.requestUpdate();
   };
 
   readonly _handleSelect = (option: SpComboboxOption) => {
@@ -205,7 +204,6 @@ export class SpComboboxComponent extends LitElement {
       this._searchText = "";
       this._highlightedIndex = null;
       this._updateFormValue();
-      this.requestUpdate();
       this.updateComplete.then(() => {
         this.renderRoot.querySelector<HTMLInputElement>(".sp-combobox-input")?.focus();
       });
@@ -218,7 +216,6 @@ export class SpComboboxComponent extends LitElement {
     this._open = false;
     this._highlightedIndex = null;
     this._updateFormValue();
-    this.requestUpdate();
     this.dispatchEvent(new CustomEvent("sp-change", { detail: { value: this.value }, bubbles: true, composed: true }));
   };
 
@@ -226,7 +223,6 @@ export class SpComboboxComponent extends LitElement {
     e.stopPropagation();
     this.values = this.values.filter(v => v !== val);
     this._updateFormValue();
-    this.requestUpdate();
     this.dispatchEvent(new CustomEvent("sp-change", { detail: { values: this.values }, bubbles: true, composed: true }));
   };
 
@@ -241,7 +237,6 @@ export class SpComboboxComponent extends LitElement {
     this._open = false;
     this._highlightedIndex = null;
     this._updateFormValue();
-    this.requestUpdate();
     this.dispatchEvent(new CustomEvent("sp-clear", { bubbles: true, composed: true }));
   };
 
@@ -250,7 +245,6 @@ export class SpComboboxComponent extends LitElement {
     if (e.key === "Backspace" && this.multiple && this._searchText === "" && this.values.length > 0) {
       this.values = this.values.slice(0, -1);
       this._updateFormValue();
-      this.requestUpdate();
       this.dispatchEvent(new CustomEvent("sp-change", { detail: { values: this.values }, bubbles: true, composed: true }));
       return;
     }
@@ -259,7 +253,6 @@ export class SpComboboxComponent extends LitElement {
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
         e.preventDefault();
         this._open = true;
-        this.requestUpdate();
         return;
       }
       return;
@@ -271,12 +264,10 @@ export class SpComboboxComponent extends LitElement {
     if (e.key === "ArrowDown") {
       e.preventDefault();
       this._highlightedIndex = currentIdx < options.length - 1 ? currentIdx + 1 : 0;
-      this.requestUpdate();
       this.updateComplete.then(() => this._scrollHighlightedIntoView());
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       this._highlightedIndex = currentIdx > 0 ? currentIdx - 1 : options.length - 1;
-      this.requestUpdate();
       this.updateComplete.then(() => this._scrollHighlightedIntoView());
     } else if (e.key === "Enter" && currentIdx >= 0) {
       e.preventDefault();
@@ -288,16 +279,13 @@ export class SpComboboxComponent extends LitElement {
       e.preventDefault();
       this._open = false;
       this._highlightedIndex = null;
-      this.requestUpdate();
     } else if (e.key === "Home") {
       e.preventDefault();
       this._highlightedIndex = 0;
-      this.requestUpdate();
       this.updateComplete.then(() => this._scrollHighlightedIntoView());
     } else if (e.key === "End") {
       e.preventDefault();
       this._highlightedIndex = options.length - 1;
-      this.requestUpdate();
       this.updateComplete.then(() => this._scrollHighlightedIntoView());
     }
   };

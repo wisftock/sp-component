@@ -1,3 +1,5 @@
+*, *::before, *::after { box-sizing: border-box; }
+
 :host {
   display: block;
   --sp-divider-color: var(--sp-border-subtle, #e5e7eb);

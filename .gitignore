@@ -1,5 +1,6 @@
 node_modules/
 dist/
+dist-cdn/
 storybook-static/
 
 # Environment variables — never commit tokens
@@ -7,3 +8,4 @@ storybook-static/
 .env.local
 .env.*.local
 .claude
+figma.config.json

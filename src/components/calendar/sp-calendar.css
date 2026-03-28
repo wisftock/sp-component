@@ -10,16 +10,16 @@
   --sp-cal-day-color: var(--sp-text-secondary, #1e293b);
   --sp-cal-day-outside-color: var(--sp-border-strong, #cbd5e1);
   --sp-cal-day-hover-bg: var(--sp-bg-subtle, #f1f5f9);
-  --sp-cal-today-color: #6366f1;
-  --sp-cal-selected-bg: #6366f1;
+  --sp-cal-today-color: var(--sp-primary, #6366f1);
+  --sp-cal-selected-bg: var(--sp-primary, #6366f1);
   --sp-cal-selected-color: #ffffff;
-  --sp-cal-disabled-color: #e2e8f0;
-  --sp-cal-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  --sp-cal-range-bg: #e0e7ff;
-  --sp-cal-range-preview-bg: #f0f3ff;
-  --sp-cal-event-dot-color: #FAAD14;
-  --sp-cal-preset-border: #e2e8f0;
-  --sp-cal-preset-hover-bg: #f1f5f9;
+  --sp-cal-disabled-color: var(--sp-border-subtle, #e2e8f0);
+  --sp-cal-shadow: var(--sp-shadow, 0 4px 24px rgba(0, 0, 0, 0.08));
+  --sp-cal-range-bg: var(--sp-primary-bg-hover, #e0e7ff);
+  --sp-cal-range-preview-bg: var(--sp-primary-bg, #f0f3ff);
+  --sp-cal-event-dot-color: var(--sp-warning, #FAAD14);
+  --sp-cal-preset-border: var(--sp-border-subtle, #e2e8f0);
+  --sp-cal-preset-hover-bg: var(--sp-bg-subtle, #f1f5f9);
   font-family: inherit;
 }
 

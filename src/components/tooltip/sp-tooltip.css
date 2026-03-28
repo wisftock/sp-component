@@ -11,7 +11,7 @@
 
 .sp-tooltip {
   position: absolute;
-  z-index: 9999;
+  z-index: var(--sp-z-overlay, 9999);
   background: var(--sp-text-secondary, #1f2937);
   color: var(--sp-bg, white);
   font-size: 12px;

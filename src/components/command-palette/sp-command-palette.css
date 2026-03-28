@@ -6,7 +6,7 @@
   position: fixed; inset: 0;
   background: var(--sp-overlay, rgba(0, 0, 0, 0.5));
   backdrop-filter: blur(2px);
-  z-index: 999;
+  z-index: calc(var(--sp-z-overlay, 9999) - 1);
 }
 
 .sp-command-palette {
@@ -16,7 +16,7 @@
   background: var(--sp-bg, #ffffff);
   border-radius: 12px;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.15);
-  z-index: 1000; overflow: hidden;
+  z-index: var(--sp-z-overlay, 9999); overflow: hidden;
   animation: sp-cp-in 0.15s ease;
 }
 

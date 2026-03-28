@@ -17,7 +17,7 @@
 
 .sp-menu-panel {
   position: absolute;
-  z-index: 9999;
+  z-index: var(--sp-z-overlay, 9999);
   background: var(--sp-bg, white);
   border: 1px solid var(--sp-border-subtle, #e5e7eb);
   border-radius: 8px;

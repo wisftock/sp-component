@@ -2,8 +2,8 @@
 
 :host { display: contents; }
 
-/* Hidden when not open */
-dialog:not([open]) { display: none; }
+/* Hidden when not open — !important needed to beat :host([placement]) dialog specificity tie */
+dialog:not([open]) { display: none !important; }
 
 /* ── Base dialog: transparent full-screen overlay ── */
 dialog {

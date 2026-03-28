@@ -71,7 +71,7 @@
 
 /* ---- Dropdown ---- */
 .sp-combobox-dropdown {
-  position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 9999;
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: var(--sp-z-overlay, 9999);
   background: var(--sp-bg, white);
   border: 1px solid var(--sp-border-subtle, #e5e7eb);
   border-radius: 6px;

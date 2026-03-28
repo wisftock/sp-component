@@ -6,7 +6,7 @@
   --sp-gallery-item-radius: 10px;
   --sp-gallery-caption-bg: rgba(0, 0, 0, 0.55);
   --sp-gallery-caption-color: #ffffff;
-  --sp-gallery-selected-color: #6366f1;
+  --sp-gallery-selected-color: var(--sp-primary, #6366f1);
   --sp-gallery-overlay-bg: rgba(0, 0, 0, 0.35);
   --sp-gallery-lightbox-bg: rgba(0, 0, 0, 0.92);
   --sp-gallery-lightbox-nav-bg: rgba(255, 255, 255, 0.12);
@@ -188,7 +188,7 @@
 .sp-gallery-lightbox {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: var(--sp-z-overlay, 9999);
   background: var(--sp-gallery-lightbox-bg);
   display: flex;
   align-items: center;

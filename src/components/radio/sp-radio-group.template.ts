@@ -11,7 +11,7 @@ export function radioGroupTemplate(this: SpRadioGroupComponent): TemplateResult 
         <slot @slotchange=${this._handleSlotChange}></slot>
       </div>
       ${this.error
-        ? html`<span class="sp-radio-group-error">${this.error}</span>`
+        ? html`<span class="sp-radio-group-error" role="alert">${this.error}</span>`
         : nothing}
       ${!this.error && this.hint
         ? html`<span class="sp-radio-group-hint">${this.hint}</span>`

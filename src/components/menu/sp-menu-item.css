@@ -48,7 +48,7 @@
   position: absolute;
   top: 0;
   left: calc(100% + 2px);
-  z-index: 10000;
+  z-index: calc(var(--sp-z-overlay, 9999) + 1);
   background: var(--sp-bg, white);
   border: 1px solid var(--sp-border-subtle, #e5e7eb);
   border-radius: 8px;

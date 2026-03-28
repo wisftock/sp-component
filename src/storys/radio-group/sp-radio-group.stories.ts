@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import type { SpRadioGroupProps } from "../../components/radio-group/sp-radio-group.types.js";
+import type { SpRadioGroupProps } from "../../components/radio/sp-radio-group.types.js";
 import "../../components/radio/sp-radio.js";
-import "../../components/radio-group/sp-radio-group.js";
+import "../../components/radio/sp-radio-group.js";
 
 const meta: Meta<SpRadioGroupProps> = {
   title: "Components/RadioGroup",

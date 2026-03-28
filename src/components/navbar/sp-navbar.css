@@ -1,8 +1,8 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 :host { display: block; width: 100%; }
-:host([fixed])  { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
-:host([sticky]) { position: sticky; top: 0; z-index: 1000; }
+:host([fixed])  { position: fixed; top: 0; left: 0; right: 0; z-index: var(--sp-z-navbar, 1000); }
+:host([sticky]) { position: sticky; top: 0; z-index: var(--sp-z-navbar, 1000); }
 
 .sp-navbar {
   display: flex;

@@ -8,10 +8,10 @@
 .sp-alert-message { font-size: 14px; line-height: 1.5; }
 .sp-alert-close { margin-left: auto; background: none; border: none; cursor: pointer; opacity: 0.6; font-size: 14px; padding: 2px; flex-shrink: 0; line-height: 1; }
 .sp-alert-close:hover { opacity: 1; }
-:host([variant="info"]) .sp-alert { background: var(--sp-primary-bg, #eff6ff); border-color: #bfdbfe; color: #1e40af; }
-:host([variant="success"]) .sp-alert { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
-:host([variant="warning"]) .sp-alert { background: var(--sp-warning-bg, #FFFBE6); border-color: #fde68a; color: #92400e; }
-:host([variant="error"]) .sp-alert { background: var(--sp-error-bg, #FFF2F0); border-color: #fecaca; color: #991b1b; }
+:host([variant="info"]) .sp-alert { background: var(--sp-info-bg, #eff6ff); border-color: var(--sp-info-bg-hover, #bfdbfe); color: #1e40af; }
+:host([variant="success"]) .sp-alert { background: var(--sp-success-bg, #f0fdf4); border-color: var(--sp-success-bg-hover, #bbf7d0); color: #166534; }
+:host([variant="warning"]) .sp-alert { background: var(--sp-warning-bg, #FFFBE6); border-color: var(--sp-warning-bg-hover, #fde68a); color: #92400e; }
+:host([variant="error"]) .sp-alert { background: var(--sp-error-bg, #FFF2F0); border-color: var(--sp-error-bg-hover, #fecaca); color: #991b1b; }
 
 .sp-alert-close:focus-visible {
   outline: 2px solid var(--sp-primary, #3b82f6);

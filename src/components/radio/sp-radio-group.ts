@@ -6,16 +6,18 @@ import type { SpRadioGroupOrientation } from "./sp-radio-group.types.js";
 
 /**
  * Radio group component that manages a set of sp-radio children.
+ * Form-associated custom element.
  *
  * @element sp-radio-group
  *
- * @prop {string}                     name        - Name shared across child radios
  * @prop {string}                     value       - Currently selected value
+ * @prop {string}                     name        - Name shared across child radios
  * @prop {boolean}                    disabled    - Disables all child radios
+ * @prop {boolean}                    required    - Marks the group as required
  * @prop {SpRadioGroupOrientation}    orientation - Layout direction: vertical | horizontal
  * @prop {string}                     label       - Group label rendered as a legend
- * @prop {string}                     error       - Error message shown below the group
  * @prop {string}                     hint        - Hint text (hidden when error is set)
+ * @prop {string}                     error       - Error message shown below the group
  *
  * @fires {CustomEvent<{ value: string }>} sp-change - Emitted when the selected value changes
  *
@@ -24,15 +26,26 @@ import type { SpRadioGroupOrientation } from "./sp-radio-group.types.js";
 @customElement("sp-radio-group")
 export class SpRadioGroupComponent extends LitElement {
   static override styles = unsafeCSS(styles);
+  static formAssociated = true;
 
-  @property({ type: String })
-  name = "";
+  readonly #internals: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
 
   @property({ type: String })
   value = "";
 
+  @property({ type: String })
+  name = "";
+
   @property({ type: Boolean, reflect: true })
   disabled = false;
+
+  @property({ type: Boolean, reflect: true })
+  required = false;
 
   @property({ type: String, reflect: true })
   orientation: SpRadioGroupOrientation = "vertical";
@@ -41,10 +54,10 @@ export class SpRadioGroupComponent extends LitElement {
   label = "";
 
   @property({ type: String })
-  error = "";
-
-  @property({ type: String })
   hint = "";
+
+  @property({ type: String, reflect: true })
+  error = "";
 
   override render() {
     return radioGroupTemplate.call(this);
@@ -64,6 +77,12 @@ export class SpRadioGroupComponent extends LitElement {
     if (changed.has("value") || changed.has("name") || changed.has("disabled")) {
       this._syncRadios();
     }
+    this.#internals.setFormValue(this.value || null);
+  }
+
+  formResetCallback(): void {
+    this.value = "";
+    this._syncRadios();
   }
 
   private _syncRadios(): void {
@@ -80,9 +99,7 @@ export class SpRadioGroupComponent extends LitElement {
   };
 
   private readonly _handleRadioChange = (e: CustomEvent<{ value: string }>): void => {
-    // Only handle events from child radios, not our own re-dispatched event
     if (e.target === this) return;
-    // Consume the child event entirely so other listeners on this element don't see it
     e.stopImmediatePropagation();
     this.value = e.detail.value;
     this.dispatchEvent(

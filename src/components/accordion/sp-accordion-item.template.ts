@@ -14,7 +14,7 @@ export function accordionItemTemplate(this: SpAccordionItemComponent): TemplateR
         @click=${this._handleClick}
       >
         <span class="sp-accordion-label"><slot name="label">${this.label}</slot></span>
-        <span class="sp-accordion-icon" aria-hidden="true">▼</span>
+        <span class="sp-accordion-icon" aria-hidden="true">${this.open ? "▲" : "▼"}</span>
       </button>
       <div
         class="sp-accordion-content"

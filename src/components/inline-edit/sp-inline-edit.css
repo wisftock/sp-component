@@ -1,0 +1,137 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+:host {
+  display: inline-block;
+  font-family: inherit;
+}
+
+:host([disabled]) {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ---- Display mode ---- */
+
+.sp-inline-edit-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: text;
+  min-height: 32px;
+  min-width: 60px;
+  color: var(--sp-text, #111827);
+  font-size: 14px;
+  line-height: 1.5;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.sp-inline-edit-display:hover {
+  border-color: var(--sp-border, #d1d5db);
+  background: var(--sp-bg-subtle, #f9fafb);
+}
+
+.sp-inline-edit-display--empty {
+  color: var(--sp-text-placeholder, #9ca3af);
+  font-style: italic;
+}
+
+.sp-inline-edit-display-icon {
+  opacity: 0;
+  color: var(--sp-text-muted, #6b7280);
+  font-size: 12px;
+  transition: opacity 0.15s;
+}
+
+.sp-inline-edit-display:hover .sp-inline-edit-display-icon {
+  opacity: 1;
+}
+
+:host([readonly]) .sp-inline-edit-display {
+  cursor: default;
+}
+
+:host([readonly]) .sp-inline-edit-display:hover {
+  border-color: transparent;
+  background: transparent;
+}
+
+:host([readonly]) .sp-inline-edit-display-icon {
+  display: none;
+}
+
+/* ---- Edit mode ---- */
+
+.sp-inline-edit-form {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sp-inline-edit-input {
+  border: 1px solid var(--sp-primary, #3b82f6);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--sp-text, #111827);
+  background: var(--sp-bg, white);
+  outline: 2px solid var(--sp-primary-focus, rgba(59, 130, 246, 0.2));
+  outline-offset: -1px;
+  min-width: 60px;
+}
+
+.sp-inline-edit-input:focus {
+  outline: 2px solid var(--sp-primary-focus, rgba(59, 130, 246, 0.2));
+}
+
+/* ---- Action buttons ---- */
+
+.sp-inline-edit-actions {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.sp-inline-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--sp-border, #d1d5db);
+  border-radius: 4px;
+  background: var(--sp-bg, white);
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--sp-text-muted, #6b7280);
+  transition: all 0.15s;
+  padding: 0;
+}
+
+.sp-inline-edit-btn:hover {
+  border-color: var(--sp-border-strong, #9ca3af);
+  color: var(--sp-text, #111827);
+}
+
+.sp-inline-edit-btn--confirm {
+  border-color: var(--sp-primary, #3b82f6);
+  color: var(--sp-primary, #3b82f6);
+}
+
+.sp-inline-edit-btn--confirm:hover {
+  background: var(--sp-primary, #3b82f6);
+  color: white;
+}
+
+.sp-inline-edit-btn--cancel:hover {
+  border-color: var(--sp-error, #FF4D4F);
+  color: var(--sp-error, #FF4D4F);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-inline-edit-display,
+  .sp-inline-edit-display-icon,
+  .sp-inline-edit-btn { transition: none; }
+}

@@ -1,6 +1,6 @@
 {
   "name": "sp-component",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Librería de Web Components compatible con Angular, React, Vue y cualquier framework",
   "type": "module",
   "main": "./dist/index.js",

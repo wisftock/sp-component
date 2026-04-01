@@ -43,6 +43,9 @@ export class SpRadioComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  @property({ type: Boolean, reflect: true })
+  required = false;
+
   @property({ type: String, reflect: true })
   size: SpRadioSize = "md";
 
@@ -67,11 +70,19 @@ export class SpRadioComponent extends LitElement {
 
   override updated(): void {
     this.#internals.setFormValue(this.checked ? this.value : null);
+    if (this.required && !this.checked) {
+      this.#internals.setValidity({ valueMissing: true }, "Please select an option");
+    } else {
+      this.#internals.setValidity({});
+    }
   }
 
   formResetCallback(): void {
     this.checked = false;
     this.#internals.setFormValue(null);
+    if (this.required) {
+      this.#internals.setValidity({ valueMissing: true }, "Please select an option");
+    }
   }
 
   readonly _handleChange = (e: Event): void => {

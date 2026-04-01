@@ -14,6 +14,7 @@ export interface SpInputProps {
   name: string;
   size: SpInputSize;
   clearable: boolean;
+  loading: boolean;
   maxlength: number;
   minlength: number;
   error: string;

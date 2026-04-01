@@ -73,9 +73,11 @@ export function selectTemplate(this: SpSelectComponent): TemplateResult {
                   >${opt.label}</option>`,
               )}
         </select>
-        ${!this.multiple
-          ? html`<span class="sp-select-arrow" aria-hidden="true">▾</span>`
-          : nothing}
+        ${this.loading
+          ? html`<span class="sp-select-spinner" aria-hidden="true"></span>`
+          : !this.multiple
+            ? html`<span class="sp-select-arrow" aria-hidden="true">▾</span>`
+            : nothing}
       </div>
       ${this.multiple && selectedCount > 0
         ? html`<span class="sp-select-count-badge">${selectedCount} selected</span>`

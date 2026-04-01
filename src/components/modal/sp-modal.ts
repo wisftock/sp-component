@@ -73,10 +73,13 @@ export class SpModalComponent extends LitElement {
     return [...shadowEls, ...slottedEls];
   }
 
+  private _closeReason: "escape" | "overlay" | "button" = "button";
+
   private _handleKeydown = (e: KeyboardEvent): void => {
     if (!this.open) return;
     if (e.key === "Escape") {
       e.preventDefault();
+      this._closeReason = "escape";
       this.open = false;
       return;
     }
@@ -157,8 +160,13 @@ export class SpModalComponent extends LitElement {
         document.body.style.overflow = "";
         if (dialog.open) dialog.close();
         this.dispatchEvent(
-          new CustomEvent("sp-hide", { bubbles: true, composed: true }),
+          new CustomEvent("sp-hide", {
+            detail: { reason: this._closeReason },
+            bubbles: true,
+            composed: true,
+          }),
         );
+        this._closeReason = "button";
         (this._previousFocus as HTMLElement)?.focus?.();
         this._previousFocus = null;
         this._afterHideTimer = setTimeout(() => {
@@ -172,11 +180,15 @@ export class SpModalComponent extends LitElement {
   }
 
   readonly _handleClose = () => {
+    this._closeReason = "button";
     this.open = false;
   };
 
   readonly _handleOverlayClick = (e: MouseEvent) => {
-    if (this.closeOnOverlay && e.target === e.currentTarget) this.open = false;
+    if (this.closeOnOverlay && e.target === e.currentTarget) {
+      this._closeReason = "overlay";
+      this.open = false;
+    }
   };
 }
 

@@ -44,16 +44,18 @@ export function inputTemplate(this: SpInputComponent): TemplateResult {
           @focus=${this._handleFocus}
           @blur=${this._handleBlur}
         />
-        ${this.clearable && this.value
-          ? html`<button
-              class="sp-input-clear"
-              type="button"
-              @click=${this._handleClear}
-              aria-label="Clear"
-            >
-              ✕
-            </button>`
-          : nothing}
+        ${this.loading
+          ? html`<span class="sp-input-spinner" aria-hidden="true" aria-label="Loading"></span>`
+          : this.clearable && this.value
+            ? html`<button
+                class="sp-input-clear"
+                type="button"
+                @click=${this._handleClear}
+                aria-label="Clear"
+              >
+                ✕
+              </button>`
+            : nothing}
         <slot name="suffix"></slot>
       </div>
       <div class="sp-input-footer">

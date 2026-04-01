@@ -60,6 +60,11 @@ export function commandPaletteTemplate(
           : nothing}
         ${this._renderGroups(filteredItems)}
       </div>
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        class="sp-visually-hidden"
+      >${!this.loading && this._query ? `${filteredItems.length} result${filteredItems.length !== 1 ? "s" : ""} found` : nothing}</div>
 
       <div class="sp-command-palette-footer">
         <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>

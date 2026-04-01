@@ -12,6 +12,7 @@ export interface SpSelectProps {
   placeholder: string;
   disabled: boolean;
   required: boolean;
+  loading: boolean;
   name: string;
   size: SpSelectSize;
   multiple: boolean;

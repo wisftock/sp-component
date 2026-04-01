@@ -73,6 +73,29 @@ select:focus-visible {
   font-size: 12px;
 }
 
+/* ---- Loading spinner ---- */
+
+@keyframes sp-select-spin {
+  to { transform: rotate(360deg); }
+}
+
+.sp-select-spinner {
+  position: absolute;
+  right: 10px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--sp-border, #d1d5db);
+  border-top-color: var(--sp-primary, #3b82f6);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: sp-select-spin 0.6s linear infinite;
+}
+
+:host([loading]) select {
+  cursor: wait;
+  padding-right: 36px;
+}
+
 /* ---- Sizes ---- */
 
 :host([size="sm"]) select {

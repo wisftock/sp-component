@@ -49,6 +49,27 @@ export class SpAccordionItemComponent extends LitElement {
     }
   };
 
+  override updated(changed: Map<string, unknown>) {
+    if (changed.has("open")) {
+      const content = this.shadowRoot?.querySelector<HTMLElement>(".sp-accordion-content");
+      const body = this.shadowRoot?.querySelector<HTMLElement>(".sp-accordion-body");
+      if (!content || !body) return;
+      if (this.open) {
+        content.style.height = body.scrollHeight + "px";
+        content.addEventListener(
+          "transitionend",
+          () => { content.style.height = "auto"; },
+          { once: true },
+        );
+      } else {
+        content.style.height = content.scrollHeight + "px";
+        requestAnimationFrame(() => {
+          content.style.height = "0";
+        });
+      }
+    }
+  }
+
   override render() {
     return accordionItemTemplate.call(this);
   }

@@ -74,6 +74,9 @@ export class SpInputComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   clearable = false;
 
+  @property({ type: Boolean, reflect: true })
+  loading = false;
+
   @property({ type: Number })
   maxlength = 0;
 

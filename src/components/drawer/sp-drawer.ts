@@ -47,6 +47,7 @@ export class SpDrawerComponent extends LitElement {
   closeOnOverlay = true;
 
   private _previousFocus: Element | null = null;
+  private _closeReason: "escape" | "overlay" | "button" | "swipe" = "button";
   private _touchStartX = 0;
   private _touchStartY = 0;
   private _afterHideTimer: ReturnType<typeof setTimeout> | null = null;
@@ -67,6 +68,7 @@ export class SpDrawerComponent extends LitElement {
     if (!this.open) return;
     if (e.key === "Escape") {
       e.preventDefault();
+      this._closeReason = "escape";
       this.open = false;
       return;
     }
@@ -157,8 +159,13 @@ export class SpDrawerComponent extends LitElement {
           document.body.style.overflow = "";
           if (dialog.open) dialog.close();
           this.dispatchEvent(
-            new CustomEvent("sp-hide", { bubbles: true, composed: true }),
+            new CustomEvent("sp-hide", {
+              detail: { reason: this._closeReason },
+              bubbles: true,
+              composed: true,
+            }),
           );
+          this._closeReason = "button";
           (prev as HTMLElement)?.focus?.();
 
           if (this._afterHideTimer !== null) { clearTimeout(this._afterHideTimer); this._afterHideTimer = null; }
@@ -199,6 +206,7 @@ export class SpDrawerComponent extends LitElement {
     }
 
     if (shouldClose) {
+      this._closeReason = "swipe";
       this.open = false;
     }
   };
@@ -211,11 +219,15 @@ export class SpDrawerComponent extends LitElement {
   }
 
   readonly _handleClose = () => {
+    this._closeReason = "button";
     this.open = false;
   };
 
   readonly _handleOverlayClick = (e: MouseEvent) => {
-    if (this.closeOnOverlay && e.target === e.currentTarget) this.open = false;
+    if (this.closeOnOverlay && e.target === e.currentTarget) {
+      this._closeReason = "overlay";
+      this.open = false;
+    }
   };
 }
 

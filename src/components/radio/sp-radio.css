@@ -43,7 +43,20 @@
 }
 
 .sp-radio-control--checked { border-color: var(--sp-primary, #3b82f6); }
-.sp-radio-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sp-primary, #3b82f6); }
+
+@keyframes sp-radio-pop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.sp-radio-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sp-primary, #3b82f6);
+  animation: sp-radio-pop 0.2s ease forwards;
+}
 
 .sp-radio-control:has(input:focus-visible) { outline: 2px solid var(--sp-primary, #3b82f6); outline-offset: 2px; }
 
@@ -58,4 +71,7 @@
 .sp-radio-error { display: block; font-size: 12px; color: var(--sp-error, #FF4D4F); margin-top: 4px; }
 .sp-radio-hint { display: block; font-size: 12px; color: var(--sp-text-muted, #6b7280); margin-top: 4px; }
 
-@media (prefers-reduced-motion: reduce) { .sp-radio-control { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .sp-radio-control { transition: none; }
+  .sp-radio-dot { animation: none; }
+}

@@ -51,6 +51,9 @@ export class SpSelectComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   required = false;
 
+  @property({ type: Boolean, reflect: true })
+  loading = false;
+
   @property({ type: String })
   name = "";
 

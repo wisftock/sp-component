@@ -56,5 +56,7 @@ export * from "./components/scroll-area/index.js";
 export * from "./components/tree/index.js";
 export * from "./components/gallery/index.js";
 export * from "./components/autocomplete/index.js";
+export * from "./components/segmented-control/index.js";
+export * from "./components/inline-edit/index.js";
 export { SpConfig } from "./config.js";
 export type { SpLocale, SpTableLocale } from "./config.js";

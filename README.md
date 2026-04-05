@@ -12,9 +12,14 @@ Una librería de **Web Components** construida con [Lit](https://lit.dev/), comp
 - **Form-associated** — integración nativa con `<form>` y `FormData` con validación via `ElementInternals`
 - **Accesible** — navegación por teclado y ARIA en todos los componentes interactivos
 - **Dark mode** — automático vía `prefers-color-scheme` con sistema de tokens CSS
-- **Themeable** — sistema de tokens completo: colores, tipografía, espaciado, radios y transiciones
+- **Themeable** — sistema de tokens completo + API `SpConfig.setTheme()` con temas predefinidos
+- **i18n** — todos los strings internos configurables vía `SpConfig.setLocale()`
+- **Floating UI** — posicionamiento inteligente de dropdowns, popovers y tooltips (flip, shift, auto-update)
+- **Animaciones de entrada y salida** — todos los overlays animados en apertura y cierre
+- **Compound components** — API headless/composable para menú y select
 - **Tree-shakeable** — importa solo lo que necesitas
 - **CDN ready** — bundle IIFE listo para usar sin bundler
+- **CLI** — herramienta para copiar componentes directamente a tu proyecto
 
 ---
 
@@ -25,6 +30,12 @@ Una librería de **Web Components** construida con [Lit](https://lit.dev/), comp
   - [CDN (sin bundler)](#cdn-sin-bundler)
 - [Quick Start](#quick-start)
 - [Tokens CSS y Dark Mode](#tokens-css-y-dark-mode)
+- [SpConfig API](#spconfig-api)
+  - [Temas predefinidos](#temas-predefinidos)
+  - [Tema personalizado](#tema-personalizado)
+  - [Color scheme](#color-scheme)
+  - [Densidad](#densidad)
+  - [i18n / Internacionalización](#i18n--internacionalización)
 - [Uso por Framework](#uso-por-framework)
   - [HTML / Vanilla JS](#html--vanilla-js)
   - [Angular](#angular)
@@ -38,19 +49,26 @@ Una librería de **Web Components** construida con [Lit](https://lit.dev/), comp
   - [Data Display](#data-display)
   - [Feedback & Status](#feedback--status)
   - [Layout & Utilities](#layout--utilities)
+  - [Compound Components](#compound-components-1)
 - [Referencia de Componentes](#referencia-de-componentes)
   - [sp-button](#sp-button)
   - [sp-input](#sp-input)
   - [sp-select](#sp-select)
+  - [sp-form](#sp-form)
   - [sp-modal](#sp-modal)
   - [sp-drawer](#sp-drawer)
   - [sp-segmented-control](#sp-segmented-control)
   - [sp-inline-edit](#sp-inline-edit)
   - [sp-spinner](#sp-spinner)
   - [sp-accordion](#sp-accordion)
+- [Compound Components](#compound-components)
+  - [sp-menu-root](#sp-menu-root)
+  - [sp-select-root](#sp-select-root)
+- [Form Validation API](#form-validation-api)
 - [Eventos](#eventos)
 - [Form Participation](#form-participation)
 - [Theming](#theming)
+- [CLI Tool](#cli-tool)
 - [Contribuir](#contribuir)
 - [Licencia](#licencia)
 
@@ -160,13 +178,121 @@ Los tokens definen CSS custom properties para modo claro y oscuro usando `prefer
 --sp-radius-none, --sp-radius-sm, --sp-radius-base, --sp-radius-md
 --sp-radius-lg, --sp-radius-xl, --sp-radius-2xl, --sp-radius-full
 
-/* Transiciones */
+/* Transiciones y animaciones */
 --sp-duration-fast (100ms), --sp-duration-base (150ms), --sp-duration-slow (250ms)
 --sp-easing-default, --sp-easing-in, --sp-easing-out, --sp-easing-in-out
+--sp-anim-duration-mount (200ms), --sp-anim-duration-unmount (150ms)
+--sp-easing-spring, --sp-easing-bounce
 
 /* Z-index */
 --sp-z-navbar, --sp-z-dropdown, --sp-z-tooltip, --sp-z-overlay, --sp-z-toast
 ```
+
+---
+
+## SpConfig API
+
+`SpConfig` es un singleton global que controla el tema, color scheme, densidad e i18n de toda la librería en runtime.
+
+```js
+import { SpConfig } from "sp-component";
+```
+
+### Temas predefinidos
+
+Cambia la paleta de colores primarios en una sola línea:
+
+```js
+SpConfig.setTheme("violet");   // violeta
+SpConfig.setTheme("rose");     // rojo rosado
+SpConfig.setTheme("emerald");  // verde
+SpConfig.setTheme("amber");    // amarillo/naranja
+SpConfig.setTheme("slate");    // gris azulado
+SpConfig.setTheme("default");  // azul (default)
+```
+
+| Tema       | Color principal |
+| ---------- | --------------- |
+| `default`  | `#3b82f6` azul  |
+| `violet`   | `#7c3aed`       |
+| `rose`     | `#e11d48`       |
+| `emerald`  | `#059669`       |
+| `amber`    | `#d97706`       |
+| `slate`    | `#475569`       |
+
+### Tema personalizado
+
+Pasa un objeto con tokens `--sp-*` para sobreescribir cualquier valor:
+
+```js
+SpConfig.setTheme({
+  "--sp-primary": "#6366f1",
+  "--sp-primary-hover": "#4f46e5",
+  "--sp-primary-active": "#4338ca",
+  "--sp-primary-bg": "#eef2ff",
+  "--sp-primary-focus": "rgba(99, 102, 241, 0.2)",
+});
+```
+
+### Color scheme
+
+Fuerza el modo claro u oscuro sin depender de la preferencia del sistema:
+
+```js
+SpConfig.setColorScheme("light");  // fuerza modo claro
+SpConfig.setColorScheme("dark");   // fuerza modo oscuro
+SpConfig.setColorScheme("auto");   // sigue prefers-color-scheme (default)
+```
+
+### Densidad
+
+Controla el espaciado interno de todos los componentes:
+
+```js
+SpConfig.setDensity("compact");     // más compacto
+SpConfig.setDensity("comfortable"); // espaciado normal (default)
+SpConfig.setDensity("spacious");    // más espacioso
+```
+
+### i18n / Internacionalización
+
+Todos los strings internos de la librería (labels de botones, placeholders, aria-labels) son configurables. Hay dos locales incluidos:
+
+```js
+import { SpConfig } from "sp-component";
+import { es } from "sp-component/locale/es";
+import { en } from "sp-component/locale/en";
+
+// Cambiar a español
+SpConfig.setLocale(es);
+
+// Cambiar a inglés
+SpConfig.setLocale(en);
+
+// Override parcial (solo lo que necesitas cambiar)
+SpConfig.setLocale({
+  modal: { closeLabel: "Cerrar ventana" },
+  common: { confirm: "Aceptar", cancel: "Cancelar" },
+});
+```
+
+Strings configurables por componente:
+
+| Sección       | Strings                                                           |
+| ------------- | ----------------------------------------------------------------- |
+| `common`      | `close`, `clear`, `cancel`, `confirm`, `remove`, `loading`, `dismiss` |
+| `modal`       | `closeLabel`                                                      |
+| `drawer`      | `closeLabel`                                                      |
+| `input`       | `clearLabel`                                                      |
+| `autocomplete`| `clearLabel`, `openLabel`, `closeLabel`, `removeLabel`            |
+| `combobox`    | `clearLabel`, `removeLabel`                                       |
+| `pagination`  | `firstPageLabel`, `prevPageLabel`, `nextPageLabel`, `lastPageLabel` |
+| `table`       | `searchPlaceholder`, `empty`, `filteredEmpty`, `clearFilters`, ... |
+| `fileUpload`  | `removeFileLabel`                                                 |
+| `timePicker`  | Labels de incremento/decremento para horas, minutos y segundos    |
+| `colorPicker` | `pickerLabel`, `hueLabel`, `alphaLabel`, `valueLabel`             |
+| `calendar`    | Labels de navegación de meses y años                              |
+| `carousel`    | Labels de slides con soporte para `{index}` y `{total}`           |
 
 ---
 
@@ -321,7 +447,8 @@ const role = ref("");
 
 | Componente        | Tag                      | Descripción                                                               |
 | ----------------- | ------------------------ | ------------------------------------------------------------------------- |
-| Input             | `<sp-input>`             | Text, email, password, number, search, tel, url. Incluye estado `loading` |
+| Form              | `<sp-form>`              | Wrapper de formulario con validación integrada y evento `sp-submit`       |
+| Input             | `<sp-input>`             | Text, email, password, number, search. Variantes: `outline`, `filled`    |
 | Textarea          | `<sp-textarea>`          | Texto multilínea con contador de caracteres                               |
 | Checkbox          | `<sp-checkbox>`          | Checkbox con animación de checkmark                                       |
 | Checkbox Group    | `<sp-checkbox-group>`    | Grupo de checkboxes                                                       |
@@ -345,10 +472,10 @@ const role = ref("");
 
 ### Buttons & Actions
 
-| Componente  | Tag                | Descripción                                     |
-| ----------- | ------------------ | ----------------------------------------------- |
-| Button      | `<sp-button>`      | Primary, secondary, ghost, destructive, link    |
-| Copy Button | `<sp-copy-button>` | Copia texto al portapapeles con feedback visual |
+| Componente  | Tag                | Descripción                                                                    |
+| ----------- | ------------------ | ------------------------------------------------------------------------------ |
+| Button      | `<sp-button>`      | Variantes: `primary`, `secondary`, `ghost`, `destructive`, `outline`, `soft`, `link` |
+| Copy Button | `<sp-copy-button>` | Copia texto al portapapeles con feedback visual                                |
 
 ### Navigation
 
@@ -366,10 +493,10 @@ const role = ref("");
 
 | Componente      | Tag                    | Descripción                                                     |
 | --------------- | ---------------------- | --------------------------------------------------------------- |
-| Modal           | `<sp-modal>`           | Diálogo con focus trap, ESC y razón de cierre en el evento      |
+| Modal           | `<sp-modal>`           | Diálogo con focus trap, ESC, animación de entrada/salida y razón de cierre |
 | Drawer          | `<sp-drawer>`          | Panel deslizante con focus trap, swipe y razón de cierre        |
-| Popover         | `<sp-popover>`         | Panel flotante anclado a un elemento                            |
-| Tooltip         | `<sp-tooltip>`         | Pista de texto al hacer hover/focus                             |
+| Popover         | `<sp-popover>`         | Panel flotante con posicionamiento inteligente (Floating UI)    |
+| Tooltip         | `<sp-tooltip>`         | Pista de texto con posicionamiento automático (Floating UI)     |
 | Toast           | `<sp-toast>`           | Notificación temporal con barra de progreso                     |
 | Toast Stack     | `<sp-toast-stack>`     | Contenedor para apilar toasts                                   |
 | Confirm Dialog  | `<sp-confirm-dialog>`  | Prompt de confirmación con aceptar/cancelar                     |
@@ -381,12 +508,12 @@ const role = ref("");
 | -------------------- | ---------------------------------------- | ------------------------------------------------- |
 | Table                | `<sp-table>`                             | Tabla de datos con ordenamiento y selección       |
 | Card                 | `<sp-card>`                              | Contenedor con slots de header/footer             |
-| Badge                | `<sp-badge>`                             | Etiqueta de estado                                |
+| Badge                | `<sp-badge>`                             | Etiqueta de estado — `primary`, `success`, `warning`, `error`, `info`, `neutral`, `purple`, `teal`, `orange`, `cyan` |
 | Tag                  | `<sp-tag>`                               | Etiqueta dismissable                              |
 | Avatar               | `<sp-avatar>`                            | Imagen o iniciales de usuario con punto de estado |
 | Stat                 | `<sp-stat>`                              | Métrica con valor, label y tendencia              |
 | Timeline             | `<sp-timeline>`                          | Lista vertical de eventos                         |
-| Accordion            | `<sp-accordion>` + `<sp-accordion-item>` | Secciones de contenido colapsables                |
+| Accordion            | `<sp-accordion>` + `<sp-accordion-item>` | Secciones colapsables con animación de apertura y cierre |
 | Tree                 | `<sp-tree>` + `<sp-tree-item>`           | Árbol jerárquico de datos                         |
 | Gallery              | `<sp-gallery>`                           | Grilla de imágenes con lightbox                   |
 | Carousel             | `<sp-carousel>`                          | Carrusel deslizante de contenido                  |
@@ -414,6 +541,13 @@ const role = ref("");
 | Kbd             | `<sp-kbd>`             | Display de teclas de teclado             |
 | Visually Hidden | `<sp-visually-hidden>` | Contenido solo para lectores de pantalla |
 
+### Compound Components
+
+| Componente          | Tags                                                                                    | Descripción                             |
+| ------------------- | --------------------------------------------------------------------------------------- | --------------------------------------- |
+| Menu (compound)     | `<sp-menu-root>` `<sp-menu-trigger>` `<sp-menu-content>` `<sp-menu-option>` `<sp-menu-separator>` | Menú headless completamente composable  |
+| Select (compound)   | `<sp-select-root>` `<sp-select-trigger>` `<sp-select-content>` `<sp-select-item>` `<sp-select-group>` | Select headless completamente composable |
+
 ---
 
 ## Referencia de Componentes
@@ -421,11 +555,16 @@ const role = ref("");
 ### sp-button
 
 ```html
-<!-- Variantes -->
+<!-- Variantes básicas -->
 <sp-button variant="primary">Primary</sp-button>
 <sp-button variant="secondary">Secondary</sp-button>
 <sp-button variant="ghost">Ghost</sp-button>
 <sp-button variant="destructive">Eliminar</sp-button>
+
+<!-- Nuevas variantes -->
+<sp-button variant="outline">Outline</sp-button>
+<sp-button variant="soft">Soft</sp-button>
+<sp-button variant="link">Link</sp-button>
 
 <!-- Tamaños -->
 <sp-button size="sm">Pequeño</sp-button>
@@ -440,28 +579,22 @@ const role = ref("");
 <!-- Como enlace -->
 <sp-button href="https://example.com" target="_blank">Abrir enlace</sp-button>
 
-<!-- Con iconos en slots -->
-<sp-button variant="primary">
-  <sp-icon slot="prefix" name="save"></sp-icon>
-  Guardar
-</sp-button>
-
 <!-- Para formularios -->
 <sp-button type="submit">Enviar</sp-button>
 <sp-button type="reset">Limpiar</sp-button>
 ```
 
-| Propiedad    | Tipo                                           | Default   | Descripción                           |
-| ------------ | ---------------------------------------------- | --------- | ------------------------------------- |
-| `variant`    | `primary \| secondary \| ghost \| destructive` | `primary` | Estilo visual del botón               |
-| `size`       | `sm \| md \| lg`                               | `md`      | Tamaño del botón                      |
-| `disabled`   | `boolean`                                      | `false`   | Deshabilita el botón                  |
-| `loading`    | `boolean`                                      | `false`   | Muestra spinner y bloquea interacción |
-| `full-width` | `boolean`                                      | `false`   | Expande al 100% del contenedor        |
-| `type`       | `button \| submit \| reset`                    | `button`  | Tipo nativo del botón                 |
-| `href`       | `string`                                       | —         | Renderiza como `<a>` cuando se provee |
-| `target`     | `string`                                       | —         | Target del enlace (requiere `href`)   |
-| `label`      | `string`                                       | —         | `aria-label` accesible                |
+| Propiedad    | Tipo                                                                      | Default   | Descripción                           |
+| ------------ | ------------------------------------------------------------------------- | --------- | ------------------------------------- |
+| `variant`    | `primary \| secondary \| ghost \| destructive \| outline \| soft \| link` | `primary` | Estilo visual del botón               |
+| `size`       | `sm \| md \| lg`                                                          | `md`      | Tamaño del botón                      |
+| `disabled`   | `boolean`                                                                 | `false`   | Deshabilita el botón                  |
+| `loading`    | `boolean`                                                                 | `false`   | Muestra spinner y bloquea interacción |
+| `full-width` | `boolean`                                                                 | `false`   | Expande al 100% del contenedor        |
+| `type`       | `button \| submit \| reset`                                               | `button`  | Tipo nativo del botón                 |
+| `href`       | `string`                                                                  | —         | Renderiza como `<a>` cuando se provee |
+| `target`     | `string`                                                                  | —         | Target del enlace (requiere `href`)   |
+| `label`      | `string`                                                                  | —         | `aria-label` accesible                |
 
 | Evento     | Detail       | Descripción                                          |
 | ---------- | ------------ | ---------------------------------------------------- |
@@ -484,6 +617,10 @@ const role = ref("");
 <sp-input type="password" label="Contraseña"></sp-input>
 <sp-input type="search" label="Buscar" clearable></sp-input>
 
+<!-- Variantes -->
+<sp-input variant="outline" label="Outline (default)"></sp-input>
+<sp-input variant="filled" label="Filled"></sp-input>
+
 <!-- Con hint y error -->
 <sp-input label="Usuario" hint="Mínimo 6 caracteres" minlength="6"></sp-input>
 <sp-input label="Email" error="El email no es válido"></sp-input>
@@ -491,37 +628,36 @@ const role = ref("");
 <!-- Contador de caracteres -->
 <sp-input label="Bio" maxlength="120" placeholder="Cuéntanos sobre ti"></sp-input>
 
-<!-- Estado loading (ej. validación asíncrona) -->
-<sp-input label="Usuario" loading placeholder="Verificando disponibilidad..."></sp-input>
-
 <!-- Tamaños -->
 <sp-input size="sm" label="Pequeño"></sp-input>
 <sp-input size="md" label="Mediano"></sp-input>
 <sp-input size="lg" label="Grande"></sp-input>
-
-<!-- Estados -->
-<sp-input disabled label="Deshabilitado"></sp-input>
-<sp-input readonly value="Solo lectura" label="Read Only"></sp-input>
-<sp-input required label="Requerido"></sp-input>
 ```
 
-| Propiedad     | Tipo                                                          | Default | Descripción                                             |
-| ------------- | ------------------------------------------------------------- | ------- | ------------------------------------------------------- |
-| `type`        | `text \| email \| password \| number \| search \| tel \| url` | `text`  | Tipo del input nativo                                   |
-| `value`       | `string`                                                      | `""`    | Valor del input                                         |
-| `label`       | `string`                                                      | —       | Label visible                                           |
-| `placeholder` | `string`                                                      | —       | Placeholder                                             |
-| `hint`        | `string`                                                      | —       | Texto de ayuda debajo del input                         |
-| `error`       | `string`                                                      | —       | Mensaje de error                                        |
-| `size`        | `sm \| md \| lg`                                              | `md`    | Tamaño del input                                        |
-| `disabled`    | `boolean`                                                     | `false` | Deshabilita el input                                    |
-| `readonly`    | `boolean`                                                     | `false` | Solo lectura                                            |
-| `required`    | `boolean`                                                     | `false` | Campo requerido                                         |
-| `clearable`   | `boolean`                                                     | `false` | Muestra botón para limpiar el valor                     |
-| `loading`     | `boolean`                                                     | `false` | Muestra spinner (útil para validación asíncrona)        |
-| `maxlength`   | `number`                                                      | —       | Máximo de caracteres — muestra contador automáticamente |
-| `minlength`   | `number`                                                      | —       | Mínimo de caracteres                                    |
-| `name`        | `string`                                                      | —       | Nombre para `FormData`                                  |
+| Propiedad     | Tipo                                                          | Default     | Descripción                                             |
+| ------------- | ------------------------------------------------------------- | ----------- | ------------------------------------------------------- |
+| `type`        | `text \| email \| password \| number \| search \| tel \| url` | `text`      | Tipo del input nativo                                   |
+| `variant`     | `outline \| filled`                                           | `outline`   | Estilo visual del input                                 |
+| `value`       | `string`                                                      | `""`        | Valor del input                                         |
+| `label`       | `string`                                                      | —           | Label visible                                           |
+| `placeholder` | `string`                                                      | —           | Placeholder                                             |
+| `hint`        | `string`                                                      | —           | Texto de ayuda debajo del input                         |
+| `error`       | `string`                                                      | —           | Mensaje de error                                        |
+| `size`        | `sm \| md \| lg`                                              | `md`        | Tamaño del input                                        |
+| `disabled`    | `boolean`                                                     | `false`     | Deshabilita el input                                    |
+| `readonly`    | `boolean`                                                     | `false`     | Solo lectura                                            |
+| `required`    | `boolean`                                                     | `false`     | Campo requerido                                         |
+| `clearable`   | `boolean`                                                     | `false`     | Muestra botón para limpiar el valor                     |
+| `loading`     | `boolean`                                                     | `false`     | Muestra spinner (útil para validación asíncrona)        |
+| `maxlength`   | `number`                                                      | —           | Máximo de caracteres — muestra contador automáticamente |
+| `minlength`   | `number`                                                      | —           | Mínimo de caracteres                                    |
+| `name`        | `string`                                                      | —           | Nombre para `FormData`                                  |
+
+| Método                    | Descripción                                         |
+| ------------------------- | --------------------------------------------------- |
+| `setCustomValidity(msg)`  | Establece un error personalizado (vacío para limpiar) |
+| `checkValidity()`         | Retorna `true` si el campo es válido                |
+| `reportValidity()`        | Muestra la UI de validación y retorna la validez    |
 
 | Evento      | Detail      | Descripción                    |
 | ----------- | ----------- | ------------------------------ |
@@ -568,6 +704,55 @@ const role = ref("");
 | `label`       | `string`           | —       | Label visible                                           |
 | `name`        | `string`           | —       | Nombre para `FormData`                                  |
 
+| Método                    | Descripción                                           |
+| ------------------------- | ----------------------------------------------------- |
+| `setCustomValidity(msg)`  | Establece un error personalizado (vacío para limpiar) |
+| `checkValidity()`         | Retorna `true` si el campo es válido                  |
+| `reportValidity()`        | Muestra la UI de validación y retorna la validez      |
+
+---
+
+### sp-form
+
+Wrapper de formulario que integra todos los componentes `sp-*` form-associated. Previene el submit cuando hay campos inválidos y emite `sp-submit` con los datos del formulario.
+
+```html
+<sp-form id="my-form">
+  <sp-input name="email" type="email" label="Email" required></sp-input>
+  <sp-select name="role" label="Rol" required .options=${[...]}></sp-select>
+  <sp-checkbox name="terms" required label="Acepto los términos"></sp-checkbox>
+  <sp-button type="submit">Enviar</sp-button>
+</sp-form>
+
+<script>
+  document.getElementById("my-form").addEventListener("sp-submit", (e) => {
+    const data = Object.fromEntries(e.detail.formData);
+    console.log(data); // { email: "...", role: "...", terms: "on" }
+  });
+
+  document.getElementById("my-form").addEventListener("sp-invalid", () => {
+    console.log("Formulario inválido");
+  });
+</script>
+```
+
+| Propiedad    | Tipo      | Default | Descripción                                        |
+| ------------ | --------- | ------- | -------------------------------------------------- |
+| `novalidate` | `boolean` | `false` | Omite la validación al hacer submit                |
+
+| Método              | Descripción                                            |
+| ------------------- | ------------------------------------------------------ |
+| `submit()`          | Envía el formulario programáticamente (con validación) |
+| `reset()`           | Resetea todos los campos                               |
+| `checkValidity()`   | Retorna `true` si todos los campos son válidos         |
+| `reportValidity()`  | Muestra errores de validación y retorna la validez     |
+
+| Evento       | Detail            | Descripción                                   |
+| ------------ | ----------------- | --------------------------------------------- |
+| `sp-submit`  | `{ formData }`    | Se emite cuando el formulario es válido       |
+| `sp-invalid` | —                 | Se emite cuando hay campos inválidos al submit|
+| `sp-reset`   | —                 | Se emite al resetear el formulario            |
+
 ---
 
 ### sp-modal
@@ -597,6 +782,8 @@ const role = ref("");
 </script>
 ```
 
+El modal tiene **animación de entrada y salida** — al cerrar, espera que termine la animación CSS antes de llamar `dialog.close()`.
+
 | Propiedad          | Tipo                           | Default | Descripción                           |
 | ------------------ | ------------------------------ | ------- | ------------------------------------- |
 | `open`             | `boolean`                      | `false` | Abre/cierra el modal                  |
@@ -609,7 +796,7 @@ const role = ref("");
 | --------------- | ------------ | ------------------------------------------------------------ |
 | `sp-show`       | —            | Se emite al abrir el modal                                   |
 | `sp-hide`       | `{ reason }` | Se emite al cerrar — `reason`: `escape \| overlay \| button` |
-| `sp-after-hide` | —            | Se emite 300ms después del cierre (útil para animaciones)    |
+| `sp-after-hide` | —            | Se emite ~50ms después del cierre (útil para limpieza)       |
 
 | Slot      | Descripción                       |
 | --------- | --------------------------------- |
@@ -656,7 +843,6 @@ const role = ref("");
 Grupo de botones con selección exclusiva. Ideal para toggles de vista, filtros de tiempo, o cualquier opción mutuamente excluyente. Es **form-associated** — funciona con `<form>` y `FormData`.
 
 ```html
-<!-- Básico -->
 <sp-segmented-control value="week" name="view" id="view-control"></sp-segmented-control>
 
 <script>
@@ -668,32 +854,9 @@ Grupo de botones con selección exclusiva. Ideal para toggles de vista, filtros 
     { value: "year", label: "Año" },
   ];
   ctrl.addEventListener("sp-change", (e) => {
-    console.log(e.detail.value); // "day" | "week" | "month" | "year"
+    console.log(e.detail.value);
   });
 </script>
-
-<!-- Ancho completo -->
-<sp-segmented-control value="left" full-width></sp-segmented-control>
-
-<!-- Con opciones deshabilitadas -->
-<script>
-  document.querySelector("sp-segmented-control").options = [
-    { value: "view", label: "Ver" },
-    { value: "edit", label: "Editar" },
-    { value: "admin", label: "Admin", disabled: true },
-  ];
-</script>
-
-<!-- Tamaños -->
-<sp-segmented-control size="sm" value="a"></sp-segmented-control>
-<sp-segmented-control size="md" value="a"></sp-segmented-control>
-<sp-segmented-control size="lg" value="a"></sp-segmented-control>
-
-<!-- En un formulario nativo -->
-<form>
-  <sp-segmented-control name="plan" value="pro" required></sp-segmented-control>
-  <sp-button type="submit">Continuar</sp-button>
-</form>
 ```
 
 | Propiedad    | Tipo                         | Default | Descripción                                            |
@@ -706,56 +869,20 @@ Grupo de botones con selección exclusiva. Ideal para toggles de vista, filtros 
 | `size`       | `sm \| md \| lg`             | `md`    | Tamaño del control                                     |
 | `full-width` | `boolean`                    | `false` | Se expande al ancho del contenedor                     |
 
-| Evento      | Detail      | Descripción                     |
-| ----------- | ----------- | ------------------------------- |
-| `sp-change` | `{ value }` | Emitido al cambiar la selección |
-
 ---
 
 ### sp-inline-edit
 
-Texto que se convierte en un input al hacer clic. Perfecto para campos editables en dashboards, tablas o vistas de detalle sin necesidad de abrir un modal.
+Texto que se convierte en un input al hacer clic.
 
 ```html
-<!-- Básico -->
 <sp-inline-edit value="Nombre del proyecto" name="title"></sp-inline-edit>
-
-<!-- Con tipo y placeholder -->
-<sp-inline-edit type="email" value="user@example.com" placeholder="Ingresa un email"></sp-inline-edit>
-
-<!-- Texto vacío personalizado -->
-<sp-inline-edit empty-text="+ Agregar descripción"></sp-inline-edit>
-
-<!-- Solo lectura -->
-<sp-inline-edit value="No editable" readonly></sp-inline-edit>
-
-<!-- En un panel de detalles -->
-<div style="display: flex; flex-direction: column; gap: 8px;">
-  <div style="display: flex; gap: 12px; align-items: center;">
-    <span style="color: #6b7280; width: 80px; font-size: 13px;">Nombre</span>
-    <sp-inline-edit value="Acme Corp" name="name"></sp-inline-edit>
-  </div>
-  <div style="display: flex; gap: 12px; align-items: center;">
-    <span style="color: #6b7280; width: 80px; font-size: 13px;">Email</span>
-    <sp-inline-edit type="email" value="hello@acme.com" name="email"></sp-inline-edit>
-  </div>
-</div>
-
-<script>
-  document.querySelectorAll("sp-inline-edit").forEach((el) => {
-    el.addEventListener("sp-change", (e) => {
-      console.log("Nuevo valor:", e.detail.value);
-    });
-  });
-</script>
 ```
 
 **Interacción:**
-
 - **Clic o Enter/Espacio** sobre el texto → activa el modo edición
 - **Enter** en el input → confirma y guarda el nuevo valor
 - **Escape** en el input → cancela y restaura el valor anterior
-- Botones ✓ / ✕ para confirmar o cancelar con el mouse
 
 | Propiedad     | Tipo                             | Default           | Descripción                                |
 | ------------- | -------------------------------- | ----------------- | ------------------------------------------ |
@@ -764,31 +891,18 @@ Texto que se convierte en un input al hacer clic. Perfecto para campos editables
 | `type`        | `text \| number \| email \| url` | `text`            | Tipo del input                             |
 | `disabled`    | `boolean`                        | `false`           | Deshabilita la edición                     |
 | `readonly`    | `boolean`                        | `false`           | Muestra el valor sin permitir edición      |
-| `required`    | `boolean`                        | `false`           | Campo requerido en formularios             |
 | `name`        | `string`                         | —                 | Nombre para `FormData`                     |
-| `maxlength`   | `number`                         | —                 | Máximo de caracteres                       |
-| `editing`     | `boolean`                        | `false`           | Controla el modo edición programáticamente |
 | `empty-text`  | `string`                         | `"Click to edit"` | Texto cuando el valor está vacío           |
-
-| Evento           | Detail      | Descripción                          |
-| ---------------- | ----------- | ------------------------------------ |
-| `sp-change`      | `{ value }` | Se emite al confirmar el nuevo valor |
-| `sp-edit-start`  | —           | Se emite al activar el modo edición  |
-| `sp-edit-cancel` | —           | Se emite al cancelar la edición      |
 
 ---
 
 ### sp-spinner
 
 ```html
-<!-- Tamaños -->
 <sp-spinner size="sm"></sp-spinner>
 <sp-spinner size="md"></sp-spinner>
 <sp-spinner size="lg"></sp-spinner>
 <sp-spinner size="xl"></sp-spinner>
-
-<!-- Con label accesible (visible solo para screen readers) -->
-<sp-spinner size="md" label="Cargando datos..."></sp-spinner>
 ```
 
 | Propiedad | Tipo                   | Default | Descripción                         |
@@ -801,13 +915,16 @@ Texto que se convierte en un input al hacer clic. Perfecto para campos editables
 ### sp-accordion
 
 ```html
-<!-- Básico -->
 <sp-accordion>
   <sp-accordion-item label="¿Qué es SP Components?">
     Una librería de Web Components compatible con cualquier framework.
   </sp-accordion-item>
-  <sp-accordion-item label="¿Cómo se instala?"> Ejecuta <code>npm install sp-component</code>. </sp-accordion-item>
-  <sp-accordion-item label="Sección deshabilitada" disabled> Este item no se puede abrir. </sp-accordion-item>
+  <sp-accordion-item label="¿Cómo se instala?">
+    Ejecuta <code>npm install sp-component</code>.
+  </sp-accordion-item>
+  <sp-accordion-item label="Sección deshabilitada" disabled>
+    Este item no se puede abrir.
+  </sp-accordion-item>
 </sp-accordion>
 
 <!-- Múltiples items abiertos a la vez -->
@@ -815,11 +932,9 @@ Texto que se convierte en un input al hacer clic. Perfecto para campos editables
   <sp-accordion-item label="Item 1" open>Contenido 1</sp-accordion-item>
   <sp-accordion-item label="Item 2">Contenido 2</sp-accordion-item>
 </sp-accordion>
-
-<!-- Variantes -->
-<sp-accordion variant="bordered">...</sp-accordion>
-<sp-accordion variant="ghost">...</sp-accordion>
 ```
+
+El accordion tiene **animación en apertura y cierre** — la altura transiciona suavemente en ambas direcciones.
 
 | Propiedad (accordion) | Tipo                           | Default   | Descripción                            |
 | --------------------- | ------------------------------ | --------- | -------------------------------------- |
@@ -832,6 +947,148 @@ Texto que se convierte en un input al hacer clic. Perfecto para campos editables
 | `open`                     | `boolean` | `false` | Abre el item por defecto |
 | `disabled`                 | `boolean` | `false` | Deshabilita el item      |
 | `value`                    | `string`  | —       | Identificador del item   |
+
+---
+
+## Compound Components
+
+Los compound components ofrecen una **API headless/composable** — tú controlas la estructura HTML y el estilo, los sub-elementos se encargan del comportamiento y la accesibilidad.
+
+### sp-menu-root
+
+```html
+<sp-menu-root>
+  <sp-menu-trigger>
+    <sp-button>Acciones ▾</sp-button>
+  </sp-menu-trigger>
+  <sp-menu-content>
+    <sp-menu-option value="view">Ver detalles</sp-menu-option>
+    <sp-menu-option value="edit">Editar</sp-menu-option>
+    <sp-menu-option value="duplicate">Duplicar</sp-menu-option>
+    <sp-menu-separator></sp-menu-separator>
+    <sp-menu-option value="delete" danger>Eliminar</sp-menu-option>
+  </sp-menu-content>
+</sp-menu-root>
+
+<script>
+  document.querySelector("sp-menu-root").addEventListener("sp-select", (e) => {
+    console.log(e.detail.value); // "view" | "edit" | "duplicate" | "delete"
+  });
+</script>
+```
+
+| Sub-elemento        | Descripción                                      |
+| ------------------- | ------------------------------------------------ |
+| `sp-menu-root`      | Contenedor raíz — gestiona el estado open/close  |
+| `sp-menu-trigger`   | Envuelve cualquier elemento activador            |
+| `sp-menu-content`   | Panel de opciones                                |
+| `sp-menu-option`    | Opción individual (prop `danger` para estilo rojo, `disabled` para deshabilitar) |
+| `sp-menu-separator` | Separador visual entre grupos de opciones        |
+
+| Evento      | Detail        | Descripción                              |
+| ----------- | ------------- | ---------------------------------------- |
+| `sp-select` | `{ value }`   | Se emite al seleccionar una opción       |
+
+---
+
+### sp-select-root
+
+```html
+<sp-select-root>
+  <sp-select-trigger placeholder="Selecciona un país"></sp-select-trigger>
+  <sp-select-content>
+    <sp-select-group label="América">
+      <sp-select-item value="ar">Argentina</sp-select-item>
+      <sp-select-item value="mx">México</sp-select-item>
+    </sp-select-group>
+    <sp-select-group label="Europa">
+      <sp-select-item value="es">España</sp-select-item>
+    </sp-select-group>
+  </sp-select-content>
+</sp-select-root>
+
+<script>
+  document.querySelector("sp-select-root").addEventListener("sp-select", (e) => {
+    console.log(e.detail.value, e.detail.label);
+  });
+</script>
+```
+
+| Sub-elemento        | Descripción                                       |
+| ------------------- | ------------------------------------------------- |
+| `sp-select-root`    | Contenedor raíz — gestiona el estado open/close   |
+| `sp-select-trigger` | Botón activador con prop `placeholder`            |
+| `sp-select-content` | Panel de opciones                                 |
+| `sp-select-item`    | Opción individual con prop `value`                |
+| `sp-select-group`   | Grupo de opciones con prop `label`                |
+
+| Evento      | Detail               | Descripción                        |
+| ----------- | -------------------- | ---------------------------------- |
+| `sp-select` | `{ value, label }`   | Se emite al seleccionar una opción |
+
+---
+
+## Form Validation API
+
+Los componentes form-associated (`sp-input`, `sp-textarea`, `sp-select`, `sp-checkbox`, `sp-switch`) exponen una API de validación nativa compatible con los formularios del navegador.
+
+### Métodos públicos
+
+```js
+const input = document.querySelector("sp-input");
+
+// Error personalizado (ej. validación del servidor)
+input.setCustomValidity("Este email ya está registrado");
+// Limpiar el error personalizado
+input.setCustomValidity("");
+
+// Verificar validez sin mostrar UI
+input.checkValidity(); // → true | false
+
+// Mostrar UI de validación y verificar validez
+input.reportValidity(); // → true | false
+```
+
+### CSS :user-invalid / :user-valid
+
+Todos los componentes tienen soporte nativo para las pseudo-clases `:user-invalid` y `:user-valid`. El borde rojo aparece **automáticamente** cuando el usuario interactuó con un campo y lo dejó inválido (sin necesitar JS):
+
+```css
+/* Estos estilos ya están incluidos en cada componente */
+:host(:user-invalid) .sp-input-container {
+  border-color: var(--sp-error, #FF4D4F);
+}
+:host(:user-valid) .sp-input-container {
+  border-color: var(--sp-success, #22c55e);
+}
+```
+
+### Ejemplo: error del servidor
+
+```js
+const form = document.querySelector("sp-form");
+const emailInput = document.querySelector("sp-input[name='email']");
+
+form.addEventListener("sp-submit", async (e) => {
+  const res = await fetch("/api/register", {
+    method: "POST",
+    body: e.detail.formData,
+  });
+
+  if (!res.ok) {
+    const { field, message } = await res.json();
+    if (field === "email") {
+      emailInput.setCustomValidity(message);
+      emailInput.reportValidity();
+    }
+  }
+});
+
+// Limpiar el error al escribir de nuevo
+emailInput.addEventListener("sp-input", () => {
+  emailInput.setCustomValidity("");
+});
+```
 
 ---
 
@@ -851,34 +1108,20 @@ Todos los eventos tienen el prefijo `sp-` para evitar colisiones con eventos nat
 | `sp-clear`       | —                          | Botón de limpiar clickeado                                         |
 | `sp-show`        | —                          | Overlay abierto                                                    |
 | `sp-hide`        | `{ reason }`               | Overlay cerrado — `reason`: `escape \| overlay \| button \| swipe` |
-| `sp-after-hide`  | —                          | 300ms después de cerrar (útil para animaciones de salida)          |
+| `sp-after-hide`  | —                          | ~50ms después de cerrar (útil para limpieza post-animación)        |
+| `sp-submit`      | `{ formData }`             | Formulario enviado y válido (`sp-form`)                            |
+| `sp-invalid`     | —                          | Intento de submit con campos inválidos (`sp-form`)                 |
+| `sp-reset`       | —                          | Formulario reseteado (`sp-form`)                                   |
+| `sp-select`      | `{ value, label? }`        | Opción seleccionada (compound components)                          |
+| `sp-toggle`      | `{ open, value }`          | Item del accordion abierto/cerrado                                 |
 | `sp-edit-start`  | —                          | Inline edit entró en modo edición                                  |
 | `sp-edit-cancel` | —                          | Inline edit canceló la edición                                     |
-
-```js
-// Escuchar cambios en un input
-document.querySelector("sp-input").addEventListener("sp-input", (e) => {
-  console.log(e.detail.value); // string
-});
-
-// Saber cómo se cerró un modal
-document.querySelector("sp-modal").addEventListener("sp-hide", (e) => {
-  if (e.detail.reason === "escape") {
-    console.log("El usuario presionó Escape");
-  }
-});
-
-// Segmented control en un formulario
-document.querySelector("sp-segmented-control").addEventListener("sp-change", (e) => {
-  console.log(e.detail.value); // string
-});
-```
 
 ---
 
 ## Form Participation
 
-Los componentes de formulario son **form-associated custom elements** — participan en el submit nativo y en la validación de `<form>` exactamente igual que un `<input>` nativo. Todos implementan `ElementInternals` con `setFormValue()` y `setValidity()`.
+Los componentes de formulario son **form-associated custom elements** — participan en el submit nativo y en la validación de `<form>` exactamente igual que un `<input>` nativo.
 
 **Componentes form-associated:**
 `sp-input`, `sp-textarea`, `sp-select`, `sp-checkbox`, `sp-radio`, `sp-switch`,
@@ -886,22 +1129,41 @@ Los componentes de formulario son **form-associated custom elements** — partic
 `sp-autocomplete`, `sp-file-upload`, `sp-tag-input`, `sp-color-picker`,
 `sp-time-picker`, `sp-calendar-date-picker`, `sp-segmented-control`, `sp-inline-edit`
 
+### Con `<sp-form>` (recomendado)
+
 ```html
-<form id="signup-form">
+<sp-form id="signup-form">
   <sp-input name="email" type="email" label="Email" required></sp-input>
   <sp-textarea name="message" label="Mensaje" maxlength="500" required></sp-textarea>
-  <sp-select name="role" label="Rol" required></sp-select>
-  <sp-segmented-control name="plan" value="pro" required></sp-segmented-control>
-  <sp-checkbox name="agree" value="yes" required> Acepto los términos </sp-checkbox>
+  <sp-select name="role" label="Rol" required .options=${[...]}></sp-select>
+  <sp-checkbox name="agree" value="yes" required>Acepto los términos</sp-checkbox>
   <sp-button type="submit">Registrarse</sp-button>
+</sp-form>
+
+<script>
+  document.getElementById("signup-form").addEventListener("sp-submit", (e) => {
+    const data = Object.fromEntries(e.detail.formData);
+    console.log(data);
+    // { email: "...", message: "...", role: "...", agree: "yes" }
+  });
+</script>
+```
+
+### Con `<form>` nativo
+
+También puedes usar los componentes dentro de un `<form>` HTML estándar:
+
+```html
+<form id="native-form">
+  <sp-input name="email" type="email" label="Email" required></sp-input>
+  <sp-button type="submit">Enviar</sp-button>
 </form>
 
 <script>
-  document.getElementById("signup-form").addEventListener("submit", (e) => {
+  document.getElementById("native-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
     console.log(Object.fromEntries(data));
-    // { email: "...", message: "...", role: "...", plan: "pro", agree: "yes" }
   });
 </script>
 ```
@@ -910,31 +1172,57 @@ Los componentes de formulario son **form-associated custom elements** — partic
 
 ## Theming
 
-### Personalizar la paleta de colores
+### Con SpConfig (recomendado)
 
-Sobreescribe cualquier token CSS en tu propio archivo de estilos:
+```js
+import { SpConfig } from "sp-component";
+
+// Tema predefinido
+SpConfig.setTheme("violet");
+
+// Tema personalizado con tokens CSS
+SpConfig.setTheme({
+  "--sp-primary": "#6366f1",
+  "--sp-primary-hover": "#4f46e5",
+  "--sp-primary-active": "#4338ca",
+  "--sp-primary-bg": "#eef2ff",
+  "--sp-primary-focus": "rgba(99, 102, 241, 0.2)",
+});
+
+// Color scheme
+SpConfig.setColorScheme("dark");   // fuerza modo oscuro
+SpConfig.setColorScheme("light");  // fuerza modo claro
+SpConfig.setColorScheme("auto");   // sigue prefers-color-scheme
+
+// Densidad
+SpConfig.setDensity("compact");
+SpConfig.setDensity("comfortable");
+SpConfig.setDensity("spacious");
+
+// Resetear todo
+SpConfig.reset();
+```
+
+### Overrides con CSS
+
+También puedes sobreescribir tokens directamente en tu CSS:
 
 ```css
 :root {
-  --sp-primary: #6366f1; /* indigo en lugar de azul */
+  --sp-primary: #6366f1;
   --sp-primary-hover: #4f46e5;
   --sp-primary-bg: #eef2ff;
   --sp-primary-focus: rgba(99, 102, 241, 0.2);
-}
-```
 
-### Personalizar tipografía y espaciado
-
-```css
-:root {
+  /* Tipografía */
   --sp-font-sans: "Inter", system-ui, sans-serif;
   --sp-font-size-base: 15px;
-  --sp-radius-base: 6px; /* bordes más redondeados en toda la librería */
+
+  /* Bordes */
+  --sp-radius-base: 6px;
   --sp-radius-lg: 10px;
 }
 ```
-
-### Aplicar tu propia fuente
 
 Los componentes heredan la fuente del documento automáticamente:
 
@@ -944,16 +1232,37 @@ body {
 }
 ```
 
-### CSS Custom Properties por componente
+---
 
-```css
-/* sp-button */
-sp-button {
-  --sp-button-radius: 8px;
-  --sp-button-font-size: 15px;
-  --sp-button-transition: opacity 0.15s ease;
-}
+## CLI Tool
+
+La herramienta CLI permite copiar componentes directamente a tu proyecto para personalizarlos sin depender del paquete npm.
+
+### Instalación
+
+```bash
+npm install -g @sp-component/cli
+# o usar sin instalar
+npx @sp-component/cli <comando>
 ```
+
+### Comandos
+
+```bash
+# Ver todos los componentes disponibles
+npx @sp-component/cli list
+
+# Copiar un componente a tu proyecto
+npx @sp-component/cli add button
+
+# Copiar varios componentes a la vez
+npx @sp-component/cli add button modal select input
+
+# Copiar los tokens CSS y configuración base
+npx @sp-component/cli init
+```
+
+Los archivos se copian a `src/components/sp/<nombre>/` en tu proyecto, listos para modificar.
 
 ---
 
@@ -980,6 +1289,9 @@ npm run build
 
 # Build CDN bundle
 npm run build:cdn
+
+# Build CLI
+npm run build:cli
 
 # Build todo
 npm run build:all

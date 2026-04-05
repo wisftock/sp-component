@@ -44,6 +44,8 @@ export class SpModalComponent extends LitElement {
 
   private _previousFocus: Element | null = null;
   private _afterHideTimer: ReturnType<typeof setTimeout> | null = null;
+  private _closingFallback: ReturnType<typeof setTimeout> | null = null;
+  private _closingAnimEnd: ((e: AnimationEvent) => void) | null = null;
 
   private _getFocusableElements(): HTMLElement[] {
     const dialog = this.shadowRoot?.querySelector("dialog");
@@ -115,10 +117,10 @@ export class SpModalComponent extends LitElement {
     document.removeEventListener("keydown", this._handleKeydown);
     window.removeEventListener("pagehide", this._handlePageHide);
     document.body.style.overflow = "";
-    if (this._afterHideTimer !== null) {
-      clearTimeout(this._afterHideTimer);
-      this._afterHideTimer = null;
-    }
+    if (this._afterHideTimer !== null) { clearTimeout(this._afterHideTimer); this._afterHideTimer = null; }
+    if (this._closingFallback !== null) { clearTimeout(this._closingFallback); this._closingFallback = null; }
+    const dialog = this.shadowRoot?.querySelector("dialog");
+    if (dialog && this._closingAnimEnd) { dialog.removeEventListener("animationend", this._closingAnimEnd); this._closingAnimEnd = null; }
   }
 
   // Reset when navigating away so bfcache doesn't restore an open modal
@@ -141,11 +143,11 @@ export class SpModalComponent extends LitElement {
       const dialog = this.shadowRoot?.querySelector("dialog");
       if (!dialog) return;
       if (this.open) {
-        // Cancel any pending sp-after-hide from a previous close
-        if (this._afterHideTimer !== null) {
-          clearTimeout(this._afterHideTimer);
-          this._afterHideTimer = null;
-        }
+        // Cancel any in-progress closing animation
+        if (this._closingFallback !== null) { clearTimeout(this._closingFallback); this._closingFallback = null; }
+        if (this._closingAnimEnd) { dialog.removeEventListener("animationend", this._closingAnimEnd); this._closingAnimEnd = null; }
+        this.removeAttribute("closing");
+        if (this._afterHideTimer !== null) { clearTimeout(this._afterHideTimer); this._afterHideTimer = null; }
         document.body.style.overflow = "hidden";
         this._previousFocus = document.activeElement;
         dialog.showModal();
@@ -157,23 +159,51 @@ export class SpModalComponent extends LitElement {
           els[0]?.focus();
         });
       } else {
-        document.body.style.overflow = "";
-        if (dialog.open) dialog.close();
-        this.dispatchEvent(
-          new CustomEvent("sp-hide", {
-            detail: { reason: this._closeReason },
-            bubbles: true,
-            composed: true,
-          }),
-        );
-        this._closeReason = "button";
-        (this._previousFocus as HTMLElement)?.focus?.();
+        // Play exit animation, then close the native dialog
+        this.setAttribute("closing", "");
+        const prev = this._previousFocus;
         this._previousFocus = null;
-        this._afterHideTimer = setTimeout(() => {
-          this._afterHideTimer = null;
+
+        const doClose = () => {
+          this.removeAttribute("closing");
+          document.body.style.overflow = "";
+          if (dialog.open) dialog.close();
           this.dispatchEvent(
-            new CustomEvent("sp-after-hide", { bubbles: true, composed: true }),
+            new CustomEvent("sp-hide", {
+              detail: { reason: this._closeReason },
+              bubbles: true,
+              composed: true,
+            }),
           );
+          this._closeReason = "button";
+          (prev as HTMLElement)?.focus?.();
+          if (this._afterHideTimer !== null) {
+            clearTimeout(this._afterHideTimer);
+            this._afterHideTimer = null;
+          }
+          this._afterHideTimer = setTimeout(() => {
+            this._afterHideTimer = null;
+            this.dispatchEvent(
+              new CustomEvent("sp-after-hide", { bubbles: true, composed: true }),
+            );
+          }, 50);
+        };
+
+        // Resolve via animationend, with fallback for reduced-motion / no-animation
+        const onEnd = (e: AnimationEvent) => {
+          if (e.animationName === "sp-modal-out") {
+            dialog.removeEventListener("animationend", onEnd);
+            if (this._closingFallback !== null) { clearTimeout(this._closingFallback); this._closingFallback = null; }
+            this._closingAnimEnd = null;
+            doClose();
+          }
+        };
+        this._closingAnimEnd = onEnd;
+        dialog.addEventListener("animationend", onEnd);
+        this._closingFallback = setTimeout(() => {
+          this._closingFallback = null;
+          if (this._closingAnimEnd) { dialog.removeEventListener("animationend", this._closingAnimEnd); this._closingAnimEnd = null; }
+          doClose();
         }, 300);
       }
     }

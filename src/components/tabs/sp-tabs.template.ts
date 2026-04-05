@@ -1,4 +1,5 @@
 import { html, type TemplateResult } from "lit";
+import { SpConfig } from "../../config.js";
 import type { SpTabsComponent } from "./sp-tabs.js";
 
 export function tabsTemplate(this: SpTabsComponent): TemplateResult {
@@ -8,7 +9,7 @@ export function tabsTemplate(this: SpTabsComponent): TemplateResult {
         <button
           class="sp-tabs-scroll-btn sp-tabs-scroll-btn--left"
           type="button"
-          aria-label="Scroll tabs left"
+          aria-label=${SpConfig.locale.tabs.scrollLeftLabel}
           @click=${() => this._scrollNav(-120)}
         >&#8249;</button>
         <div class="sp-tabs-nav" role="tablist">
@@ -17,7 +18,7 @@ export function tabsTemplate(this: SpTabsComponent): TemplateResult {
         <button
           class="sp-tabs-scroll-btn sp-tabs-scroll-btn--right"
           type="button"
-          aria-label="Scroll tabs right"
+          aria-label=${SpConfig.locale.tabs.scrollRightLabel}
           @click=${() => this._scrollNav(120)}
         >&#8250;</button>
       </div>

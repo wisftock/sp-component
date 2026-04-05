@@ -85,23 +85,46 @@ export class SpSelectComponent extends LitElement {
     return selectTemplate.call(this);
   }
 
+  private _customError = "";
+
+  private _updateValidity(): void {
+    if (this._customError) {
+      this.#internals.setValidity({ customError: true }, this._customError);
+    } else if (this.required && !this.value) {
+      this.#internals.setValidity({ valueMissing: true }, "Please select an option");
+    } else {
+      this.#internals.setValidity({});
+    }
+  }
+
+  setCustomValidity(message: string): void {
+    this._customError = message;
+    this._updateValidity();
+  }
+
+  checkValidity(): boolean {
+    return this.#internals.checkValidity();
+  }
+
+  reportValidity(): boolean {
+    return this.#internals.reportValidity();
+  }
+
   override updated(changedProperties: Map<string, unknown>) {
     if (changedProperties.has("value") || changedProperties.has("_selectedValues")) {
       this.#internals.setFormValue(this.value);
     }
     if (changedProperties.has("value") || changedProperties.has("required")) {
-      if (this.required && !this.value) {
-        this.#internals.setValidity({ valueMissing: true }, "Please select an option");
-      } else {
-        this.#internals.setValidity({});
-      }
+      this._updateValidity();
     }
   }
 
   formResetCallback(): void {
     this.value = "";
+    this._customError = "";
     this._selectedValues = [];
     this.#internals.setFormValue("");
+    this.#internals.setValidity({});
   }
 
   readonly _handleChange = (e: Event) => {

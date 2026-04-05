@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpFileUploadComponent } from "./sp-file-upload.js";
 
 export function fileUploadTemplate(this: SpFileUploadComponent): TemplateResult {
@@ -36,7 +37,7 @@ export function fileUploadTemplate(this: SpFileUploadComponent): TemplateResult 
               <li class="sp-file-item">
                 <span class="sp-file-name">${file.name}</span>
                 <span class="sp-file-size">${this._formatSize(file.size)}</span>
-                <button class="sp-file-remove" type="button" @click=${() => this._removeFile(i)} aria-label="Remove file">✕</button>
+                <button class="sp-file-remove" type="button" @click=${() => this._removeFile(i)} aria-label=${SpConfig.locale.fileUpload.removeFileLabel}>✕</button>
                 ${hasProgress
                   ? html`<div class="sp-file-progress" role="progressbar" aria-valuenow=${fileProgress} aria-valuemin="0" aria-valuemax="100">
                       <div class="sp-file-progress-bar" style="width: ${fileProgress}%"></div>

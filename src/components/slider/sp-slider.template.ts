@@ -1,4 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
+import { SpConfig } from "../../config.js";
 import type { SpSliderComponent } from "./sp-slider.js";
 
 export function sliderTemplate(this: SpSliderComponent): TemplateResult {
@@ -55,7 +56,7 @@ export function sliderTemplate(this: SpSliderComponent): TemplateResult {
                 aria-valuemin=${this.min}
                 aria-valuemax=${this.max}
                 aria-valuenow=${this.rangeStart}
-                aria-label="${this.label ? this.label + ' start' : 'Range start'}"
+                aria-label="${this.label ? this.label + ' start' : SpConfig.locale.slider.rangeStartLabel}"
                 @input=${this._handleRangeStartInput}
                 @change=${this._handleRangeStartChange}
               />
@@ -71,7 +72,7 @@ export function sliderTemplate(this: SpSliderComponent): TemplateResult {
                 aria-valuemin=${this.min}
                 aria-valuemax=${this.max}
                 aria-valuenow=${this.rangeEnd}
-                aria-label="${this.label ? this.label + ' end' : 'Range end'}"
+                aria-label="${this.label ? this.label + ' end' : SpConfig.locale.slider.rangeEndLabel}"
                 @input=${this._handleRangeEndInput}
                 @change=${this._handleRangeEndChange}
               />

@@ -4,6 +4,8 @@ export type SpInputSize = "sm" | "md" | "lg";
 
 export type SpInputMode = "text" | "numeric" | "decimal" | "email" | "tel" | "url" | "search";
 
+export type SpInputVariant = "outline" | "filled";
+
 export interface SpInputProps {
   type: SpInputType;
   value: string;
@@ -13,6 +15,7 @@ export interface SpInputProps {
   required: boolean;
   name: string;
   size: SpInputSize;
+  variant: SpInputVariant;
   clearable: boolean;
   loading: boolean;
   maxlength: number;

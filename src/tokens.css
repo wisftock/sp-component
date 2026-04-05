@@ -124,10 +124,82 @@
   --sp-easing-in:       ease-in;
   --sp-easing-out:      ease-out;
   --sp-easing-in-out:   ease-in-out;
+
+  /* ---- Animation presets ---- */
+  --sp-anim-duration-mount:   200ms;
+  --sp-anim-duration-unmount: 150ms;
+  --sp-easing-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --sp-easing-bounce:  cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* ---- Density (comfortable = default) ---- */
+  --sp-density-padding-y:   var(--sp-space-2);
+  --sp-density-padding-x:   var(--sp-space-3);
+  --sp-density-font-size:   var(--sp-font-size-base);
+  --sp-density-row-height:  40px;
+}
+
+/* ---- Manual color scheme (overrides prefers-color-scheme) ---- */
+/* Usage: SpConfig.setColorScheme('dark') or SpConfig.setColorScheme('light') */
+:root[data-sp-scheme="light"] {
+  --sp-bg: white;
+  --sp-bg-subtle: #f9fafb;
+  --sp-bg-muted: #f3f4f6;
+  --sp-text: #111827;
+  --sp-text-secondary: #374151;
+  --sp-text-muted: #6b7280;
+  --sp-text-placeholder: #9ca3af;
+  --sp-border: #d1d5db;
+  --sp-border-subtle: #e5e7eb;
+  --sp-border-strong: #9ca3af;
+  --sp-primary: #3b82f6;
+  --sp-primary-hover: #2563eb;
+  --sp-primary-active: #1d4ed8;
+  --sp-primary-bg: #eff6ff;
+  --sp-primary-bg-hover: #dbeafe;
+  --sp-primary-focus: rgba(59, 130, 246, 0.2);
+  --sp-error: #FF4D4F;
+  --sp-error-hover: #CF1322;
+  --sp-error-bg: #FFF2F0;
+  --sp-error-bg-hover: #FFCCC7;
+  --sp-error-focus: rgba(255, 77, 79, 0.2);
+  --sp-success: #52C41A;
+  --sp-success-hover: #389E0D;
+  --sp-success-bg: #F6FFED;
+  --sp-success-bg-hover: #D9F7BE;
+  --sp-success-focus: rgba(82, 196, 26, 0.2);
+  --sp-warning: #FAAD14;
+  --sp-warning-hover: #D48806;
+  --sp-warning-bg: #FFFBE6;
+  --sp-warning-bg-hover: #FFF1B8;
+  --sp-warning-focus: rgba(250, 173, 20, 0.2);
+  --sp-info: #1677FF;
+  --sp-info-hover: #0958D9;
+  --sp-info-bg: #E6F4FF;
+  --sp-info-bg-hover: #BAE0FF;
+  --sp-info-focus: rgba(22, 119, 255, 0.2);
+  --sp-overlay: rgba(0, 0, 0, 0.5);
+  --sp-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --sp-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --sp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+/* ---- Density variants ---- */
+:root[data-sp-density="compact"] {
+  --sp-density-padding-y:   var(--sp-space-1);
+  --sp-density-padding-x:   var(--sp-space-2);
+  --sp-density-font-size:   var(--sp-font-size-sm);
+  --sp-density-row-height:  32px;
+}
+
+:root[data-sp-density="spacious"] {
+  --sp-density-padding-y:   var(--sp-space-3);
+  --sp-density-padding-x:   var(--sp-space-4);
+  --sp-density-font-size:   var(--sp-font-size-lg);
+  --sp-density-row-height:  52px;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-sp-scheme]) {
     /* ---- Surface / Background ---- */
     --sp-bg: #111827;
     --sp-bg-subtle: #1f2937;
@@ -186,4 +258,48 @@
     --sp-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
     --sp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
   }
+}
+
+/* ---- Manual dark mode: SpConfig.setColorScheme('dark') ---- */
+:root[data-sp-scheme="dark"] {
+  --sp-bg: #111827;
+  --sp-bg-subtle: #1f2937;
+  --sp-bg-muted: #374151;
+  --sp-text: #f9fafb;
+  --sp-text-secondary: #e5e7eb;
+  --sp-text-muted: #9ca3af;
+  --sp-text-placeholder: #6b7280;
+  --sp-border: #374151;
+  --sp-border-subtle: #4b5563;
+  --sp-border-strong: #6b7280;
+  --sp-primary: #60a5fa;
+  --sp-primary-hover: #93c5fd;
+  --sp-primary-active: #bfdbfe;
+  --sp-primary-bg: rgba(59, 130, 246, 0.15);
+  --sp-primary-bg-hover: rgba(59, 130, 246, 0.25);
+  --sp-primary-focus: rgba(96, 165, 250, 0.3);
+  --sp-error: #FF7875;
+  --sp-error-hover: #FFA39E;
+  --sp-error-bg: rgba(255, 77, 79, 0.15);
+  --sp-error-bg-hover: rgba(255, 77, 79, 0.25);
+  --sp-error-focus: rgba(255, 120, 117, 0.3);
+  --sp-success: #73D13D;
+  --sp-success-hover: #95DE64;
+  --sp-success-bg: rgba(82, 196, 26, 0.15);
+  --sp-success-bg-hover: rgba(82, 196, 26, 0.25);
+  --sp-success-focus: rgba(115, 209, 61, 0.3);
+  --sp-warning: #FFC53D;
+  --sp-warning-hover: #FFD666;
+  --sp-warning-bg: rgba(250, 173, 20, 0.15);
+  --sp-warning-bg-hover: rgba(250, 173, 20, 0.25);
+  --sp-warning-focus: rgba(255, 197, 61, 0.3);
+  --sp-info: #4096FF;
+  --sp-info-hover: #69B1FF;
+  --sp-info-bg: rgba(22, 119, 255, 0.15);
+  --sp-info-bg-hover: rgba(22, 119, 255, 0.25);
+  --sp-info-focus: rgba(64, 150, 255, 0.3);
+  --sp-overlay: rgba(0, 0, 0, 0.75);
+  --sp-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --sp-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  --sp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
 }

@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpColorPickerComponent } from "./sp-color-picker.js";
 
 /**
@@ -46,7 +47,7 @@ export function colorPickerTemplate(this: SpColorPickerComponent): TemplateResul
             <div
               class="sp-color-picker-panel"
               role="dialog"
-              aria-label="Color picker"
+              aria-label=${SpConfig.locale.colorPicker.pickerLabel}
             >
               <!-- Gradient canvas (accessible via hue/alpha sliders and hex input) -->
               <div
@@ -72,7 +73,7 @@ export function colorPickerTemplate(this: SpColorPickerComponent): TemplateResul
                   min="0"
                   max="360"
                   .value=${String(this._h)}
-                  aria-label="Hue"
+                  aria-label=${SpConfig.locale.colorPicker.hueLabel}
                   @input=${this._handleHueInput}
                 />
                 ${this.showAlpha
@@ -83,7 +84,7 @@ export function colorPickerTemplate(this: SpColorPickerComponent): TemplateResul
                         min="0"
                         max="100"
                         .value=${String(Math.round(this._a * 100))}
-                        aria-label="Alpha"
+                        aria-label=${SpConfig.locale.colorPicker.alphaLabel}
                         @input=${this._handleAlphaInput}
                       />
                     `
@@ -96,7 +97,7 @@ export function colorPickerTemplate(this: SpColorPickerComponent): TemplateResul
                   type="text"
                   class="sp-color-picker-hex-input"
                   .value=${this._formatValue()}
-                  aria-label="Color value"
+                  aria-label=${SpConfig.locale.colorPicker.valueLabel}
                   @change=${this._handleHexInput}
                 />
               </div>

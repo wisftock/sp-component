@@ -13,15 +13,15 @@
   box-sizing: border-box;
 }
 
-:host([bordered]) .sp-sidebar { border-right: 1px solid var(--sp-border-subtle, #e5e7eb); }
-:host([placement="right"]) :host([bordered]) .sp-sidebar { border-right: none; border-left: 1px solid var(--sp-border-subtle, #e5e7eb); }
+:host([bordered]) .sp-sidebar { border-inline-end: 1px solid var(--sp-border-subtle, #e5e7eb); }
+:host([placement="right"]) :host([bordered]) .sp-sidebar { border-inline-end: none; border-inline-start: 1px solid var(--sp-border-subtle, #e5e7eb); }
 
 .sp-sidebar-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden; }
 
 .sp-sidebar-toggle {
   position: absolute;
   top: 16px;
-  right: -12px;
+  inset-inline-end: -12px;
   z-index: 1;
   width: 24px;
   height: 24px;

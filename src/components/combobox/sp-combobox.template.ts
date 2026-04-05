@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpComboboxComponent } from "./sp-combobox.js";
 
 export function comboboxTemplate(this: SpComboboxComponent): TemplateResult {
@@ -31,7 +32,7 @@ export function comboboxTemplate(this: SpComboboxComponent): TemplateResult {
                   <button
                     class="sp-combobox-tag-remove"
                     type="button"
-                    aria-label="Remove ${opt?.label ?? v}"
+                    aria-label=${SpConfig.locale.combobox.removeLabel.replace("{label}", opt?.label ?? v)}
                     @mousedown=${(e: Event) => this._handleRemoveValue(v, e)}
                   >×</button>
                 </span>
@@ -82,7 +83,7 @@ export function comboboxTemplate(this: SpComboboxComponent): TemplateResult {
         `}
 
         ${showClear ? html`
-          <button class="sp-combobox-clear" type="button" @click=${this._handleClear} aria-label="Clear">✕</button>
+          <button class="sp-combobox-clear" type="button" @click=${this._handleClear} aria-label=${SpConfig.locale.combobox.clearLabel}>✕</button>
         ` : nothing}
 
         <button

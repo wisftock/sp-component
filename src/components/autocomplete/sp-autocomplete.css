@@ -94,7 +94,7 @@
 
 /* ---- Dropdown panel ---- */
 .sp-ac-dropdown {
-  position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: var(--sp-z-overlay, 9999);
+  position: absolute; z-index: var(--sp-z-overlay, 9999);
   background: var(--sp-bg, white);
   border: 1px solid var(--sp-border-subtle, #e5e7eb);
   border-radius: 6px;
@@ -169,7 +169,6 @@
 /* ---- Responsive ---- */
 @media (max-width: 479px) {
   .sp-ac-wrapper { width: 100%; }
-  .sp-ac-dropdown { left: 0; right: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

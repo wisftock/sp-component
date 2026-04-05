@@ -3,6 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import styles from "./sp-combobox.css?inline";
 import { comboboxTemplate } from "./sp-combobox.template.js";
 import type { SpComboboxSize, SpComboboxOption } from "./sp-combobox.types.js";
+import { setupFloating } from "../../utils/floating.js";
 
 /**
  * Searchable combobox (select with filter) component. Supports single and multiple selection.
@@ -37,6 +38,7 @@ export class SpComboboxComponent extends LitElement {
   static formAssociated = true;
 
   readonly #internals: ElementInternals;
+  #cleanupFloating?: () => void;
 
   constructor() {
     super();
@@ -157,11 +159,27 @@ export class SpComboboxComponent extends LitElement {
   override connectedCallback(): void {
     super.connectedCallback();
     document.addEventListener("mousedown", this._handleOutsideClick);
+    void this.updateComplete.then(() => this.#initFloating());
   }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.#cleanupFloating?.();
     document.removeEventListener("mousedown", this._handleOutsideClick);
+  }
+
+  #initFloating() {
+    this.#cleanupFloating?.();
+    const reference = this.shadowRoot?.querySelector<HTMLElement>(".sp-combobox-container");
+    const floating = this.shadowRoot?.querySelector<HTMLElement>(".sp-combobox-dropdown");
+    if (!reference || !floating) return;
+    this.#cleanupFloating = setupFloating({
+      reference,
+      floating,
+      placement: "bottom-start",
+      distance: 4,
+      matchWidth: true,
+    });
   }
 
   readonly _handleToggleDropdown = (e: Event) => {

@@ -1,4 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
+import { SpConfig } from "../../config.js";
 import type { SpCommandPaletteComponent } from "./sp-command-palette.js";
 
 export function commandPaletteTemplate(
@@ -14,7 +15,7 @@ export function commandPaletteTemplate(
       class="sp-command-palette"
       role="dialog"
       aria-modal="true"
-      aria-label="Command palette"
+      aria-label=${SpConfig.locale.commandPalette.paletteLabel}
       @click=${(e: Event) => e.stopPropagation()}
     >
       <div class="sp-command-palette-search">
@@ -53,7 +54,7 @@ export function commandPaletteTemplate(
         role="listbox"
       >
         ${this.loading
-          ? html`<div class="sp-command-loading">Loading...</div>`
+          ? html`<div class="sp-command-loading">${SpConfig.locale.commandPalette.loadingText}</div>`
           : nothing}
         ${filteredItems.length === 0 && !this.loading
           ? html`<div class="sp-command-empty">${this.emptyMessage}</div>`

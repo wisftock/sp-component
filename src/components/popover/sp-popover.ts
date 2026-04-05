@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import styles from "./sp-popover.css?inline";
 import { popoverTemplate } from "./sp-popover.template.js";
 import type { SpPopoverPlacement } from "./sp-popover.types.js";
+import { setupFloating } from "../../utils/floating.js";
 
 /**
  * Popover component that shows rich content anchored to a trigger element.
@@ -36,6 +37,8 @@ export class SpPopoverComponent extends LitElement {
   @property({ type: Boolean })
   arrow = true;
 
+  #cleanupFloating?: () => void;
+
   override render() {
     return popoverTemplate.call(this);
   }
@@ -44,23 +47,29 @@ export class SpPopoverComponent extends LitElement {
     super.connectedCallback();
     document.addEventListener("click", this._handleDocumentClick);
     document.addEventListener("keydown", this._handleKeydown);
+    void this.updateComplete.then(() => this.#initFloating());
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
+    this.#cleanupFloating?.();
     document.removeEventListener("click", this._handleDocumentClick);
     document.removeEventListener("keydown", this._handleKeydown);
   }
 
-  _getPopoverStyle(): string {
-    const d = `${this.distance + (this.arrow ? 6 : 0)}px`;
-    const positions: Record<SpPopoverPlacement, string> = {
-      top: `bottom: calc(100% + ${d}); left: 50%; transform: translateX(-50%);`,
-      bottom: `top: calc(100% + ${d}); left: 50%; transform: translateX(-50%);`,
-      left: `right: calc(100% + ${d}); top: 50%; transform: translateY(-50%);`,
-      right: `left: calc(100% + ${d}); top: 50%; transform: translateY(-50%);`,
-    };
-    return positions[this.placement];
+  #initFloating() {
+    this.#cleanupFloating?.();
+    const floating = this.shadowRoot?.querySelector<HTMLElement>(".sp-popover");
+    const trigger = this.shadowRoot?.querySelector<HTMLElement>(".sp-popover-trigger");
+    if (!floating || !trigger) return;
+    const arrowEl = this.arrow ? this.shadowRoot?.querySelector<HTMLElement>(".sp-popover-arrow") ?? null : null;
+    this.#cleanupFloating = setupFloating({
+      reference: trigger,
+      floating,
+      placement: this.placement,
+      distance: this.distance + (this.arrow ? 6 : 0),
+      arrowEl,
+    });
   }
 
   readonly _handleTriggerClick = () => {

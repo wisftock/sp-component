@@ -2,7 +2,7 @@ import { LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./sp-input.css?inline";
 import { inputTemplate } from "./sp-input.template.js";
-import type { SpInputType, SpInputSize, SpInputMode } from "./sp-input.types.js";
+import type { SpInputType, SpInputSize, SpInputMode, SpInputVariant } from "./sp-input.types.js";
 
 /**
  * Reusable input component compatible with any web framework.
@@ -70,6 +70,9 @@ export class SpInputComponent extends LitElement {
 
   @property({ type: String, reflect: true })
   size: SpInputSize = "md";
+
+  @property({ type: String, reflect: true })
+  variant: SpInputVariant = "outline";
 
   @property({ type: Boolean, reflect: true })
   clearable = false;
@@ -147,22 +150,45 @@ export class SpInputComponent extends LitElement {
     );
   };
 
+  private _customError = "";
+
+  private _updateValidity(): void {
+    if (this._customError) {
+      this.#internals.setValidity({ customError: true }, this._customError);
+    } else if (this.required && !this.value) {
+      this.#internals.setValidity({ valueMissing: true }, "This field is required");
+    } else {
+      this.#internals.setValidity({});
+    }
+  }
+
+  setCustomValidity(message: string): void {
+    this._customError = message;
+    this._updateValidity();
+  }
+
+  checkValidity(): boolean {
+    return this.#internals.checkValidity();
+  }
+
+  reportValidity(): boolean {
+    return this.#internals.reportValidity();
+  }
+
   override updated(changedProperties: Map<string, unknown>) {
     if (changedProperties.has("value")) {
       this.#internals.setFormValue(this.value);
     }
     if (changedProperties.has("value") || changedProperties.has("required")) {
-      if (this.required && !this.value) {
-        this.#internals.setValidity({ valueMissing: true }, "This field is required");
-      } else {
-        this.#internals.setValidity({});
-      }
+      this._updateValidity();
     }
   }
 
   formResetCallback(): void {
     this.value = "";
+    this._customError = "";
     this.#internals.setFormValue("");
+    this.#internals.setValidity({});
   }
 }
 

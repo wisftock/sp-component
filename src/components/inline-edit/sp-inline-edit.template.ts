@@ -1,4 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
+import { SpConfig } from "../../config.js";
 import type { SpInlineEditComponent } from "./sp-inline-edit.js";
 
 export function inlineEditTemplate(
@@ -21,13 +22,13 @@ export function inlineEditTemplate(
           <button
             class="sp-inline-edit-btn sp-inline-edit-btn--confirm"
             type="button"
-            aria-label="Confirm"
+            aria-label=${SpConfig.locale.inlineEdit.confirmLabel}
             @click=${this._handleConfirm}
           >✓</button>
           <button
             class="sp-inline-edit-btn sp-inline-edit-btn--cancel"
             type="button"
-            aria-label="Cancel"
+            aria-label=${SpConfig.locale.inlineEdit.cancelLabel}
             @click=${this._handleCancel}
           >✕</button>
         </span>

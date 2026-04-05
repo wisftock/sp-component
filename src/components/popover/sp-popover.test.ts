@@ -133,14 +133,15 @@ describe("sp-popover", () => {
     expect(el.getAttribute("placement")).toBe("top");
   });
 
-  // ---- Style helper ----
+  // ---- Floating positioning ----
 
-  it("_getPopoverStyle accounts for arrow distance", async () => {
+  it("distance and arrow properties are stored on the element", async () => {
     el.placement = "bottom";
     el.distance = 8;
     el.arrow = true;
     await el.updateComplete;
-    // distance(8) + arrow offset(6) = 14px
-    expect(el._getPopoverStyle()).toContain("14px");
+    // Positioning is now handled by floating-ui; verify properties are set
+    expect(el.distance).toBe(8);
+    expect(el.arrow).toBe(true);
   });
 });

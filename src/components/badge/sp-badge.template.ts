@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpBadgeComponent } from "./sp-badge.js";
 
 /**
@@ -20,7 +21,7 @@ export function badgeTemplate(this: SpBadgeComponent): TemplateResult {
         <slot @slotchange=${this._handleSlotChange}>${displayContent !== this._prevContent ? displayContent : nothing}</slot>
       </span>
       ${this.removable
-        ? html`<button class="sp-badge-remove" type="button" aria-label="Remove" @click=${this._handleRemove}>
+        ? html`<button class="sp-badge-remove" type="button" aria-label=${SpConfig.locale.badge.removeLabel} @click=${this._handleRemove}>
             <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
               <path d="M1 1l6 6M7 1L1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>

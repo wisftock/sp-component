@@ -22,7 +22,6 @@ export function popoverTemplate(this: SpPopoverComponent): TemplateResult {
           "sp-popover": true,
           "sp-popover--open": this.open,
         })}
-        style=${this._getPopoverStyle()}
         role="dialog"
         aria-modal=${this.open ? "true" : nothing}
       >

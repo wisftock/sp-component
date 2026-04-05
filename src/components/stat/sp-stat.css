@@ -13,7 +13,7 @@
 .sp-stat-trend--neutral { color: var(--sp-stat-trend-neutral-color, var(--sp-text-muted, #6b7280)); }
 .sp-stat-trend-icon { font-size: 14px; }
 .sp-stat-description { font-size: 13px; color: var(--sp-text-placeholder, #9ca3af); }
-.sp-stat-icon { margin-right: 4px; font-size: 15px; }
+.sp-stat-icon { margin-inline-end: 4px; font-size: 15px; }
 
 .sp-stat--loading { gap: 8px; }
 .sp-stat-skeleton {

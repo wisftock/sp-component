@@ -3,6 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import styles from "./sp-tooltip.css?inline";
 import { tooltipTemplate } from "./sp-tooltip.template.js";
 import type { SpTooltipPlacement, SpTooltipTrigger } from "./sp-tooltip.types.js";
+import { setupFloating } from "../../utils/floating.js";
 
 /**
  * Tooltip component that shows contextual information on hover, focus, or click.
@@ -27,11 +28,9 @@ export class SpTooltipComponent extends LitElement {
 
   @state() _id = `sp-tooltip-${Math.random().toString(36).slice(2, 9)}`;
 
-  /** Computed placement after collision detection */
-  @state() _effectivePlacement: SpTooltipPlacement = "top";
-
   #showTimer: ReturnType<typeof setTimeout> | undefined;
   #hideTimer: ReturnType<typeof setTimeout> | undefined;
+  #cleanupFloating?: () => void;
 
   @property({ type: String })
   content = "";
@@ -62,47 +61,36 @@ export class SpTooltipComponent extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this._effectivePlacement = this.placement;
+    void this.updateComplete.then(() => this.#initFloating());
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.#cleanupFloating?.();
+    clearTimeout(this.#showTimer);
+    clearTimeout(this.#hideTimer);
+  }
+
+  #initFloating() {
+    this.#cleanupFloating?.();
+    const wrapper = this.shadowRoot?.querySelector<HTMLElement>(".sp-tooltip-wrapper");
+    const tooltip = this.shadowRoot?.querySelector<HTMLElement>(".sp-tooltip");
+    if (!wrapper || !tooltip) return;
+    this.#cleanupFloating = setupFloating({
+      reference: wrapper,
+      floating: tooltip,
+      placement: this.placement,
+      distance: this.distance,
+    });
   }
 
   override render() {
     return tooltipTemplate.call(this);
   }
 
-  /** Computes the effective placement with viewport collision detection. */
-  _computeEffectivePlacement(): SpTooltipPlacement {
-    const wrapper = this.shadowRoot?.querySelector(".sp-tooltip-wrapper") as HTMLElement | null;
-    if (!wrapper) return this.placement;
-    const rect = wrapper.getBoundingClientRect();
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const margin = 8;
-    let p = this.placement;
-    if (p === "top" && rect.top < margin) p = "bottom";
-    else if (p === "bottom" && rect.bottom > vh - margin) p = "top";
-    else if (p === "left" && rect.left < margin) p = "right";
-    else if (p === "right" && rect.right > vw - margin) p = "left";
-    return p;
-  }
-
-  _getTooltipStyle(): string {
-    const p = this._effectivePlacement;
-    const d = `${this.distance}px`;
-    const positions: Record<SpTooltipPlacement, string> = {
-      top: `bottom: calc(100% + ${d}); left: 50%; transform: translateX(-50%); max-width: ${this.maxWidth};`,
-      bottom: `top: calc(100% + ${d}); left: 50%; transform: translateX(-50%); max-width: ${this.maxWidth};`,
-      left: `right: calc(100% + ${d}); top: 50%; transform: translateY(-50%); max-width: ${this.maxWidth};`,
-      right: `left: calc(100% + ${d}); top: 50%; transform: translateY(-50%); max-width: ${this.maxWidth};`,
-    };
-    return positions[p];
-  }
-
   _show(): void {
     clearTimeout(this.#hideTimer);
-    const doShow = () => {
-      this._effectivePlacement = this._computeEffectivePlacement();
-      this.open = true;
-    };
+    const doShow = () => { this.open = true; };
     if (this.showDelay > 0) {
       this.#showTimer = setTimeout(doShow, this.showDelay);
     } else {
@@ -141,17 +129,10 @@ export class SpTooltipComponent extends LitElement {
       if (this.open) {
         this.open = false;
       } else {
-        this._effectivePlacement = this._computeEffectivePlacement();
         this.open = true;
       }
     }
   };
-
-  override disconnectedCallback() {
-    super.disconnectedCallback();
-    clearTimeout(this.#showTimer);
-    clearTimeout(this.#hideTimer);
-  }
 }
 
 declare global {

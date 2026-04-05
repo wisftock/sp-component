@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { repeat } from "lit/directives/repeat.js";
+import { SpConfig } from "../../config.js";
 import type { SpCarouselComponent } from "./sp-carousel.js";
 
 export function carouselTemplate(this: SpCarouselComponent): TemplateResult {
@@ -33,7 +34,7 @@ export function carouselTemplate(this: SpCarouselComponent): TemplateResult {
           ? html`
               <button
                 class="sp-carousel-arrow sp-carousel-arrow--prev"
-                aria-label="Previous slide"
+                aria-label=${SpConfig.locale.carousel.prevSlideLabel}
                 ?disabled=${!this.loop && this.currentIndex === 0}
                 @click=${(e: Event) => { if (this._isDragging) { e.stopImmediatePropagation(); return; } this._prev(); }}
               >
@@ -45,7 +46,7 @@ export function carouselTemplate(this: SpCarouselComponent): TemplateResult {
               </button>
               <button
                 class="sp-carousel-arrow sp-carousel-arrow--next"
-                aria-label="Next slide"
+                aria-label=${SpConfig.locale.carousel.nextSlideLabel}
                 ?disabled=${!this.loop && this.currentIndex === total - 1}
                 @click=${(e: Event) => { if (this._isDragging) { e.stopImmediatePropagation(); return; } this._next(); }}
               >
@@ -61,7 +62,7 @@ export function carouselTemplate(this: SpCarouselComponent): TemplateResult {
 
       ${this.showDots && total > 1
         ? html`
-            <div class="sp-carousel-dots" role="tablist" aria-label="Slide navigation">
+            <div class="sp-carousel-dots" role="tablist" aria-label=${SpConfig.locale.carousel.slideNavLabel}>
               ${repeat(
                 slides,
                 (_, i) => i,
@@ -69,7 +70,7 @@ export function carouselTemplate(this: SpCarouselComponent): TemplateResult {
                   <button
                     class="sp-carousel-dot ${i === this.currentIndex ? "sp-carousel-dot--active" : ""}"
                     role="tab"
-                    aria-label="Slide ${i + 1} of ${total}"
+                    aria-label=${SpConfig.locale.carousel.slideLabel.replace("{index}", String(i + 1)).replace("{total}", String(total))}
                     aria-selected=${i === this.currentIndex ? "true" : "false"}
                     tabindex=${i === this.currentIndex ? "0" : "-1"}
                     @click=${() => this._goTo(i)}

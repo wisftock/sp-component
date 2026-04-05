@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpRatingComponent } from "./sp-rating.js";
 
 export function ratingTemplate(this: SpRatingComponent): TemplateResult {
@@ -33,8 +34,8 @@ export function ratingTemplate(this: SpRatingComponent): TemplateResult {
         <button
           class="sp-rating-clear"
           type="button"
-          aria-label="Clear rating"
-          title="Clear rating"
+          aria-label=${SpConfig.locale.rating.clearLabel}
+          title=${SpConfig.locale.rating.clearLabel}
           @click=${this._handleClear}
         >✕</button>
       ` : nothing}

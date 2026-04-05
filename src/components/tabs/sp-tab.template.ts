@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpTabComponent } from "./sp-tab.js";
 
 export function tabTemplate(this: SpTabComponent): TemplateResult {
@@ -26,7 +27,7 @@ export function tabTemplate(this: SpTabComponent): TemplateResult {
             class="sp-tab-close"
             role="button"
             tabindex="0"
-            aria-label="Close tab"
+            aria-label=${SpConfig.locale.tabs.closeTabLabel}
             @click=${this._handleClose}
             @keydown=${(e: KeyboardEvent) => {
               if (e.key === "Enter" || e.key === " ") {

@@ -1,4 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
+import { SpConfig } from "../../config.js";
 import type { SpSplitPanelComponent } from "./sp-split-panel.js";
 
 export function splitPanelTemplate(
@@ -18,7 +19,7 @@ export function splitPanelTemplate(
       <div
         class="sp-split-panel-divider"
         role="separator"
-        aria-label="Resize handle"
+        aria-label=${SpConfig.locale.splitPanel.resizeHandleLabel}
         aria-valuenow=${this._currentPosition}
         aria-valuemin=${this.min}
         aria-valuemax=${this.max}

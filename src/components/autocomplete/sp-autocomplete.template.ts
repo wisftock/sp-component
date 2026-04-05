@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpAutocompleteComponent } from "./sp-autocomplete.js";
 
 export function autocompleteTemplate(this: SpAutocompleteComponent): TemplateResult {
@@ -34,7 +35,7 @@ export function autocompleteTemplate(this: SpAutocompleteComponent): TemplateRes
                   <button
                     class="sp-ac-tag-remove"
                     type="button"
-                    aria-label="Remove ${opt?.label ?? v}"
+                    aria-label=${SpConfig.locale.autocomplete.removeLabel.replace("{label}", opt?.label ?? v)}
                     @mousedown=${(e: Event) => this._handleRemoveValue(v, e)}
                   >×</button>
                 </span>
@@ -87,14 +88,14 @@ export function autocompleteTemplate(this: SpAutocompleteComponent): TemplateRes
         `}
 
         ${showClear ? html`
-          <button class="sp-ac-clear" type="button" @click=${this._handleClear} aria-label="Clear">✕</button>
+          <button class="sp-ac-clear" type="button" @click=${this._handleClear} aria-label=${SpConfig.locale.autocomplete.clearLabel}>✕</button>
         ` : nothing}
 
         <button
           class="sp-ac-arrow-btn"
           type="button"
           tabindex="-1"
-          aria-label=${this._open ? "Close" : "Open"}
+          aria-label=${this._open ? SpConfig.locale.autocomplete.closeLabel : SpConfig.locale.autocomplete.openLabel}
           aria-expanded=${this._open ? "true" : "false"}
           ?disabled=${this.disabled}
           @click=${this._handleToggleDropdown}

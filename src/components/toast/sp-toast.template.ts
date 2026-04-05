@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpToastComponent } from "./sp-toast.js";
 
 /**
@@ -48,7 +49,7 @@ export function toastTemplate(this: SpToastComponent): TemplateResult {
               class="sp-toast-close"
               type="button"
               @click=${this._handleClose}
-              aria-label="Close"
+              aria-label=${SpConfig.locale.toast.closeLabel}
             >✕</button>
           `
         : nothing}

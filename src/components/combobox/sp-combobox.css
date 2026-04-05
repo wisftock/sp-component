@@ -71,7 +71,7 @@
 
 /* ---- Dropdown ---- */
 .sp-combobox-dropdown {
-  position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: var(--sp-z-overlay, 9999);
+  position: absolute; z-index: var(--sp-z-overlay, 9999);
   background: var(--sp-bg, white);
   border: 1px solid var(--sp-border-subtle, #e5e7eb);
   border-radius: 6px;
@@ -107,7 +107,6 @@
 
 @media (max-width: 479px) {
   .sp-combobox-wrapper { width: 100%; }
-  .sp-combobox-dropdown { left: 0; right: 0; width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sp-combobox-container { transition: none; }

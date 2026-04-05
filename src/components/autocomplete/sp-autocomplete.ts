@@ -3,6 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import styles from "./sp-autocomplete.css?inline";
 import { autocompleteTemplate } from "./sp-autocomplete.template.js";
 import type { SpAutocompleteSize, SpAutocompleteFilterMode, SpAutocompleteOption } from "./sp-autocomplete.types.js";
+import { setupFloating } from "../../utils/floating.js";
 
 /**
  * Autocomplete component with single/multiple selection, option groups,
@@ -44,6 +45,7 @@ export class SpAutocompleteComponent extends LitElement {
 
   readonly #internals: ElementInternals;
   #debounceTimer: ReturnType<typeof setTimeout> | null = null;
+  #cleanupFloating?: () => void;
 
   constructor() {
     super();
@@ -222,12 +224,28 @@ export class SpAutocompleteComponent extends LitElement {
   override connectedCallback(): void {
     super.connectedCallback();
     document.addEventListener("mousedown", this._handleOutsideClick);
+    void this.updateComplete.then(() => this.#initFloating());
   }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.#cleanupFloating?.();
     document.removeEventListener("mousedown", this._handleOutsideClick);
     if (this.#debounceTimer) clearTimeout(this.#debounceTimer);
+  }
+
+  #initFloating() {
+    this.#cleanupFloating?.();
+    const reference = this.shadowRoot?.querySelector<HTMLElement>(".sp-ac-container");
+    const floating = this.shadowRoot?.querySelector<HTMLElement>(".sp-ac-dropdown");
+    if (!reference || !floating) return;
+    this.#cleanupFloating = setupFloating({
+      reference,
+      floating,
+      placement: "bottom-start",
+      distance: 4,
+      matchWidth: true,
+    });
   }
 
   // ---- Event handlers ----

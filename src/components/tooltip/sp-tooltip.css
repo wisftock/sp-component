@@ -19,7 +19,9 @@
   border-radius: 4px;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.15s;
+  transition: opacity var(--sp-anim-duration-unmount, 150ms) var(--sp-easing-out, ease-out),
+              transform var(--sp-anim-duration-unmount, 150ms) var(--sp-easing-out, ease-out);
+  transform: translateY(4px);
   max-width: var(--sp-tooltip-max-width, 200px);
   white-space: normal;
   text-align: center;
@@ -37,6 +39,7 @@
 
 .sp-tooltip--visible {
   opacity: 1;
+  transform: translateY(0);
 }
 
 :host([disabled]) .sp-tooltip {

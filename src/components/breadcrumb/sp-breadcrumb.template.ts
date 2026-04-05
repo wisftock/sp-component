@@ -1,4 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
+import { SpConfig } from "../../config.js";
 import type { SpBreadcrumbComponent } from "./sp-breadcrumb.js";
 
 export function breadcrumbTemplate(this: SpBreadcrumbComponent): TemplateResult {
@@ -7,7 +8,7 @@ export function breadcrumbTemplate(this: SpBreadcrumbComponent): TemplateResult 
     this.maxItems > 0 && !this._expanded && items.length > this.maxItems;
 
   return html`
-    <nav aria-label="breadcrumb">
+    <nav aria-label=${SpConfig.locale.breadcrumb.navLabel}>
       <ol class="sp-breadcrumb">
         <slot @slotchange=${this._handleSlotChange}></slot>
         ${showEllipsis
@@ -15,7 +16,7 @@ export function breadcrumbTemplate(this: SpBreadcrumbComponent): TemplateResult 
               <button
                 class="sp-breadcrumb-ellipsis"
                 type="button"
-                aria-label="Show all breadcrumbs"
+                aria-label=${SpConfig.locale.breadcrumb.expandLabel}
                 @click=${this._handleExpandClick}
               >…</button>
             </li>`

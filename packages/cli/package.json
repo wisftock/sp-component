@@ -1,0 +1,26 @@
+{
+  "name": "@sp-component/cli",
+  "version": "0.0.1",
+  "description": "CLI tool for SP Components — scaffold and add components to your project",
+  "type": "module",
+  "bin": {
+    "sp-components": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "fs-extra": "^11.0.0",
+    "picocolors": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  }
+}

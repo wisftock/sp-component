@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { SpConfig } from "../../config.js";
 import type { SpTreeItemComponent } from "./sp-tree-item.js";
 
 export function treeItemTemplate(this: SpTreeItemComponent): TemplateResult {
@@ -52,7 +53,7 @@ export function treeItemTemplate(this: SpTreeItemComponent): TemplateResult {
         <span class="sp-tree-item-label">${this.label}</span>
 
         ${this.loading
-          ? html`<span class="sp-tree-item-spinner" aria-label="Loading"></span>`
+          ? html`<span class="sp-tree-item-spinner" aria-label=${SpConfig.locale.tree.loadingLabel}></span>`
           : nothing}
       </div>
 

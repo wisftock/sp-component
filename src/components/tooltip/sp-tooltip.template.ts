@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { styleMap } from "lit/directives/style-map.js";
 import type { SpTooltipComponent } from "./sp-tooltip.js";
 
 /**
@@ -25,7 +26,7 @@ export function tooltipTemplate(this: SpTooltipComponent): TemplateResult {
           "sp-tooltip--visible": this.open && !this.disabled,
         })}
         role="tooltip"
-        style=${this._getTooltipStyle()}
+        style=${styleMap({ maxWidth: this.maxWidth })}
       >
         ${this.content}
       </div>

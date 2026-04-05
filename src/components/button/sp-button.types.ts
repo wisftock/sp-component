@@ -1,4 +1,4 @@
-export type SpButtonVariant = "primary" | "secondary" | "ghost" | "destructive";
+export type SpButtonVariant = "primary" | "secondary" | "ghost" | "destructive" | "outline" | "soft" | "link";
 
 export type SpButtonSize = "sm" | "md" | "lg";
 

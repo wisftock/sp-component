@@ -1,4 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
+import { SpConfig } from "../../config.js";
 import type { SpCalendarDatePickerComponent } from "./sp-calendar-date-picker.js";
 
 function calendarIcon(): TemplateResult {
@@ -47,7 +48,7 @@ export function datePickerTemplate(this: SpCalendarDatePickerComponent): Templat
           class="sp-date-picker__input"
           type="text"
           .value=${this._displayValue}
-          placeholder=${this.placeholder || "Select date"}
+          placeholder=${this.placeholder || SpConfig.locale.calendar.selectDatePlaceholder}
           ?disabled=${this.disabled}
           ?readonly=${true}
           tabindex="0"

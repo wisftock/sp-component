@@ -21,12 +21,25 @@ dialog::backdrop {
 }
 
 :host([open]) dialog {
-  animation: sp-modal-in 0.2s ease;
+  animation: sp-modal-in var(--sp-anim-duration-mount, 200ms) var(--sp-easing-out, ease-out) both;
+}
+
+:host([closing]) dialog {
+  animation: sp-modal-out var(--sp-anim-duration-unmount, 150ms) var(--sp-easing-out, ease-out) both;
 }
 
 @keyframes sp-modal-in {
   from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes sp-modal-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.95); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([open]) dialog { animation: none; }
 }
 
 :host([size="sm"]) dialog { width: min(90vw, 360px); }
@@ -80,7 +93,8 @@ dialog::backdrop {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :host([open]) dialog {
+  :host([open]) dialog,
+  :host([closing]) dialog {
     animation: none;
   }
 }

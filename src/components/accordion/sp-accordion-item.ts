@@ -62,10 +62,10 @@ export class SpAccordionItemComponent extends LitElement {
           { once: true },
         );
       } else {
+        // Snap from "auto" to a concrete px value, force reflow, then animate to 0
         content.style.height = content.scrollHeight + "px";
-        requestAnimationFrame(() => {
-          content.style.height = "0";
-        });
+        content.getBoundingClientRect(); // force layout commit
+        content.style.height = "0";
       }
     }
   }

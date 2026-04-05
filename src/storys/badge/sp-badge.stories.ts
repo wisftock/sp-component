@@ -10,7 +10,7 @@ const meta: Meta<SpBadgeProps> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["primary", "secondary", "success", "warning", "danger", "neutral"],
+      options: ["primary", "secondary", "success", "warning", "danger", "neutral", "purple", "teal", "orange", "cyan"],
       description: "Color variant",
     },
     pill: {
@@ -44,6 +44,26 @@ export const AllVariants: Story = {
       <sp-badge variant="warning">Warning</sp-badge>
       <sp-badge variant="danger">Danger</sp-badge>
       <sp-badge variant="neutral">Neutral</sp-badge>
+      <sp-badge variant="purple">Purple</sp-badge>
+      <sp-badge variant="teal">Teal</sp-badge>
+      <sp-badge variant="orange">Orange</sp-badge>
+      <sp-badge variant="cyan">Cyan</sp-badge>
+    </div>
+  `,
+};
+
+export const NewColors: Story = {
+  name: "New Colors (purple / teal / orange / cyan)",
+  render: () => html`
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+      <sp-badge variant="purple">Purple</sp-badge>
+      <sp-badge variant="teal">Teal</sp-badge>
+      <sp-badge variant="orange">Orange</sp-badge>
+      <sp-badge variant="cyan">Cyan</sp-badge>
+      <sp-badge variant="purple" pill>Purple Pill</sp-badge>
+      <sp-badge variant="teal" pill>Teal Pill</sp-badge>
+      <sp-badge variant="orange" pill>Orange Pill</sp-badge>
+      <sp-badge variant="cyan" pill>Cyan Pill</sp-badge>
     </div>
   `,
 };

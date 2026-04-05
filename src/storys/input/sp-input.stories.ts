@@ -13,6 +13,11 @@ const meta: Meta<SpInputProps> = {
       options: ["text", "email", "password", "number", "search", "tel", "url"],
       description: "Input type",
     },
+    variant: {
+      control: "select",
+      options: ["outline", "filled"],
+      description: "Visual style — outline (default border) or filled (muted background)",
+    },
     size: {
       control: "select",
       options: ["sm", "md", "lg"],
@@ -197,6 +202,19 @@ export const WithIcons: Story = {
           <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
         </svg>
       </sp-input>
+    </div>
+  `,
+};
+
+// ---- Filled Variant ----
+
+export const FilledVariant: Story = {
+  name: "Filled Variant",
+  render: () => html`
+    <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+      <sp-input variant="filled" label="Filled input" placeholder="Type something..."></sp-input>
+      <sp-input variant="filled" label="Filled with error" placeholder="Enter email" error="Invalid email address"></sp-input>
+      <sp-input variant="outline" label="Outline (default)" placeholder="Type something..."></sp-input>
     </div>
   `,
 };

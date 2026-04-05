@@ -69,21 +69,41 @@ export class SpSwitchComponent extends LitElement {
   @property({ type: Boolean, reflect: true })
   required = false;
 
-  override updated(): void {
-    this.#internals.setFormValue(this.checked ? (this.value || "on") : null);
-    if (this.required && !this.checked) {
+  private _customError = "";
+
+  private _updateValidity(): void {
+    if (this._customError) {
+      this.#internals.setValidity({ customError: true }, this._customError);
+    } else if (this.required && !this.checked) {
       this.#internals.setValidity({ valueMissing: true }, "This field is required");
     } else {
       this.#internals.setValidity({});
     }
   }
 
+  setCustomValidity(message: string): void {
+    this._customError = message;
+    this._updateValidity();
+  }
+
+  checkValidity(): boolean {
+    return this.#internals.checkValidity();
+  }
+
+  reportValidity(): boolean {
+    return this.#internals.reportValidity();
+  }
+
+  override updated(): void {
+    this.#internals.setFormValue(this.checked ? (this.value || "on") : null);
+    this._updateValidity();
+  }
+
   formResetCallback(): void {
     this.checked = false;
+    this._customError = "";
     this.#internals.setFormValue(null);
-    if (this.required) {
-      this.#internals.setValidity({ valueMissing: true }, "This field is required");
-    }
+    this.#internals.setValidity({});
   }
 
   readonly _handleChange = (e: Event): void => {

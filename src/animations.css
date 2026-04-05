@@ -1,0 +1,105 @@
+/*
+ * SP Components — Shared Animation Presets
+ * Import in component CSS via: @import "../../animations.css";
+ * Or use in Vite: import animationsCss from "../../animations.css?inline";
+ *
+ * All animations respect prefers-reduced-motion.
+ */
+
+/* ── Fade ──────────────────────────────────────────────────── */
+
+@keyframes sp-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes sp-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ── Scale ─────────────────────────────────────────────────── */
+
+@keyframes sp-scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes sp-scale-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.95); }
+}
+
+/* ── Slide from direction ──────────────────────────────────── */
+
+@keyframes sp-slide-up-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sp-slide-up-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(8px); }
+}
+
+@keyframes sp-slide-down-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sp-slide-down-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes sp-slide-right-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes sp-slide-left-in {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Spring / Bounce ───────────────────────────────────────── */
+
+@keyframes sp-bounce-in {
+  0%   { transform: scale(0.9); opacity: 0; }
+  60%  { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes sp-pop-in {
+  0%   { transform: scale(0.8); opacity: 0; }
+  70%  { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Utility classes (optional) ────────────────────────────── */
+
+.sp-anim-fade-in    { animation: sp-fade-in    var(--sp-anim-duration-mount, 200ms) var(--sp-easing-out, ease-out) both; }
+.sp-anim-scale-in   { animation: sp-scale-in   var(--sp-anim-duration-mount, 200ms) var(--sp-easing-out, ease-out) both; }
+.sp-anim-slide-up   { animation: sp-slide-up-in var(--sp-anim-duration-mount, 200ms) var(--sp-easing-out, ease-out) both; }
+.sp-anim-bounce-in  { animation: sp-bounce-in  var(--sp-anim-duration-mount, 200ms) var(--sp-easing-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both; }
+
+/* ── Reduced motion ────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-anim-fade-in,
+  .sp-anim-scale-in,
+  .sp-anim-slide-up,
+  .sp-anim-bounce-in {
+    animation: none !important;
+  }
+
+  @keyframes sp-fade-in    { from { opacity: 1; } }
+  @keyframes sp-fade-out   { to   { opacity: 0; } }
+  @keyframes sp-scale-in   { from { opacity: 1; } }
+  @keyframes sp-scale-out  { to   { opacity: 0; } }
+  @keyframes sp-slide-up-in   { from { opacity: 1; } }
+  @keyframes sp-slide-up-out  { to   { opacity: 0; } }
+  @keyframes sp-slide-down-in  { from { opacity: 1; } }
+  @keyframes sp-bounce-in  { from { opacity: 1; } }
+  @keyframes sp-pop-in     { from { opacity: 1; } }
+}

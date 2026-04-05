@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { repeat } from "lit/directives/repeat.js";
+import { SpConfig } from "../../config.js";
 import type { SpCalendarComponent } from "./sp-calendar.js";
 
 function chevronLeft(): TemplateResult {
@@ -42,7 +43,7 @@ function renderDaysView(
       ${showPrev
         ? html`<button
             class="sp-calendar-nav-btn"
-            aria-label="Previous month"
+            aria-label=${SpConfig.locale.calendar.prevMonthLabel}
             ?disabled=${host.disabled}
             @click=${() => host._prevMonth()}
           >${chevronLeft()}</button>`
@@ -60,7 +61,7 @@ function renderDaysView(
       ${showNext
         ? html`<button
             class="sp-calendar-nav-btn"
-            aria-label="Next month"
+            aria-label=${SpConfig.locale.calendar.nextMonthLabel}
             ?disabled=${host.disabled}
             @click=${() => host._nextMonth()}
           >${chevronRight()}</button>`
@@ -134,7 +135,7 @@ function renderMonthsView(host: SpCalendarComponent): TemplateResult {
     <div class="sp-calendar-header" part="header">
       <button
         class="sp-calendar-nav-btn"
-        aria-label="Previous year"
+        aria-label=${SpConfig.locale.calendar.prevYearLabel}
         ?disabled=${host.disabled}
         @click=${() => host._prevYear()}
       >${chevronLeft()}</button>
@@ -148,7 +149,7 @@ function renderMonthsView(host: SpCalendarComponent): TemplateResult {
 
       <button
         class="sp-calendar-nav-btn"
-        aria-label="Next year"
+        aria-label=${SpConfig.locale.calendar.nextYearLabel}
         ?disabled=${host.disabled}
         @click=${() => host._nextYear()}
       >${chevronRight()}</button>
@@ -178,7 +179,7 @@ function renderYearsView(host: SpCalendarComponent): TemplateResult {
     <div class="sp-calendar-header" part="header">
       <button
         class="sp-calendar-nav-btn"
-        aria-label="Previous years"
+        aria-label=${SpConfig.locale.calendar.prevYearsLabel}
         ?disabled=${host.disabled}
         @click=${() => host._prevYearRange()}
       >${chevronLeft()}</button>
@@ -189,7 +190,7 @@ function renderYearsView(host: SpCalendarComponent): TemplateResult {
 
       <button
         class="sp-calendar-nav-btn"
-        aria-label="Next years"
+        aria-label=${SpConfig.locale.calendar.nextYearsLabel}
         ?disabled=${host.disabled}
         @click=${() => host._nextYearRange()}
       >${chevronRight()}</button>
@@ -237,7 +238,7 @@ export function calendarTemplate(this: SpCalendarComponent): TemplateResult {
       class="sp-calendar${this.showPresets ? " sp-calendar--with-presets" : ""}"
       part="calendar"
       role="application"
-      aria-label="Calendar"
+      aria-label=${SpConfig.locale.calendar.calendarLabel}
     >
       ${this.showPresets ? renderPresets(this) : nothing}
       <div class="sp-calendar-body">

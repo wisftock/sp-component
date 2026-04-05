@@ -14,12 +14,13 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.15s, transform 0.15s;
-  transform: scale(0.95);
+  transition: opacity var(--sp-anim-duration-unmount, 150ms) var(--sp-easing-out, ease-out),
+              transform var(--sp-anim-duration-unmount, 150ms) var(--sp-easing-out, ease-out);
+  transform: scale(0.95) translateY(4px);
   min-width: 160px;
 }
 
-.sp-popover--open { opacity: 1; pointer-events: auto; transform: scale(1); }
+.sp-popover--open { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
 .sp-popover-content { padding: 12px; }
 
 .sp-popover-arrow {
@@ -31,9 +32,11 @@
   transform: rotate(45deg);
 }
 
-:host([placement="bottom"]) .sp-popover-arrow { top: -6px; left: 50%; margin-left: -5px; border-bottom: none; border-right: none; }
-:host([placement="top"])    .sp-popover-arrow { bottom: -6px; left: 50%; margin-left: -5px; border-top: none; border-left: none; }
-:host([placement="right"])  .sp-popover-arrow { left: -6px; top: 50%; margin-top: -5px; border-top: none; border-right: none; }
-:host([placement="left"])   .sp-popover-arrow { right: -6px; top: 50%; margin-top: -5px; border-bottom: none; border-left: none; }
+/* Arrow border styling based on computed placement set by floating-ui (data-placement attribute).
+   Arrow element position (top/left/right/bottom) is applied via inline styles by setupFloating(). */
+.sp-popover[data-placement^="bottom"] .sp-popover-arrow { border-bottom: none; border-right: none; }
+.sp-popover[data-placement^="top"]    .sp-popover-arrow { border-top: none; border-left: none; }
+.sp-popover[data-placement^="right"]  .sp-popover-arrow { border-top: none; border-right: none; }
+.sp-popover[data-placement^="left"]   .sp-popover-arrow { border-bottom: none; border-left: none; }
 
 @media (prefers-reduced-motion: reduce) { .sp-popover { transition: none; } }

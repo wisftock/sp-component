@@ -1,4 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
+import { SpConfig } from "../../config.js";
 import type { SpNumberInputComponent } from "./sp-number-input.js";
 
 /**
@@ -25,7 +26,7 @@ export function numberInputTemplate(this: SpNumberInputComponent): TemplateResul
       <div class="sp-number-input-control">
         <button
           class="sp-number-input-btn sp-number-input-btn--dec"
-          aria-label="Decrease"
+          aria-label=${SpConfig.locale.numberInput.decreaseLabel}
           type="button"
           ?disabled=${this.disabled}
           @click=${() => this._decrement()}
@@ -49,7 +50,7 @@ export function numberInputTemplate(this: SpNumberInputComponent): TemplateResul
 
         <button
           class="sp-number-input-btn sp-number-input-btn--inc"
-          aria-label="Increase"
+          aria-label=${SpConfig.locale.numberInput.increaseLabel}
           type="button"
           ?disabled=${this.disabled}
           @click=${() => this._increment()}

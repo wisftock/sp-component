@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpPaginationComponent } from "./sp-pagination.js";
 
 export function paginationTemplate(this: SpPaginationComponent): TemplateResult {
@@ -27,12 +28,12 @@ export function paginationTemplate(this: SpPaginationComponent): TemplateResult 
       ${showLabel
         ? html`<span class="sp-pagination-label">${startItem}–${endItem} of ${this.total}</span>`
         : nothing}
-      <nav class="sp-pagination" aria-label="Pagination">
+      <nav class="sp-pagination" aria-label=${SpConfig.locale.pagination.paginationLabel}>
         <button
           class="sp-pagination-btn sp-pagination-first"
           ?disabled=${this.disabled || this.page <= 1}
           @click=${() => this._goTo(1)}
-          aria-label="First page"
+          aria-label=${SpConfig.locale.pagination.firstPageLabel}
         >
           «
         </button>
@@ -40,7 +41,7 @@ export function paginationTemplate(this: SpPaginationComponent): TemplateResult 
           class="sp-pagination-btn sp-pagination-prev"
           ?disabled=${this.disabled || this.page <= 1}
           @click=${() => this._goTo(this.page - 1)}
-          aria-label="Previous page"
+          aria-label=${SpConfig.locale.pagination.prevPageLabel}
         >
           ‹
         </button>
@@ -69,7 +70,7 @@ export function paginationTemplate(this: SpPaginationComponent): TemplateResult 
           class="sp-pagination-btn sp-pagination-next"
           ?disabled=${this.disabled || this.page >= this.totalPages}
           @click=${() => this._goTo(this.page + 1)}
-          aria-label="Next page"
+          aria-label=${SpConfig.locale.pagination.nextPageLabel}
         >
           ›
         </button>
@@ -77,7 +78,7 @@ export function paginationTemplate(this: SpPaginationComponent): TemplateResult 
           class="sp-pagination-btn sp-pagination-last"
           ?disabled=${this.disabled || this.page >= this.totalPages}
           @click=${() => this._goTo(this.totalPages)}
-          aria-label="Last page"
+          aria-label=${SpConfig.locale.pagination.lastPageLabel}
         >
           »
         </button>

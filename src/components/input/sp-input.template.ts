@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpInputComponent } from "./sp-input.js";
 
 /**
@@ -45,13 +46,13 @@ export function inputTemplate(this: SpInputComponent): TemplateResult {
           @blur=${this._handleBlur}
         />
         ${this.loading
-          ? html`<span class="sp-input-spinner" aria-hidden="true" aria-label="Loading"></span>`
+          ? html`<span class="sp-input-spinner" aria-hidden="true" aria-label=${SpConfig.locale.common.loading}></span>`
           : this.clearable && this.value
             ? html`<button
                 class="sp-input-clear"
                 type="button"
                 @click=${this._handleClear}
-                aria-label="Clear"
+                aria-label=${SpConfig.locale.input.clearLabel}
               >
                 ✕
               </button>`

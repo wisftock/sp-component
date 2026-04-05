@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpTimePickerComponent } from "./sp-time-picker.js";
 
 /**
@@ -72,7 +73,7 @@ export function timePickerTemplate(this: SpTimePickerComponent): TemplateResult 
           ? html`<button
               class="sp-time-picker-clear"
               type="button"
-              aria-label="Clear time"
+              aria-label=${SpConfig.locale.timePicker.clearLabel}
               @click=${this._clear}
             >
               ×
@@ -83,7 +84,7 @@ export function timePickerTemplate(this: SpTimePickerComponent): TemplateResult 
       <!-- Dropdown panel -->
       ${this._open
         ? html`
-            <div class="sp-time-picker-panel" role="dialog" aria-label="Time picker">
+            <div class="sp-time-picker-panel" role="dialog" aria-label=${SpConfig.locale.timePicker.panelLabel}>
               <!-- Time columns -->
               <div class="sp-time-picker-columns">
                 <!-- Hours column -->
@@ -91,7 +92,7 @@ export function timePickerTemplate(this: SpTimePickerComponent): TemplateResult 
                   <button
                     class="sp-time-picker-arrow"
                     type="button"
-                    aria-label="Increase hours"
+                    aria-label=${SpConfig.locale.timePicker.increaseHoursLabel}
                     @click=${() => this._changeHours(1)}
                   >▲</button>
                   <span class="sp-time-picker-value">
@@ -100,7 +101,7 @@ export function timePickerTemplate(this: SpTimePickerComponent): TemplateResult 
                   <button
                     class="sp-time-picker-arrow"
                     type="button"
-                    aria-label="Decrease hours"
+                    aria-label=${SpConfig.locale.timePicker.decreaseHoursLabel}
                     @click=${() => this._changeHours(-1)}
                   >▼</button>
                 </div>
@@ -112,7 +113,7 @@ export function timePickerTemplate(this: SpTimePickerComponent): TemplateResult 
                   <button
                     class="sp-time-picker-arrow"
                     type="button"
-                    aria-label="Increase minutes"
+                    aria-label=${SpConfig.locale.timePicker.increaseMinutesLabel}
                     @click=${() => this._changeMinutes(1)}
                   >▲</button>
                   <span class="sp-time-picker-value">
@@ -121,7 +122,7 @@ export function timePickerTemplate(this: SpTimePickerComponent): TemplateResult 
                   <button
                     class="sp-time-picker-arrow"
                     type="button"
-                    aria-label="Decrease minutes"
+                    aria-label=${SpConfig.locale.timePicker.decreaseMinutesLabel}
                     @click=${() => this._changeMinutes(-1)}
                   >▼</button>
                 </div>
@@ -134,7 +135,7 @@ export function timePickerTemplate(this: SpTimePickerComponent): TemplateResult 
                         <button
                           class="sp-time-picker-arrow"
                           type="button"
-                          aria-label="Increase seconds"
+                          aria-label=${SpConfig.locale.timePicker.increaseSecondsLabel}
                           @click=${() => this._changeSeconds(1)}
                         >▲</button>
                         <span class="sp-time-picker-value">
@@ -143,7 +144,7 @@ export function timePickerTemplate(this: SpTimePickerComponent): TemplateResult 
                         <button
                           class="sp-time-picker-arrow"
                           type="button"
-                          aria-label="Decrease seconds"
+                          aria-label=${SpConfig.locale.timePicker.decreaseSecondsLabel}
                           @click=${() => this._changeSeconds(-1)}
                         >▼</button>
                       </div>
@@ -157,14 +158,14 @@ export function timePickerTemplate(this: SpTimePickerComponent): TemplateResult 
                         <button
                           class="sp-time-picker-arrow"
                           type="button"
-                          aria-label="Toggle AM/PM"
+                          aria-label=${SpConfig.locale.timePicker.toggleAmPmLabel}
                           @click=${this._togglePeriod}
                         >▲</button>
                         <span class="sp-time-picker-value">${this._period}</span>
                         <button
                           class="sp-time-picker-arrow"
                           type="button"
-                          aria-label="Toggle AM/PM"
+                          aria-label=${SpConfig.locale.timePicker.toggleAmPmLabel}
                           @click=${this._togglePeriod}
                         >▼</button>
                       </div>
@@ -173,7 +174,7 @@ export function timePickerTemplate(this: SpTimePickerComponent): TemplateResult 
               </div>
 
               <!-- Quick presets list -->
-              <div class="sp-time-picker-presets" role="listbox" aria-label="Quick time options">
+              <div class="sp-time-picker-presets" role="listbox" aria-label=${SpConfig.locale.timePicker.presetsLabel}>
                 ${options.map(
                   (t) => html`
                     <button

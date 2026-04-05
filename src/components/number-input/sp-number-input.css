@@ -34,8 +34,8 @@
 .sp-number-input-btn:hover { background: var(--sp-border-subtle, #e5e7eb); color: var(--sp-text, #111827); }
 .sp-number-input-btn:active { background: var(--sp-border, #d1d5db); }
 .sp-number-input-btn:focus-visible { outline: 2px solid var(--sp-primary, #3b82f6); outline-offset: -2px; z-index: 1; }
-.sp-number-input-btn--dec { border-right: 1px solid var(--sp-border-subtle, #e5e7eb); }
-.sp-number-input-btn--inc { border-left: 1px solid var(--sp-border-subtle, #e5e7eb); }
+.sp-number-input-btn--dec { border-inline-end: 1px solid var(--sp-border-subtle, #e5e7eb); }
+.sp-number-input-btn--inc { border-inline-start: 1px solid var(--sp-border-subtle, #e5e7eb); }
 
 .sp-number-input-field {
   flex: 1; min-width: 0; border: none; outline: none; text-align: center;

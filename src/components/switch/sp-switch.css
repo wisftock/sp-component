@@ -47,3 +47,10 @@
   .sp-switch-track { transition: none; }
   .sp-switch-thumb { transition: none; }
 }
+
+/* ---- Native form validation states ---- */
+
+:host(:user-invalid) .sp-switch-track {
+  outline: 2px solid var(--sp-error, #FF4D4F);
+  outline-offset: 2px;
+}

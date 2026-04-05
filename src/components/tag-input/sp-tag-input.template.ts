@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpTagInputComponent } from "./sp-tag-input.js";
 
 /**
@@ -29,7 +30,7 @@ export function tagInputTemplate(this: SpTagInputComponent): TemplateResult {
                 ? html`<button
                     class="sp-tag-input-chip-remove"
                     type="button"
-                    aria-label="Remove ${tag}"
+                    aria-label=${SpConfig.locale.tagInput.removeTagLabel.replace("{tag}", tag)}
                     @click=${(e: MouseEvent) => {
                       e.stopPropagation();
                       this._removeTag(tag);

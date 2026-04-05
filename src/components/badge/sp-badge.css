@@ -43,7 +43,7 @@
   opacity: 0.7;
   color: inherit;
   line-height: 1;
-  margin-left: 2px;
+  margin-inline-start: 2px;
 }
 
 .sp-badge-remove:hover {
@@ -89,6 +89,26 @@
 :host([variant="neutral"]) .sp-badge {
   background: var(--sp-border-subtle, #e5e7eb);
   color: #4b5563;
+}
+
+:host([variant="purple"]) .sp-badge {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+:host([variant="teal"]) .sp-badge {
+  background: #ccfbf1;
+  color: #0f766e;
+}
+
+:host([variant="orange"]) .sp-badge {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+:host([variant="cyan"]) .sp-badge {
+  background: #cffafe;
+  color: #0e7490;
 }
 
 :host([pulsing]) .sp-badge {

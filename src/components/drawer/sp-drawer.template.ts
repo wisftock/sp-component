@@ -1,4 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
+import { SpConfig } from "../../config.js";
 import type { SpDrawerComponent } from "./sp-drawer.js";
 
 /**
@@ -17,7 +18,7 @@ export function drawerTemplate(this: SpDrawerComponent): TemplateResult {
           ? html`<button
               class="sp-drawer-close"
               type="button"
-              aria-label="Close"
+              aria-label=${SpConfig.locale.drawer.closeLabel}
               @click=${this._handleClose}
             >✕</button>`
           : nothing}

@@ -10,7 +10,7 @@ const meta: Meta<SpButtonProps> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["primary", "secondary", "ghost", "destructive"],
+      options: ["primary", "secondary", "ghost", "destructive", "outline", "soft", "link"],
       description: "Visual style of the button",
     },
     size: {
@@ -220,6 +220,18 @@ export const WithBothIcons: Story = {
 
 // ---- All variants overview ----
 
+export const Outline: Story = {
+  args: { variant: "outline" },
+};
+
+export const Soft: Story = {
+  args: { variant: "soft" },
+};
+
+export const Link: Story = {
+  args: { variant: "link" },
+};
+
 export const AllVariants: Story = {
   render: () => html`
     <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
@@ -227,6 +239,9 @@ export const AllVariants: Story = {
       <sp-button variant="secondary">Secondary</sp-button>
       <sp-button variant="ghost">Ghost</sp-button>
       <sp-button variant="destructive">Destructive</sp-button>
+      <sp-button variant="outline">Outline</sp-button>
+      <sp-button variant="soft">Soft</sp-button>
+      <sp-button variant="link">Link</sp-button>
       <sp-button disabled>Disabled</sp-button>
       <sp-button loading>Loading</sp-button>
     </div>

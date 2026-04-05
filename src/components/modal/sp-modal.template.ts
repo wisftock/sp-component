@@ -1,4 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
+import { SpConfig } from "../../config.js";
 import type { SpModalComponent } from "./sp-modal.js";
 
 /**
@@ -17,7 +18,7 @@ export function modalTemplate(this: SpModalComponent): TemplateResult {
           ? html`<button
               class="sp-modal-close"
               type="button"
-              aria-label="Close dialog"
+              aria-label=${SpConfig.locale.modal.closeLabel}
               @click=${this._handleClose}
             >✕</button>`
           : nothing}

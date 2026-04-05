@@ -1,5 +1,6 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpToastStackComponent } from "./sp-toast-stack.js";
 import type { SpToastVariant, ToastItem } from "./sp-toast-stack.types.js";
 
@@ -37,7 +38,7 @@ function toastCard(host: SpToastStackComponent, toast: ToastItem): TemplateResul
         ? html`<button
             class="sp-toast-close"
             type="button"
-            aria-label="Dismiss notification"
+            aria-label=${SpConfig.locale.toast.dismissLabel}
             @click=${() => host.dismiss(toast.id)}
           >
             ✕
@@ -60,7 +61,7 @@ export function toastStackTemplate(this: SpToastStackComponent): TemplateResult 
         "sp-toast-stack": true,
         [`sp-toast-stack--${this.position}`]: true,
       })}
-      aria-label="Notifications"
+      aria-label=${SpConfig.locale.toast.notificationsLabel}
     >
       ${visible.map((toast) => toastCard(this, toast))}
     </div>

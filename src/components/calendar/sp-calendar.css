@@ -398,9 +398,9 @@
 }
 
 .sp-calendar-month-panel:not(:last-child) {
-  padding-right: 20px;
-  border-right: 1px solid var(--sp-cal-border);
-  margin-right: 20px;
+  padding-inline-end: 20px;
+  border-inline-end: 1px solid var(--sp-cal-border);
+  margin-inline-end: 20px;
 }
 
 .sp-calendar-nav-placeholder {
@@ -417,7 +417,7 @@
   flex-direction: column;
   gap: 4px;
   padding: 20px 12px;
-  border-right: 1px solid var(--sp-cal-preset-border);
+  border-inline-end: 1px solid var(--sp-cal-preset-border);
   min-width: 130px;
 }
 
@@ -429,7 +429,7 @@
   color: var(--sp-cal-day-color);
   font-size: 0.82rem;
   cursor: pointer;
-  text-align: left;
+  text-align: start;
   white-space: nowrap;
   transition: background 0.15s, border-color 0.15s;
 }

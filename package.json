@@ -1,6 +1,9 @@
 {
   "name": "sp-component",
   "version": "0.0.4",
+  "workspaces": [
+    "packages/*"
+  ],
   "description": "Librería de Web Components compatible con Angular, React, Vue y cualquier framework",
   "type": "module",
   "main": "./dist/index.js",
@@ -26,7 +29,8 @@
   "scripts": {
     "build": "vite build",
     "build:cdn": "vite build --config vite.config.cdn.ts",
-    "build:all": "npm run build && npm run build:cdn",
+    "build:cli": "npm run build -w packages/cli",
+    "build:all": "npm run build && npm run build:cdn && npm run build:cli",
     "dev": "vite build --watch",
     "type-check": "tsc --noEmit --project tsconfig.build.json",
     "test": "vitest run --config vitest.config.ts",
@@ -53,10 +57,10 @@
   "author": "wisftock",
   "license": "MIT",
   "dependencies": {
+    "@floating-ui/dom": "^1.7.6",
     "lit": "^3.0.0"
   },
   "devDependencies": {
-    "@figma/code-connect": "^1.4.2",
     "@storybook/addon-a11y": "^10.3.1",
     "@storybook/addon-docs": "^10.3.1",
     "@storybook/web-components-vite": "^10.3.1",
@@ -64,7 +68,6 @@
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "@vitest/coverage-v8": "^4.1.0",
-    "chromatic": "^15.3.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-lit": "^1.15.0",

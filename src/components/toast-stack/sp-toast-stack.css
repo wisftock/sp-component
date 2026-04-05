@@ -74,7 +74,7 @@
   background: var(--sp-bg, #ffffff);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-left: 4px solid transparent;
+  border-inline-start: 4px solid transparent;
   pointer-events: auto;
   width: 100%;
   box-sizing: border-box;
@@ -112,19 +112,19 @@
 /* ---- Variant border colors ---- */
 
 .sp-toast-card--info {
-  border-left-color: var(--sp-primary, #3b82f6);
+  border-inline-start-color: var(--sp-primary, #3b82f6);
 }
 
 .sp-toast-card--success {
-  border-left-color: var(--sp-success, #52C41A);
+  border-inline-start-color: var(--sp-success, #52C41A);
 }
 
 .sp-toast-card--warning {
-  border-left-color: var(--sp-warning, #FAAD14);
+  border-inline-start-color: var(--sp-warning, #FAAD14);
 }
 
 .sp-toast-card--error {
-  border-left-color: var(--sp-error, #FF4D4F);
+  border-inline-start-color: var(--sp-error, #FF4D4F);
 }
 
 /* ---- Icon ---- */

@@ -1,4 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
+import { SpConfig } from "../../config.js";
 import type { SpAlertComponent } from "./sp-alert.js";
 
 /**
@@ -31,7 +32,7 @@ export function alertTemplate(this: SpAlertComponent): TemplateResult {
                   <button
                     class="sp-alert-close"
                     type="button"
-                    aria-label="Close"
+                    aria-label=${SpConfig.locale.alert.closeLabel}
                     @click=${this._handleClose}
                   >✕</button>
                 `

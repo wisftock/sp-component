@@ -1,4 +1,4 @@
-export type SpBadgeVariant = "primary" | "secondary" | "success" | "warning" | "danger" | "neutral";
+export type SpBadgeVariant = "primary" | "secondary" | "success" | "warning" | "danger" | "neutral" | "purple" | "teal" | "orange" | "cyan";
 
 export interface SpBadgeProps {
   variant: SpBadgeVariant;

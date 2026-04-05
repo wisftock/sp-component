@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import "./sp-modal.js";
 import type { SpModalComponent } from "./sp-modal.js";
 
@@ -12,8 +12,13 @@ describe("sp-modal", () => {
   let el: SpModalComponent;
 
   beforeEach(() => {
+    vi.useFakeTimers();
     document.body.innerHTML = "";
     el = createElement();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   // ---- Rendering ----
@@ -50,6 +55,9 @@ describe("sp-modal", () => {
     el.open = true;
     await el.updateComplete;
     el.open = false;
+    await el.updateComplete;
+    // close is deferred until exit animation ends (300ms fallback in test env)
+    vi.advanceTimersByTime(350);
     await el.updateComplete;
     expect(closeSpy).toHaveBeenCalledOnce();
   });
@@ -119,6 +127,8 @@ describe("sp-modal", () => {
     const listener = vi.fn();
     el.addEventListener("sp-hide", listener);
     el.open = false;
+    await el.updateComplete;
+    vi.advanceTimersByTime(350);
     await el.updateComplete;
     expect(listener).toHaveBeenCalledOnce();
   });

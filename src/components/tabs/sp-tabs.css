@@ -60,18 +60,18 @@
 
 :host([placement="left"]) .sp-tabs-nav-wrapper {
   flex-direction: column;
-  border-right: 1px solid var(--sp-border-subtle, #e5e7eb);
+  border-inline-end: 1px solid var(--sp-border-subtle, #e5e7eb);
 }
 
 :host([placement="left"]) .sp-tabs-nav {
   flex-direction: column;
   border-bottom: none;
-  padding-right: 0;
+  padding-inline-end: 0;
 }
 
 :host([placement="right"]) .sp-tabs-nav-wrapper {
   flex-direction: column;
-  border-left: 1px solid var(--sp-border-subtle, #e5e7eb);
+  border-inline-start: 1px solid var(--sp-border-subtle, #e5e7eb);
   order: 1;
 }
 
@@ -104,5 +104,5 @@
 :host([placement="left"]) sp-tab .sp-tab-button,
 :host([placement="right"]) sp-tab .sp-tab-button {
   border-bottom: none;
-  border-right: 2px solid transparent;
+  border-inline-end: 2px solid transparent;
 }

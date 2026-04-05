@@ -1,6 +1,7 @@
 import { html, nothing } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import { styleMap } from "lit/directives/style-map.js";
+import { SpConfig } from "../../config.js";
 import type { SpGalleryComponent } from "./sp-gallery.js";
 
 function iconClose() {
@@ -62,13 +63,13 @@ function renderLightbox(host: SpGalleryComponent) {
       class="sp-gallery-lightbox"
       role="dialog"
       aria-modal="true"
-      aria-label="Image viewer"
+      aria-label=${SpConfig.locale.gallery.imageViewerLabel}
       @click=${(e: MouseEvent) => { if (e.target === e.currentTarget) host._closeLightbox(); }}
     >
       <!-- Close -->
       <button
         class="sp-gallery-lightbox-close"
-        aria-label="Close lightbox"
+        aria-label=${SpConfig.locale.gallery.closeLightboxLabel}
         @click=${() => host._closeLightbox()}
       >${iconClose()}</button>
 
@@ -81,7 +82,7 @@ function renderLightbox(host: SpGalleryComponent) {
       ${total > 1 ? html`
         <button
           class="sp-gallery-lightbox-nav sp-gallery-lightbox-nav--prev"
-          aria-label="Previous image"
+          aria-label=${SpConfig.locale.gallery.prevImageLabel}
           @click=${() => host._lightboxPrev()}
         >${iconChevronLeft()}</button>
       ` : nothing}
@@ -102,14 +103,14 @@ function renderLightbox(host: SpGalleryComponent) {
       ${total > 1 ? html`
         <button
           class="sp-gallery-lightbox-nav sp-gallery-lightbox-nav--next"
-          aria-label="Next image"
+          aria-label=${SpConfig.locale.gallery.nextImageLabel}
           @click=${() => host._lightboxNext()}
         >${iconChevronRight()}</button>
       ` : nothing}
 
       <!-- Dot strip -->
       ${total > 1 && total <= 20 ? html`
-        <div class="sp-gallery-lightbox-dots" role="tablist" aria-label="Image navigation">
+        <div class="sp-gallery-lightbox-dots" role="tablist" aria-label=${SpConfig.locale.gallery.imageNavLabel}>
           ${host.items.map((_, i) => html`
             <button
               class="sp-gallery-lightbox-dot ${i === host._lightboxIndex ? "sp-gallery-lightbox-dot--active" : ""}"
@@ -136,7 +137,7 @@ function renderGrid(host: SpGalleryComponent) {
       class="sp-gallery sp-gallery--${host.layout}"
       style=${gridStyle}
       role="list"
-      aria-label="Image gallery"
+      aria-label=${SpConfig.locale.gallery.galleryLabel}
     >
       ${repeat(
         host.items,

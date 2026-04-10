@@ -8,6 +8,8 @@ export interface SpTableColumn {
   hidden?: boolean;
   width?: string;
   align?: "left" | "center" | "right";
+  /** Allow inline double-click editing on this column's cells */
+  editable?: boolean;
   /** Custom cell renderer — receives the cell value and full row */
   render?: (value: unknown, row: Record<string, unknown>) => string;
 }
@@ -45,4 +47,8 @@ export interface SpTableProps {
   rowHeight: number;
   /** Container height for virtual scroll */
   maxHeight: string;
+  /** Title shown in the toolbar */
+  title: string;
+  /** Show a CSV export button in the toolbar */
+  exportable: boolean;
 }

@@ -29,6 +29,17 @@ import type { SpSliderMark, SpSliderSize } from "./sp-slider.types.js";
 @customElement("sp-slider")
 export class SpSliderComponent extends LitElement {
   static override styles = unsafeCSS(styles);
+  static formAssociated = true;
+
+  readonly #internals: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
+
+  @property({ type: String })
+  name = "";
 
   @property({ type: Number })
   value = 0;
@@ -93,6 +104,7 @@ export class SpSliderComponent extends LitElement {
 
   readonly _handleChange = (e: Event) => {
     this.value = Number((e.target as HTMLInputElement).value);
+    this.#internals.setFormValue(String(this.value));
     this.dispatchEvent(new CustomEvent("sp-change", { detail: { value: this.value }, bubbles: true, composed: true }));
   };
 
@@ -111,12 +123,14 @@ export class SpSliderComponent extends LitElement {
   readonly _handleRangeStartChange = (e: Event) => {
     const v = Number((e.target as HTMLInputElement).value);
     this.rangeStart = Math.min(v, this.rangeEnd);
+    this.#internals.setFormValue(`${this.rangeStart},${this.rangeEnd}`);
     this.dispatchEvent(new CustomEvent("sp-change", { detail: { value: [this.rangeStart, this.rangeEnd] as [number, number] }, bubbles: true, composed: true }));
   };
 
   readonly _handleRangeEndChange = (e: Event) => {
     const v = Number((e.target as HTMLInputElement).value);
     this.rangeEnd = Math.max(v, this.rangeStart);
+    this.#internals.setFormValue(`${this.rangeStart},${this.rangeEnd}`);
     this.dispatchEvent(new CustomEvent("sp-change", { detail: { value: [this.rangeStart, this.rangeEnd] as [number, number] }, bubbles: true, composed: true }));
   };
 

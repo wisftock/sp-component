@@ -22,6 +22,20 @@ import type { SpRatingSize } from "./sp-rating.types.js";
 @customElement("sp-rating")
 export class SpRatingComponent extends LitElement {
   static override styles = unsafeCSS(styles);
+  static formAssociated = true;
+
+  readonly #internals: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
+
+  @property({ type: String })
+  name = "";
+
+  @property({ type: Boolean })
+  required = false;
 
   @property({ type: Number })
   value = 0;
@@ -65,6 +79,12 @@ export class SpRatingComponent extends LitElement {
   readonly _handleClick = (value: number) => {
     if (this.disabled || this.readonly) return;
     this.value = value;
+    this.#internals.setFormValue(String(value));
+    if (this.required && value === 0) {
+      this.#internals.setValidity({ valueMissing: true }, "Please select a rating.", undefined);
+    } else {
+      this.#internals.setValidity({});
+    }
     this.dispatchEvent(new CustomEvent("sp-change", { detail: { value }, bubbles: true, composed: true }));
   };
 
@@ -83,6 +103,7 @@ export class SpRatingComponent extends LitElement {
   readonly _handleClear = () => {
     if (this.disabled || this.readonly) return;
     this.value = 0;
+    this.#internals.setFormValue("0");
     this.dispatchEvent(new CustomEvent("sp-change", { detail: { value: 0 }, bubbles: true, composed: true }));
   };
 

@@ -131,7 +131,13 @@
   --sp-easing-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
   --sp-easing-bounce:  cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-  /* ---- Density (comfortable = default) ---- */
+  /* ---- Component-specific tokens ---- */
+  /* stat trend colors (used by sp-stat) */
+  --sp-stat-trend-up-color:      #16a34a;
+  --sp-stat-trend-down-color:    #dc2626;
+  --sp-stat-trend-neutral-color: #6b7280;
+
+  /* Density (comfortable = default) ---- */
   --sp-density-padding-y:   var(--sp-space-2);
   --sp-density-padding-x:   var(--sp-space-3);
   --sp-density-font-size:   var(--sp-font-size-base);
@@ -257,6 +263,11 @@
     --sp-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
     --sp-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
     --sp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+
+    /* ---- Component-specific tokens ---- */
+    --sp-stat-trend-up-color:      #4ade80;
+    --sp-stat-trend-down-color:    #f87171;
+    --sp-stat-trend-neutral-color: #9ca3af;
   }
 }
 
@@ -302,4 +313,9 @@
   --sp-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
   --sp-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
   --sp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+
+  /* ---- Component-specific tokens ---- */
+  --sp-stat-trend-up-color:      #4ade80;
+  --sp-stat-trend-down-color:    #f87171;
+  --sp-stat-trend-neutral-color: #9ca3af;
 }

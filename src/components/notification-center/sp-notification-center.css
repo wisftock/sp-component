@@ -1,0 +1,164 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: inline-block; font-family: inherit; }
+
+.sp-nc { position: relative; display: inline-block; }
+
+/* ── Trigger ── */
+.sp-nc-trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--sp-border, #d1d5db);
+  background: var(--sp-bg, #fff);
+  color: var(--sp-text-secondary, #374151);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.sp-nc-trigger:hover { background: var(--sp-bg-muted, #f3f4f6); }
+
+.sp-nc-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background: var(--sp-error, #ef4444);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* ── Dropdown ── */
+.sp-nc-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 360px;
+  max-width: calc(100vw - 16px);
+  background: var(--sp-bg, #fff);
+  border: 1px solid var(--sp-border, #d1d5db);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.12), 0 4px 10px -2px rgba(0,0,0,0.08);
+  overflow: hidden;
+  z-index: 1000;
+  animation: sp-nc-in 0.15s ease;
+}
+
+@keyframes sp-nc-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sp-nc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--sp-border-subtle, #e5e7eb);
+}
+
+.sp-nc-header-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sp-text, #111827);
+}
+
+.sp-nc-mark-all {
+  font-size: 12px;
+  color: var(--sp-primary, #3b82f6);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 0;
+  font-family: inherit;
+}
+.sp-nc-mark-all:hover { text-decoration: underline; }
+
+/* ── List ── */
+.sp-nc-list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.sp-nc-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px 20px;
+  font-size: 13px;
+  color: var(--sp-text-muted, #6b7280);
+}
+
+.sp-nc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--sp-border-subtle, #f3f4f6);
+  transition: background 0.1s;
+  position: relative;
+}
+.sp-nc-item:last-child { border-bottom: none; }
+.sp-nc-item:hover { background: var(--sp-bg-muted, #f9fafb); }
+.sp-nc-item--unread { background: var(--sp-primary-bg, #eff6ff); }
+.sp-nc-item--unread:hover { background: var(--sp-primary-bg-hover, #dbeafe); }
+
+.sp-nc-item-icon { flex-shrink: 0; margin-top: 2px; }
+
+.sp-nc-type-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+}
+.sp-nc-type-icon--info    { background: #dbeafe; color: #1d4ed8; }
+.sp-nc-type-icon--success { background: #dcfce7; color: #15803d; }
+.sp-nc-type-icon--warning { background: #fef3c7; color: #92400e; }
+.sp-nc-type-icon--error   { background: #fee2e2; color: #b91c1c; }
+
+.sp-nc-item-body { flex: 1; min-width: 0; }
+.sp-nc-item-title { font-size: 13px; font-weight: 500; color: var(--sp-text, #111827); }
+.sp-nc-item-text  { font-size: 12px; color: var(--sp-text-muted, #6b7280); margin-top: 2px; line-height: 1.4; }
+.sp-nc-item-time  { font-size: 11px; color: var(--sp-text-muted, #9ca3af); margin-top: 4px; }
+
+.sp-nc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sp-primary, #3b82f6);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.sp-nc-dismiss {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--sp-text-muted, #9ca3af);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s;
+}
+.sp-nc-item:hover .sp-nc-dismiss { opacity: 1; }
+.sp-nc-dismiss:hover { background: var(--sp-bg-muted, #f3f4f6); color: var(--sp-text, #374151); }

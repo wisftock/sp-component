@@ -1,6 +1,6 @@
 {
   "name": "sp-component",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "workspaces": [
     "packages/*"
   ],
@@ -24,7 +24,8 @@
   "files": [
     "dist",
     "dist-cdn",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "vite build",

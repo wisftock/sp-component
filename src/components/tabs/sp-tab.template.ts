@@ -6,6 +6,7 @@ import type { SpTabComponent } from "./sp-tab.js";
 export function tabTemplate(this: SpTabComponent): TemplateResult {
   return html`
     <button
+      part="button"
       class=${classMap({
         "sp-tab-button": true,
         "sp-tab-button--active": this.active,

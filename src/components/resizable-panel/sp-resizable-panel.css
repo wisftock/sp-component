@@ -1,0 +1,60 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; width: 100%; height: 100%; }
+
+.sp-rp {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.sp-rp--horizontal { flex-direction: row; }
+.sp-rp--vertical   { flex-direction: column; }
+
+.sp-rp-panel {
+  overflow: auto;
+  flex-shrink: 0;
+}
+
+/* ── Divider ── */
+.sp-rp-divider {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sp-border-subtle, #e5e7eb);
+  transition: background 0.15s;
+  position: relative;
+  z-index: 1;
+}
+
+.sp-rp--horizontal .sp-rp-divider {
+  width: 5px;
+  cursor: col-resize;
+  height: 100%;
+}
+
+.sp-rp--vertical .sp-rp-divider {
+  height: 5px;
+  cursor: row-resize;
+  width: 100%;
+}
+
+.sp-rp-divider:hover,
+.sp-rp--dragging .sp-rp-divider {
+  background: var(--sp-primary, #3b82f6);
+}
+
+.sp-rp-divider-handle {
+  color: var(--sp-border, #d1d5db);
+  pointer-events: none;
+  transition: color 0.15s;
+}
+
+.sp-rp-divider:hover .sp-rp-divider-handle,
+.sp-rp--dragging .sp-rp-divider-handle {
+  color: #fff;
+}
+
+.sp-rp--dragging { user-select: none; }
+.sp-rp--horizontal.sp-rp--dragging * { cursor: col-resize !important; }
+.sp-rp--vertical.sp-rp--dragging * { cursor: row-resize !important; }

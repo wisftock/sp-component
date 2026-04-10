@@ -24,6 +24,20 @@ import type { SpFileUploadVariant } from "./sp-file-upload.types.js";
 @customElement("sp-file-upload")
 export class SpFileUploadComponent extends LitElement {
   static override styles = unsafeCSS(styles);
+  static formAssociated = true;
+
+  readonly #internals: ElementInternals;
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
+
+  @property({ type: String })
+  name = "";
+
+  @property({ type: Boolean })
+  required = false;
 
   @property({ type: String })
   accept = "";
@@ -103,6 +117,14 @@ export class SpFileUploadComponent extends LitElement {
     }
     this._validationError = "";
     this._files = this.multiple ? [...this._files, ...files] : files;
+    const dt = new DataTransfer();
+    for (const f of this._files) dt.items.add(f);
+    this.#internals.setFormValue(dt.files.length > 0 ? (dt.files[0] ?? null) : null);
+    if (this.required && this._files.length === 0) {
+      this.#internals.setValidity({ valueMissing: true }, "Please select a file.", undefined);
+    } else {
+      this.#internals.setValidity({});
+    }
     this.requestUpdate();
     this.dispatchEvent(new CustomEvent("sp-change", { detail: { files: this._files }, bubbles: true, composed: true }));
   }
@@ -115,6 +137,12 @@ export class SpFileUploadComponent extends LitElement {
 
   readonly _removeFile = (index: number) => {
     this._files = this._files.filter((_, i) => i !== index);
+    this.#internals.setFormValue(this._files.length > 0 ? (this._files[0] ?? null) : null);
+    if (this.required && this._files.length === 0) {
+      this.#internals.setValidity({ valueMissing: true }, "Please select a file.", undefined);
+    } else {
+      this.#internals.setValidity({});
+    }
     this.requestUpdate();
     this.dispatchEvent(new CustomEvent("sp-change", { detail: { files: this._files }, bubbles: true, composed: true }));
   };

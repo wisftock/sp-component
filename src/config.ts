@@ -33,10 +33,6 @@ export interface SpModalLocale {
   closeLabel: string;
 }
 
-export interface SpDrawerLocale {
-  closeLabel: string;
-}
-
 export interface SpAlertLocale {
   closeLabel: string;
 }
@@ -182,11 +178,60 @@ export interface SpTreeLocale {
   loadingLabel: string;
 }
 
+export interface SpNotificationCenterLocale {
+  markAllReadLabel: string;
+  dismissLabel: string;
+  noNotificationsText: string;
+  notificationsLabel: string;
+}
+
+export interface SpBottomSheetLocale {
+  closeLabel: string;
+}
+
+export interface SpKanbanLocale {
+  addCardLabel: string;
+  addConfirmLabel: string;
+  addCancelLabel: string;
+  addPlaceholder: string;
+  wipLimitLabel: string; // "Limit: {n}" — use {n} placeholder
+}
+
+export interface SpOnboardingLocale {
+  skipLabel: string;
+  nextLabel: string;
+  prevLabel: string;
+  /** Supports {current} and {total} placeholders */
+  stepLabel: string;
+}
+
+export interface SpTourLocale {
+  /** Supports {current} and {total} placeholders */
+  stepBadgeLabel: string;
+  nextLabel: string;
+  prevLabel: string;
+  finishLabel: string;
+  closeLabel: string;
+}
+
+export interface SpTransferLocale {
+  sourceTitleLabel: string;
+  targetTitleLabel: string;
+  searchPlaceholder: string;
+  moveAllLabel: string;
+  removeAllLabel: string;
+}
+
+export interface SpSignatureLocale {
+  undoLabel: string;
+  clearLabel: string;
+  penWidthLabel: string; // "Pen width: {n}px" — use {n} placeholder
+}
+
 export interface SpLocale {
   table: SpTableLocale;
   common: SpCommonLocale;
   modal: SpModalLocale;
-  drawer: SpDrawerLocale;
   alert: SpAlertLocale;
   autocomplete: SpAutocompleteLocale;
   combobox: SpComboboxLocale;
@@ -211,6 +256,13 @@ export interface SpLocale {
   tagInput: SpTagInputLocale;
   toast: SpToastLocale;
   tree: SpTreeLocale;
+  notificationCenter: SpNotificationCenterLocale;
+  bottomSheet: SpBottomSheetLocale;
+  kanban: SpKanbanLocale;
+  onboarding: SpOnboardingLocale;
+  tour: SpTourLocale;
+  transfer: SpTransferLocale;
+  signature: SpSignatureLocale;
 }
 
 // ─── Default locale (English) ──────────────────────────────────────────────
@@ -239,7 +291,6 @@ const defaultLocale: SpLocale = {
     ofTotal: "of {total}",
   },
   modal: { closeLabel: "Close dialog" },
-  drawer: { closeLabel: "Close" },
   alert: { closeLabel: "Close" },
   autocomplete: {
     clearLabel: "Clear",
@@ -332,6 +383,45 @@ const defaultLocale: SpLocale = {
     notificationsLabel: "Notifications",
   },
   tree: { loadingLabel: "Loading" },
+  notificationCenter: {
+    markAllReadLabel: "Mark all read",
+    dismissLabel: "Dismiss",
+    noNotificationsText: "No notifications",
+    notificationsLabel: "Notifications",
+  },
+  bottomSheet: { closeLabel: "Close" },
+  kanban: {
+    addCardLabel: "Add card",
+    addConfirmLabel: "Add",
+    addCancelLabel: "Cancel",
+    addPlaceholder: "Card title…",
+    wipLimitLabel: "Limit: {n}",
+  },
+  onboarding: {
+    skipLabel: "Skip",
+    nextLabel: "Next",
+    prevLabel: "Back",
+    stepLabel: "{current} of {total}",
+  },
+  tour: {
+    stepBadgeLabel: "Step {current} of {total}",
+    nextLabel: "Next",
+    prevLabel: "Previous",
+    finishLabel: "Finish",
+    closeLabel: "Close tour",
+  },
+  transfer: {
+    sourceTitleLabel: "Source",
+    targetTitleLabel: "Target",
+    searchPlaceholder: "Search…",
+    moveAllLabel: "Move all",
+    removeAllLabel: "Remove all",
+  },
+  signature: {
+    undoLabel: "Undo last stroke",
+    clearLabel: "Clear signature",
+    penWidthLabel: "Pen width: {n}px",
+  },
 };
 
 // ─── Theming types ─────────────────────────────────────────────────────────

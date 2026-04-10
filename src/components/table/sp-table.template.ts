@@ -15,9 +15,10 @@ export function tableTemplate(this: SpTableComponent): TemplateResult {
 
   return html`
     <!-- ── Toolbar ── -->
-    ${this.searchable || this.columns.length > 0
+    ${this.title || this.searchable || this.exportable || this.columns.length > 0
       ? html`
         <div class="sp-table-toolbar">
+          ${this.title ? html`<span class="sp-table-title">${this.title}</span>` : nothing}
           ${this.searchable
             ? html`
               <div class="sp-table-search">
@@ -48,6 +49,15 @@ export function tableTemplate(this: SpTableComponent): TemplateResult {
                 </button>
               `
               : nothing}
+
+            ${this.exportable ? html`
+              <button class="sp-table-icon-btn" @click=${() => this.exportCSV()} title="Export CSV">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                CSV
+              </button>
+            ` : nothing}
 
             <!-- Column visibility picker -->
             <div class="sp-table-col-picker-wrap">
@@ -115,7 +125,7 @@ export function tableTemplate(this: SpTableComponent): TemplateResult {
       @scroll=${this.virtual ? this._onVirtualScroll : nothing}
       @click=${() => { this._showColPicker = false; this._openFilterCol = null; }}
     >
-      <table class="sp-table">
+      <table class="sp-table" aria-busy=${this.loading ? "true" : "false"}>
         ${this.caption ? html`<caption class="sp-table-caption">${this.caption}</caption>` : nothing}
 
         <thead>
@@ -145,7 +155,7 @@ export function tableTemplate(this: SpTableComponent): TemplateResult {
                   "sp-table-th--reorderable": this.reorderable,
                 })}
                 scope="col"
-                style=${col.width ? `width: ${col.width}` : nothing}
+                style=${this._colWidths.has(col.key) ? `width: ${this._colWidths.get(col.key)}px` : col.width ? `width: ${col.width}` : nothing}
                 draggable=${this.reorderable ? "true" : "false"}
                 aria-sort=${col.sortable
                   ? this.sortKey === col.key
@@ -218,6 +228,11 @@ export function tableTemplate(this: SpTableComponent): TemplateResult {
                     </div>
                   `
                   : nothing}
+
+                <div class="sp-table-resize-handle"
+                  @pointerdown=${(e: PointerEvent) => this._startColResize(e, col.key)}
+                  @click=${(e: Event) => e.stopPropagation()}
+                ></div>
               </th>
             `)}
 
@@ -280,16 +295,25 @@ export function tableTemplate(this: SpTableComponent): TemplateResult {
                           `
                           : nothing}
 
-                        ${visible.map((col) => html`
-                          <td
-                            class="sp-table-td"
-                            style=${col.align ? `text-align: ${col.align}` : nothing}
-                          >
-                            ${col.render
-                              ? html`${col.render(row[col.key], row)}`
-                              : row[col.key] ?? ""}
-                          </td>
-                        `)}
+                        ${visible.map((col) => {
+                            const isEditing = this._editCell?.row === row && this._editCell?.key === col.key;
+                            return html`
+                              <td
+                                class=${classMap({ "sp-table-td": true, "sp-table-td--editable": !!col.editable })}
+                                style=${col.align ? `text-align: ${col.align}` : nothing}
+                                @dblclick=${col.editable ? () => this._startEdit(row, col.key, row[col.key]) : nothing}
+                              >
+                                ${isEditing ? html`
+                                  <input class="sp-table-cell-input"
+                                    .value=${this._editValue}
+                                    @input=${(e: Event) => { this._editValue = (e.target as HTMLInputElement).value; }}
+                                    @blur=${() => this._commitEdit()}
+                                    @keydown=${(e: KeyboardEvent) => { if (e.key === "Enter") this._commitEdit(); if (e.key === "Escape") this._editCell = null; }}
+                                  />
+                                ` : col.render ? html`${col.render(row[col.key], row)}` : row[col.key] ?? ""}
+                              </td>
+                            `;
+                          })}
 
                         ${this.actions.length
                           ? html`
@@ -337,16 +361,25 @@ export function tableTemplate(this: SpTableComponent): TemplateResult {
                           `
                           : nothing}
 
-                        ${visible.map((col) => html`
-                          <td
-                            class="sp-table-td"
-                            style=${col.align ? `text-align: ${col.align}` : nothing}
-                          >
-                            ${col.render
-                              ? html`${col.render(row[col.key], row)}`
-                              : row[col.key] ?? ""}
-                          </td>
-                        `)}
+                        ${visible.map((col) => {
+                            const isEditing = this._editCell?.row === row && this._editCell?.key === col.key;
+                            return html`
+                              <td
+                                class=${classMap({ "sp-table-td": true, "sp-table-td--editable": !!col.editable })}
+                                style=${col.align ? `text-align: ${col.align}` : nothing}
+                                @dblclick=${col.editable ? () => this._startEdit(row, col.key, row[col.key]) : nothing}
+                              >
+                                ${isEditing ? html`
+                                  <input class="sp-table-cell-input"
+                                    .value=${this._editValue}
+                                    @input=${(e: Event) => { this._editValue = (e.target as HTMLInputElement).value; }}
+                                    @blur=${() => this._commitEdit()}
+                                    @keydown=${(e: KeyboardEvent) => { if (e.key === "Enter") this._commitEdit(); if (e.key === "Escape") this._editCell = null; }}
+                                  />
+                                ` : col.render ? html`${col.render(row[col.key], row)}` : row[col.key] ?? ""}
+                              </td>
+                            `;
+                          })}
 
                         ${this.actions.length
                           ? html`

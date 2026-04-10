@@ -1,0 +1,226 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+:host { display: block; font-family: inherit; }
+
+.sp-kanban {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  align-items: flex-start;
+}
+
+/* ---- Column ---- */
+
+.sp-kanban-col {
+  flex-shrink: 0;
+  width: var(--sp-kanban-col-width, 280px);
+  background: var(--sp-bg-subtle, #f9fafb);
+  border: 1px solid var(--sp-border-subtle, #e5e7eb);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  max-height: var(--sp-kanban-max-height, 80vh);
+}
+
+.sp-kanban-col--over {
+  border-color: var(--sp-primary, #3b82f6);
+  background: var(--sp-primary-bg, #eff6ff);
+}
+
+.sp-kanban-col-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 12px 10px;
+  flex-shrink: 0;
+}
+
+.sp-kanban-col-title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sp-text, #111827);
+}
+
+.sp-kanban-col-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sp-text-muted, #6b7280);
+  background: var(--sp-bg-muted, #f3f4f6);
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+
+.sp-kanban-col-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sp-kanban-cards {
+  overflow-y: auto;
+  flex: 1;
+  padding: 0 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 60px;
+}
+
+/* ---- Card ---- */
+
+.sp-kanban-card {
+  background: var(--sp-bg, white);
+  border: 1px solid var(--sp-border-subtle, #e5e7eb);
+  border-radius: 6px;
+  padding: 12px;
+  cursor: grab;
+  transition: box-shadow 0.15s, transform 0.15s;
+  user-select: none;
+}
+
+.sp-kanban-card:hover {
+  box-shadow: var(--sp-shadow-sm, 0 2px 8px rgba(0,0,0,0.08));
+}
+
+.sp-kanban-card--dragging {
+  opacity: 0.5;
+  transform: rotate(1.5deg);
+  cursor: grabbing;
+}
+
+.sp-kanban-card--over {
+  border-top: 2px solid var(--sp-primary, #3b82f6);
+}
+
+.sp-kanban-card-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sp-text, #111827);
+  margin-bottom: 4px;
+}
+
+.sp-kanban-card-desc {
+  font-size: 12px;
+  color: var(--sp-text-muted, #6b7280);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.sp-kanban-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sp-kanban-card-tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.sp-kanban-card-priority {
+  font-size: 11px;
+  color: var(--sp-text-muted, #6b7280);
+}
+
+/* ---- Add card ---- */
+
+.sp-kanban-add-btn {
+  margin: 0 8px 8px;
+  padding: 7px;
+  border: 1px dashed var(--sp-border, #d1d5db);
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--sp-text-muted, #6b7280);
+  width: calc(100% - 16px);
+  text-align: start;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.sp-kanban-add-btn:hover:not(:disabled) {
+  border-color: var(--sp-primary, #3b82f6);
+  color: var(--sp-primary, #3b82f6);
+  background: var(--sp-primary-bg, #eff6ff);
+}
+.sp-kanban-add-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sp-kanban-col-count--over {
+  background: var(--sp-error-bg, #fff2f0);
+  color: var(--sp-error, #ef4444);
+}
+
+/* ---- Inline add form ---- */
+
+.sp-kanban-add-form {
+  margin: 0 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.sp-kanban-add-input,
+.sp-kanban-add-desc {
+  width: 100%;
+  padding: 7px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  border: 1px solid var(--sp-border, #d1d5db);
+  border-radius: 6px;
+  background: var(--sp-bg, white);
+  color: var(--sp-text, #111827);
+  outline: none;
+  resize: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.sp-kanban-add-input:focus,
+.sp-kanban-add-desc:focus {
+  border-color: var(--sp-primary, #3b82f6);
+  box-shadow: 0 0 0 3px var(--sp-primary-focus, rgba(59,130,246,0.2));
+}
+
+.sp-kanban-add-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.sp-kanban-add-confirm {
+  padding: 5px 14px;
+  font-size: 12px;
+  font-family: inherit;
+  background: var(--sp-primary, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+.sp-kanban-add-confirm:hover { background: var(--sp-primary-hover, #2563eb); }
+
+.sp-kanban-add-cancel {
+  padding: 5px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  background: none;
+  color: var(--sp-text-muted, #6b7280);
+  border: 1px solid var(--sp-border, #d1d5db);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.sp-kanban-add-cancel:hover { background: var(--sp-bg-muted, #f3f4f6); }

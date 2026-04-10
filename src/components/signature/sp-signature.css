@@ -1,0 +1,117 @@
+:host { display: block; }
+
+.sp-signature {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sp-signature__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--sp-color-text, #111827);
+}
+
+.sp-signature__canvas-wrap {
+  position: relative;
+  display: block;
+  border: 1px solid var(--sp-color-border, #d1d5db);
+  border-radius: var(--sp-radius-md, 0.5rem);
+  background: var(--sp-color-surface, #fff);
+  overflow: hidden;
+}
+
+.sp-signature__canvas-wrap canvas {
+  display: block;
+  max-width: 100%;
+}
+
+.sp-signature__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sp-color-text-muted, #9ca3af);
+  font-size: 0.875rem;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Footer ── */
+
+.sp-signature__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sp-signature__controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sp-signature__colors {
+  display: flex;
+  gap: 4px;
+}
+
+.sp-signature__color-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.1s;
+  outline: none;
+}
+
+.sp-signature__color-btn:hover { transform: scale(1.15); }
+.sp-signature__color-btn--active {
+  border-color: var(--sp-color-text, #111827);
+  transform: scale(1.15);
+}
+
+.sp-signature__width-input {
+  width: 70px;
+  accent-color: var(--sp-primary, #3b82f6);
+  cursor: pointer;
+}
+
+.sp-signature__actions {
+  display: flex;
+  gap: 6px;
+  margin-inline-start: auto;
+}
+
+.sp-signature__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  border: 1px solid var(--sp-color-border, #d1d5db);
+  border-radius: var(--sp-radius-sm, 0.375rem);
+  background: transparent;
+  color: var(--sp-color-text, #374151);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sp-signature__btn:hover:not(:disabled) { background: var(--sp-color-hover, #f3f4f6); }
+.sp-signature__btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.sp-signature__btn--clear {
+  color: var(--sp-error, #ef4444);
+  border-color: currentColor;
+}
+.sp-signature__btn--clear:hover:not(:disabled) {
+  background: var(--sp-error-bg, #fff2f0);
+}
+
+:host([disabled]) .sp-signature__canvas-wrap { opacity: 0.5; }

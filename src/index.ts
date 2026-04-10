@@ -18,7 +18,6 @@ export * from "./components/tag/index.js";
 export * from "./components/card/index.js";
 export * from "./components/divider/index.js";
 export * from "./components/modal/index.js";
-export * from "./components/drawer/index.js";
 export * from "./components/popover/index.js";
 export * from "./components/tooltip/index.js";
 export * from "./components/tabs/index.js";
@@ -59,6 +58,22 @@ export * from "./components/gallery/index.js";
 export * from "./components/autocomplete/index.js";
 export * from "./components/segmented-control/index.js";
 export * from "./components/inline-edit/index.js";
+// ---- New components ----
+export * from "./components/context-menu/index.js";
+export * from "./components/notification-center/index.js";
+export * from "./components/bottom-sheet/index.js";
+export * from "./components/resizable-panel/index.js";
+export * from "./components/hotkey/index.js";
+export * from "./components/onboarding/index.js";
+export * from "./components/phone-input/index.js";
+export * from "./components/transfer/index.js";
+export * from "./components/tour/index.js";
+export * from "./components/kanban/index.js";
+export * from "./components/rich-text-editor/index.js";
+export * from "./components/image-crop/index.js";
+export * from "./components/signature/index.js";
+export * from "./components/mention/index.js";
+export * from "./components/pdf-viewer/index.js";
 // ---- Base class ----
 export { SpBaseElement } from "./base/SpBaseElement.js";
 // ---- Compound: Select ----
@@ -79,7 +94,6 @@ export type {
   SpTableLocale,
   SpCommonLocale,
   SpModalLocale,
-  SpDrawerLocale,
   SpAlertLocale,
   SpAutocompleteLocale,
   SpComboboxLocale,
@@ -104,6 +118,13 @@ export type {
   SpTagInputLocale,
   SpToastLocale,
   SpTreeLocale,
+  SpNotificationCenterLocale,
+  SpBottomSheetLocale,
+  SpKanbanLocale,
+  SpOnboardingLocale,
+  SpTourLocale,
+  SpTransferLocale,
+  SpSignatureLocale,
   SpPresetTheme,
   SpColorScheme,
   SpDensity,

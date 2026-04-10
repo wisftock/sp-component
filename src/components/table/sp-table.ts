@@ -106,6 +106,12 @@ export class SpTableComponent extends LitElement {
   @property({ type: String, attribute: "max-height" })
   maxHeight = "400px";
 
+  @property({ type: String })
+  title = "";
+
+  @property({ type: Boolean, reflect: true })
+  exportable = false;
+
   // ── Internal state ────────────────────────────────────────
   @state() selectedRows: Set<number> = new Set();
   @state() _columnOrder: string[] = [];
@@ -119,8 +125,12 @@ export class SpTableComponent extends LitElement {
   @state() _openFilterCol: string | null = null;
   @state() _scrollTop = 0;
   @state() _containerH = 400;
+  @state() _editCell: { row: Record<string, unknown>; key: string } | null = null;
+  @state() _editValue = "";
+  @state() _colWidths: Map<string, number> = new Map();
 
   private _resizeObs?: ResizeObserver;
+  #colResizeState: { key: string; startX: number; startW: number } | null = null;
 
   // ── Lifecycle ─────────────────────────────────────────────
   override firstUpdated() {
@@ -156,6 +166,8 @@ export class SpTableComponent extends LitElement {
   override disconnectedCallback() {
     super.disconnectedCallback();
     this._resizeObs?.disconnect();
+    document.removeEventListener("pointermove", this._onColResize);
+    document.removeEventListener("pointerup", this._stopColResize);
   }
 
   private _setupVirtualScroll() {
@@ -376,6 +388,63 @@ export class SpTableComponent extends LitElement {
     action.onClick(row, index);
     this._emit("sp-row-action", { action: action.label, row, index });
   };
+
+  // ── Column resize ─────────────────────────────────────────
+  readonly _startColResize = (e: PointerEvent, key: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const startW = this._colWidths.get(key) ?? 150;
+    this.#colResizeState = { key, startX: e.clientX, startW };
+    document.addEventListener("pointermove", this._onColResize);
+    document.addEventListener("pointerup", this._stopColResize);
+  };
+
+  readonly _onColResize = (e: PointerEvent) => {
+    if (!this.#colResizeState) return;
+    const diff = e.clientX - this.#colResizeState.startX;
+    const newW = Math.max(60, this.#colResizeState.startW + diff);
+    this._colWidths = new Map(this._colWidths).set(this.#colResizeState.key, newW);
+  };
+
+  readonly _stopColResize = () => {
+    this.#colResizeState = null;
+    document.removeEventListener("pointermove", this._onColResize);
+    document.removeEventListener("pointerup", this._stopColResize);
+  };
+
+  // ── Inline editing ─────────────────────────────────────────
+  readonly _startEdit = (row: Record<string, unknown>, key: string, value: unknown) => {
+    this._editCell = { row, key };
+    this._editValue = String(value ?? "");
+  };
+
+  readonly _commitEdit = () => {
+    if (!this._editCell) return;
+    const { row, key } = this._editCell;
+    const dataIdx = this.data.indexOf(row);
+    if (dataIdx >= 0) {
+      const updated = { ...row, [key]: this._editValue };
+      this.data = [...this.data.slice(0, dataIdx), updated, ...this.data.slice(dataIdx + 1)];
+      this._emit("sp-cell-edit", { row: updated, key, value: this._editValue });
+    }
+    this._editCell = null;
+  };
+
+  // ── CSV export ────────────────────────────────────────────
+  exportCSV() {
+    const visible = this._visibleColumns;
+    const headers = visible.map((c) => c.label).join(",");
+    const rowsCSV = this._filteredData.map((r) =>
+      visible.map((c) => JSON.stringify(r[c.key] ?? "")).join(","),
+    );
+    const csv = [headers, ...rowsCSV].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = (this.title || "data") + ".csv";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
 
   // ── Helpers ───────────────────────────────────────────────
   private _emit(event: string, detail: Record<string, unknown>) {

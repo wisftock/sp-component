@@ -1,0 +1,95 @@
+:host {
+  display: block;
+}
+
+.sp-mention {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.sp-mention__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--sp-color-text, #111827);
+}
+
+.sp-mention__wrap {
+  position: relative;
+}
+
+.sp-mention__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9375rem;
+  border: 1px solid var(--sp-color-border, #d1d5db);
+  border-radius: var(--sp-radius-md, 0.5rem);
+  background: var(--sp-color-surface, #fff);
+  color: var(--sp-color-text, #111827);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.sp-mention__input:focus {
+  border-color: var(--sp-color-primary, #3b82f6);
+  box-shadow: 0 0 0 3px var(--sp-color-primary-ring, rgba(59,130,246,0.15));
+}
+
+.sp-mention__input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--sp-color-disabled-bg, #f9fafb);
+}
+
+.sp-mention__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  background: var(--sp-color-surface, #fff);
+  border: 1px solid var(--sp-color-border, #e5e7eb);
+  border-radius: var(--sp-radius-md, 0.5rem);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.sp-mention__option {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--sp-radius-sm, 0.375rem);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.sp-mention__option:hover,
+.sp-mention__option--active {
+  background: var(--sp-color-primary-bg, #eff6ff);
+}
+
+.sp-mention__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.sp-mention__name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--sp-color-text, #111827);
+}
+
+.sp-mention__desc {
+  font-size: 0.75rem;
+  color: var(--sp-color-text-muted, #9ca3af);
+  margin-left: auto;
+}

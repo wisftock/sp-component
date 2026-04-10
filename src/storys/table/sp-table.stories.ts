@@ -43,18 +43,18 @@ const meta: Meta<SpTableProps> = {
   component: "sp-table",
   tags: ["autodocs"],
   argTypes: {
-    loading:      { control: "boolean" },
-    bordered:     { control: "boolean" },
-    striped:      { control: "boolean" },
-    hoverable:    { control: "boolean" },
-    compact:      { control: "boolean" },
-    selectable:   { control: "boolean" },
-    reorderable:  { control: "boolean" },
-    searchable:   { control: "boolean" },
-    stickyHeader: { control: "boolean" },
-    pageSize:     { control: "number" },
-    emptyText:    { control: "text" },
-    caption:      { control: "text" },
+    loading:      { control: "boolean", description: "Shows a loading overlay with a spinner on the table body" },
+    bordered:     { control: "boolean", description: "Adds borders between cells" },
+    striped:      { control: "boolean", description: "Alternates row background colors for readability" },
+    hoverable:    { control: "boolean", description: "Highlights row on mouse hover" },
+    compact:      { control: "boolean", description: "Reduces row height and padding for dense data" },
+    selectable:   { control: "boolean", description: "Adds a checkbox column for row selection" },
+    reorderable:  { control: "boolean", description: "Enables drag-and-drop row reordering" },
+    searchable:   { control: "boolean", description: "Shows a global search bar above the table" },
+    stickyHeader: { control: "boolean", description: "Keeps the header row visible while scrolling" },
+    pageSize:     { control: "number",  description: "Number of rows per page (enables pagination)" },
+    emptyText:    { control: "text",    description: "Message shown when the table has no data" },
+    caption:      { control: "text",    description: "Accessible caption rendered above the table" },
   },
   args: {
     loading:      false,
@@ -346,5 +346,66 @@ export const PageSizeSelector: Story = {
       striped
       hoverable
     ></sp-table>
+  `,
+};
+
+// ════════════════════════════════════════════════════════════════════════════
+// ── Inline Editing, Column Resize & CSV Export ───────────────────────────
+// ════════════════════════════════════════════════════════════════════════════
+
+const EDIT_COLUMNS = [
+  { key: "id",     label: "ID",     width: "60px",  sortable: true },
+  { key: "name",   label: "Name",   width: "180px", sortable: true, editable: true },
+  { key: "email",  label: "Email",  width: "220px", sortable: true },
+  { key: "role",   label: "Role",   width: "120px", sortable: true, editable: true },
+  { key: "status", label: "Status", width: "100px" },
+];
+
+const EDIT_DATA = Array.from({ length: 50 }, (_, i) => ({
+  id: i + 1,
+  name: ["Alice Johnson", "Bob Smith", "Carlos López", "Diana Chen", "Eva Torres"][i % 5],
+  email: `user${i + 1}@example.com`,
+  role: ["Admin", "Editor", "Viewer"][i % 3],
+  status: ["Active", "Inactive", "Pending"][i % 3],
+}));
+
+export const InlineEditAndExport: Story = {
+  name: "Inline Editing + CSV Export",
+  render: () => html`
+    <p style="font-size:13px;color:#6b7280;margin-bottom:12px;">
+      Double-click on <strong>Name</strong> or <strong>Role</strong> cells to edit inline.
+      Drag column borders to resize. Click <strong>CSV</strong> to download.
+    </p>
+    <sp-table
+      title="Users"
+      .columns=${EDIT_COLUMNS}
+      .data=${EDIT_DATA}
+      selectable
+      searchable
+      exportable
+      page-size="10"
+      hoverable
+    ></sp-table>
+  `,
+};
+
+export const InlineEditLog: Story = {
+  name: "Inline Editing — event log",
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <p style="margin:0;font-size:0.8rem;color:#6b7280;">Double-click on a <strong>Name</strong> or <strong>Role</strong> cell to edit inline.</p>
+      <sp-table
+        title="Editable Grid"
+        .columns=${EDIT_COLUMNS}
+        .data=${[...EDIT_DATA.slice(0, 20)]}
+        page-size="8"
+        hoverable
+        @sp-cell-edit=${(e: CustomEvent) => {
+          const out = document.getElementById("edit-log");
+          if (out) out.textContent = `Edited "${e.detail.key}" → "${e.detail.value}"`;
+        }}
+      ></sp-table>
+      <code id="edit-log" style="font-size:0.8rem;color:#6366f1;">— double-click a Name or Role cell —</code>
+    </div>
   `,
 };

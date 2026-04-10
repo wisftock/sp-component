@@ -1,6 +1,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 :host { display: block; height: 100%; }
+:host(:not([open])) { display: none; }
 
 .sp-sidebar {
   height: 100%;
@@ -14,7 +15,7 @@
 }
 
 :host([bordered]) .sp-sidebar { border-inline-end: 1px solid var(--sp-border-subtle, #e5e7eb); }
-:host([placement="right"]) :host([bordered]) .sp-sidebar { border-inline-end: none; border-inline-start: 1px solid var(--sp-border-subtle, #e5e7eb); }
+:host([placement="right"][bordered]) .sp-sidebar { border-inline-end: none; border-inline-start: 1px solid var(--sp-border-subtle, #e5e7eb); }
 
 .sp-sidebar-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden; }
 

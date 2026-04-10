@@ -572,6 +572,52 @@
   color: var(--sp-text-muted, #6b7280);
 }
 
+/* ── Title ── */
+.sp-table-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sp-text, #111827);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Column resize handle ── */
+.sp-table-resize-handle {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  opacity: 0;
+  transition: opacity 0.15s;
+  background: var(--sp-primary, #3b82f6);
+  z-index: 1;
+}
+
+.sp-table-th:hover .sp-table-resize-handle { opacity: 0.35; }
+.sp-table-resize-handle:hover { opacity: 1 !important; }
+
+/* ── Editable cell ── */
+.sp-table-td--editable {
+  cursor: text;
+}
+.sp-table-td--editable:hover {
+  background: var(--sp-primary-bg, #eff6ff);
+}
+
+.sp-table-cell-input {
+  width: 100%;
+  border: none;
+  outline: 2px solid var(--sp-primary, #3b82f6);
+  border-radius: 2px;
+  padding: 2px 4px;
+  font-size: 13px;
+  font-family: inherit;
+  background: var(--sp-bg, #fff);
+  color: var(--sp-text, #111827);
+}
+
 /* ── Animations ── */
 @keyframes sp-table-spin {
   to { transform: rotate(360deg); }

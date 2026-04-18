@@ -1,0 +1,18 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; }
+
+.sp-wm {
+  position: relative;
+  overflow: hidden;
+}
+.sp-wm-content {
+  position: relative;
+  z-index: 1;
+}
+.sp-wm-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+}

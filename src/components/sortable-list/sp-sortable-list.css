@@ -1,0 +1,123 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; font-family: inherit; }
+
+/* ── List ──────────────────────────────────────────────────────────────── */
+.sp-sl {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── Item ──────────────────────────────────────────────────────────────── */
+.sp-sl-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  background: var(--sp-bg, #fff);
+  border: 1.5px solid var(--sp-border-subtle, #e5e7eb);
+  border-radius: 10px;
+  cursor: grab;
+  user-select: none;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.12s, opacity 0.15s;
+}
+
+.sp-sl-item:hover {
+  border-color: var(--sp-primary, #6366f1);
+  background: var(--sp-bg-subtle, #f9fafb);
+  box-shadow: 0 2px 8px rgba(99,102,241,0.1);
+}
+
+.sp-sl-item:active {
+  cursor: grabbing;
+}
+
+/* Dragging state */
+.sp-sl-item--dragging {
+  opacity: 0.4;
+  border-color: var(--sp-primary, #6366f1);
+  box-shadow: none;
+  transform: scale(0.98);
+  cursor: grabbing;
+}
+
+/* Drop target */
+.sp-sl-item--dragover {
+  border-color: var(--sp-primary, #6366f1);
+  background: var(--sp-primary-bg, #eff6ff);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+  transform: scale(1.01);
+}
+
+/* Disabled */
+.sp-sl-item--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+:host([disabled]) .sp-sl-item {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* ── Handle ────────────────────────────────────────────────────────────── */
+.sp-sl-handle,
+.sp-sl-grip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sp-text-muted, #9ca3af);
+  flex-shrink: 0;
+  transition: color 0.1s;
+  cursor: grab;
+}
+
+.sp-sl-handle { padding: 2px 4px; }
+.sp-sl-grip   { margin-inline-start: auto; padding: 2px 4px; }
+
+.sp-sl-item:hover .sp-sl-handle,
+.sp-sl-item:hover .sp-sl-grip {
+  color: var(--sp-primary, #6366f1);
+}
+
+/* ── Icon ──────────────────────────────────────────────────────────────── */
+.sp-sl-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* ── Content ───────────────────────────────────────────────────────────── */
+.sp-sl-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sp-sl-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--sp-text, #111827);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sp-sl-desc {
+  font-size: 12px;
+  color: var(--sp-text-muted, #6b7280);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-sl-item { transition: none; }
+}

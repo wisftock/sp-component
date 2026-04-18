@@ -101,7 +101,7 @@ describe("sp-otp-input", () => {
     await el.updateComplete;
 
     expect(listener).toHaveBeenCalledOnce();
-    const detail = (listener.mock.calls[0][0] as CustomEvent<{ value: string }>).detail;
+    const detail = (listener.mock.calls[0]![0] as CustomEvent<{ value: string }>).detail;
     expect(detail.value).toContain("3");
   });
 
@@ -117,13 +117,13 @@ describe("sp-otp-input", () => {
     // Fill all 3 cells
     const values = ["1", "2", "3"];
     inputs?.forEach((input, i) => {
-      input.value = values[i];
+      input.value = values[i]!;
       input.dispatchEvent(new Event("input", { bubbles: true }));
     });
     await el.updateComplete;
 
     expect(completeListener).toHaveBeenCalled();
-    const detail = (completeListener.mock.calls[0][0] as CustomEvent<{ value: string }>).detail;
+    const detail = (completeListener.mock.calls[0]![0] as CustomEvent<{ value: string }>).detail;
     expect(detail.value).toBe("123");
   });
 

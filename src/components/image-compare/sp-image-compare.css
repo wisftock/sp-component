@@ -1,0 +1,69 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; user-select: none; }
+
+.sp-ic {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--sp-ic-radius, 8px);
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.sp-ic-before,
+.sp-ic-after {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.sp-ic-before { clip-path: inset(0 0 0 0); }
+
+.sp-ic-before img,
+.sp-ic-after  img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  max-width: none;
+}
+
+.sp-ic-handle {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+  z-index: 10;
+  transform: translateX(-50%);
+}
+
+.sp-ic-knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #374151;
+}
+
+.sp-ic-label {
+  position: absolute;
+  bottom: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  pointer-events: none;
+}
+.sp-ic-label--before { left: 12px; }
+.sp-ic-label--after  { right: 12px; }

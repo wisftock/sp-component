@@ -1,0 +1,46 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; font-family: inherit; }
+
+.sp-anchor {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 2px solid var(--sp-border, #e5e7eb);
+}
+
+.sp-anchor-link {
+  display: block;
+  padding: 5px 12px;
+  font-size: 13px;
+  color: var(--sp-text-muted, #6b7280);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  margin-left: -2px;
+  border-radius: 0 4px 4px 0;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.sp-anchor-link:hover {
+  color: var(--sp-text, #111827);
+  background: var(--sp-bg-muted, #f9fafb);
+}
+.sp-anchor-link--active {
+  color: var(--sp-primary, #6366f1);
+  border-color: var(--sp-primary, #6366f1);
+  font-weight: 500;
+  background: var(--sp-primary-subtle, rgba(99,102,241,0.04));
+}
+
+/* Nested */
+.sp-anchor-children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sp-anchor-children .sp-anchor-link {
+  padding-left: 24px;
+  font-size: 12px;
+}

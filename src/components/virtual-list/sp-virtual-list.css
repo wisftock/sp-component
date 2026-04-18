@@ -1,0 +1,26 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; }
+
+.sp-vl-scroll {
+  overflow-y: auto;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.sp-vl-spacer {
+  position: relative;
+  width: 100%;
+}
+
+.sp-vl-items {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.sp-vl-item {
+  display: block;
+  width: 100%;
+}

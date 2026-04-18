@@ -1,0 +1,209 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; font-family: inherit; }
+
+/* Thumbnails grid */
+.sp-lb-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sp-lb-thumb {
+  width: 120px;
+  height: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.sp-lb-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.sp-lb-thumb:hover img { transform: scale(1.05); opacity: 0.85; }
+
+.sp-lb-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0);
+  transition: background 0.15s;
+  color: #fff;
+}
+
+.sp-lb-thumb:hover .sp-lb-thumb-overlay { background: rgba(0,0,0,0.2); }
+
+/* Lightbox overlay */
+.sp-lb-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: sp-lb-in 0.15s ease;
+  touch-action: none;
+}
+
+@keyframes sp-lb-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.sp-lb-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.sp-lb-img-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 90vw;
+  max-height: 85vh;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.sp-lb-img-wrap.dragging { cursor: grabbing; }
+
+.sp-lb-img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 4px;
+  object-fit: contain;
+  transition: transform 0.15s;
+  user-select: none;
+  pointer-events: none;
+  display: block;
+}
+
+/* Controls */
+.sp-lb-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.sp-lb-close:hover { background: rgba(255,255,255,0.2); }
+
+.sp-lb-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.sp-lb-arrow:hover { background: rgba(255,255,255,0.2); }
+.sp-lb-arrow--prev { left: 16px; }
+.sp-lb-arrow--next { right: 16px; }
+
+/* Bottom bar */
+.sp-lb-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.5));
+}
+
+.sp-lb-counter {
+  color: rgba(255,255,255,0.7);
+  font-size: 13px;
+}
+
+.sp-lb-zoom-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.sp-lb-zoom-btn:hover { background: rgba(255,255,255,0.2); }
+
+.sp-lb-caption {
+  color: rgba(255,255,255,0.8);
+  font-size: 13px;
+  max-width: 400px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Thumbnails strip */
+.sp-lb-strip {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  max-width: 80vw;
+  padding: 4px;
+}
+
+.sp-lb-strip-thumb {
+  width: 48px;
+  height: 36px;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+  opacity: 0.5;
+  border: 2px solid transparent;
+  transition: opacity 0.1s, border-color 0.1s;
+}
+
+.sp-lb-strip-thumb.active {
+  opacity: 1;
+  border-color: var(--sp-primary, #6366f1);
+}
+
+.sp-lb-strip-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

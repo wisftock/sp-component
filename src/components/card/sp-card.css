@@ -3,26 +3,42 @@
 :host {
   display: block;
   width: 100%;
-  box-sizing: border-box;
 }
 
+/* ── Base card ─────────────────────────────────────────────────────────── */
 .sp-card {
   position: relative;
-  background: var(--sp-bg, white);
-  border-radius: 8px;
+  background: var(--sp-bg, #fff);
+  border-radius: 12px;
   overflow: hidden;
-  box-sizing: border-box;
   transition: box-shadow 0.2s, transform 0.2s;
 }
 
-/* Clickable */
-.sp-card--clickable {
-  cursor: pointer;
+/* ── Shadow presets ────────────────────────────────────────────────────── */
+:host([shadow="none"]) .sp-card { box-shadow: none; }
+:host([shadow="sm"])   .sp-card { box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04); }
+:host([shadow="md"])   .sp-card { box-shadow: 0 4px 12px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06); }
+:host([shadow="lg"])   .sp-card { box-shadow: 0 12px 28px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06); }
+:host(:not([shadow]))  .sp-card { box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04); }
+
+/* ── Bordered ──────────────────────────────────────────────────────────── */
+:host([bordered]) .sp-card {
+  border: 1px solid var(--sp-border-subtle, #e5e7eb);
+  box-shadow: none;
 }
 
+/* ── Clickable ─────────────────────────────────────────────────────────── */
+.sp-card--clickable { cursor: pointer; }
+
 .sp-card--clickable:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
-  transform: translateY(-1px);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.14), 0 4px 10px rgba(0,0,0,0.08) !important;
+  transform: translateY(-2px);
+}
+
+.sp-card--clickable:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.10) !important;
+  transition-duration: 0.05s;
 }
 
 .sp-card--clickable:focus-visible {
@@ -30,81 +46,54 @@
   outline-offset: 2px;
 }
 
-/* Href link wrapper */
+/* ── Href link ─────────────────────────────────────────────────────────── */
 .sp-card-link {
   display: block;
   color: inherit;
   text-decoration: none;
 }
 
-/* Loading overlay */
+/* ── Loading shimmer overlay ───────────────────────────────────────────── */
 .sp-card-loading-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(229,231,235,0.7) 25%, rgba(243,244,246,0.7) 50%, rgba(229,231,235,0.7) 75%);
+  background: linear-gradient(
+    90deg,
+    rgba(229,231,235,0.6) 25%,
+    rgba(249,250,251,0.8) 50%,
+    rgba(229,231,235,0.6) 75%
+  );
   background-size: 200% 100%;
-  animation: sp-card-shimmer 1.5s infinite;
+  animation: sp-card-shimmer 1.6s ease-in-out infinite;
   border-radius: inherit;
   z-index: 1;
 }
 
 @keyframes sp-card-shimmer {
-  0% { background-position: 200% 0; }
+  0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
 
-/* ── Skeleton loading ── */
-.sp-card-skeleton {
-  padding: 4px 0;
-}
+/* ── Skeleton ──────────────────────────────────────────────────────────── */
+.sp-card-skeleton { padding: 4px 0; }
 
 .sp-card-skeleton-line {
   height: 12px;
-  border-radius: 4px;
-  background: linear-gradient(90deg, var(--sp-bg-muted, #f0f0f0) 25%, var(--sp-border-subtle, #e0e0e0) 50%, var(--sp-bg-muted, #f0f0f0) 75%);
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--sp-bg-muted, #f0f0f0) 25%,
+    var(--sp-border-subtle, #e4e4e4) 50%,
+    var(--sp-bg-muted, #f0f0f0) 75%
+  );
   background-size: 200% 100%;
-  animation: sp-card-shimmer 1.5s infinite;
+  animation: sp-card-shimmer 1.6s ease-in-out infinite;
 }
 
-.sp-card-skeleton-title {
-  height: 16px;
-  width: 60%;
-  margin-bottom: 16px;
-}
+.sp-card-skeleton-title { height: 16px; width: 55%; margin-bottom: 16px; border-radius: 6px; }
+.sp-card-skeleton-body  { display: flex; flex-direction: column; gap: 10px; }
 
-.sp-card-skeleton-body {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-@media (max-width: 640px) {
-  :host {
-    display: block;
-    width: 100%;
-  }
-}
-
-:host([shadow="none"]) .sp-card {
-  box-shadow: none;
-}
-
-:host([shadow="sm"]) .sp-card {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-:host([shadow="md"]) .sp-card {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-:host([shadow="lg"]) .sp-card {
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-}
-
-:host([bordered]) .sp-card {
-  border: 1px solid var(--sp-border-subtle, #e5e7eb);
-}
-
+/* ── Slotted content ───────────────────────────────────────────────────── */
 ::slotted([slot="image"]) {
   display: block;
   width: 100%;
@@ -112,33 +101,24 @@
 
 ::slotted([slot="header"]) {
   display: block;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--sp-bg-muted, #f3f4f6);
-  margin-bottom: 12px;
-  font-weight: 600;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--sp-border-subtle, #f3f4f6);
+  margin-bottom: 14px;
+  font-weight: 700;
   font-size: 16px;
+  letter-spacing: -0.01em;
   color: var(--sp-text, #111827);
 }
 
 ::slotted([slot="footer"]) {
   display: block;
-  padding-top: 12px;
-  border-top: 1px solid var(--sp-bg-muted, #f3f4f6);
-  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--sp-border-subtle, #f3f4f6);
+  margin-top: 14px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :host {
-    transition: none !important;
-  }
-  .sp-card {
-    transition: none !important;
-  }
-  .sp-card-loading-overlay {
-    animation: none;
-    background: rgba(229, 231, 235, 0.7);
-  }
-  button, a, [role="button"] {
-    transition: none !important;
-  }
+  .sp-card { transition: none !important; }
+  .sp-card-loading-overlay { animation: none; background: rgba(229,231,235,0.6); }
+  .sp-card-skeleton-line   { animation: none; }
 }

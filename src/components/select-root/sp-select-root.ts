@@ -38,12 +38,13 @@ export class SpSelectRootElement extends SpBaseElement {
   _open = false;
 
   override render() {
-    return html`<slot @sp-select-item-click=${this._handleItemClick}></slot>`;
+    return html`<slot></slot>`;
   }
 
   override connectedCallback() {
     super.connectedCallback();
     this.addEventListener("sp-trigger-click", this._handleTriggerClick as EventListener);
+    this.addEventListener("sp-select-item-click", this._handleItemClick as EventListener);
     document.addEventListener("click", this._handleDocumentClick);
     document.addEventListener("keydown", this._handleKeydown);
   }
@@ -51,6 +52,7 @@ export class SpSelectRootElement extends SpBaseElement {
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("sp-trigger-click", this._handleTriggerClick as EventListener);
+    this.removeEventListener("sp-select-item-click", this._handleItemClick as EventListener);
     document.removeEventListener("click", this._handleDocumentClick);
     document.removeEventListener("keydown", this._handleKeydown);
   }

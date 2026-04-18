@@ -1,0 +1,155 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: inline-block; font-family: inherit; }
+
+.sp-drp-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--sp-border, #d1d5db);
+  border-radius: 8px;
+  background: var(--sp-bg, #fff);
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--sp-text, #111827);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  user-select: none;
+  min-width: 260px;
+}
+.sp-drp-trigger:hover { border-color: var(--sp-primary, #6366f1); }
+:host([open]) .sp-drp-trigger {
+  border-color: var(--sp-primary, #6366f1);
+  box-shadow: 0 0 0 3px var(--sp-primary-ring, rgba(99,102,241,0.15));
+}
+.sp-drp-trigger-icon { color: var(--sp-text-muted, #9ca3af); flex-shrink: 0; }
+.sp-drp-trigger-text { flex: 1; }
+.sp-drp-trigger-text--placeholder { color: var(--sp-text-muted, #9ca3af); }
+.sp-drp-sep { color: var(--sp-text-muted, #9ca3af); font-size: 12px; }
+
+.sp-drp-panel {
+  position: absolute;
+  z-index: 9999;
+  background: var(--sp-bg, #fff);
+  border: 1px solid var(--sp-border, #d1d5db);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+  padding: 16px;
+  display: flex;
+  gap: 20px;
+  animation: sp-drp-in 0.12s ease;
+  margin-top: 4px;
+}
+@keyframes sp-drp-in { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+
+.sp-drp-calendar { min-width: 240px; }
+
+.sp-drp-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.sp-drp-cal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  border: none; background: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--sp-text-muted, #6b7280);
+  transition: background 0.1s;
+}
+.sp-drp-cal-nav:hover { background: var(--sp-bg-muted, #f3f4f6); color: var(--sp-text, #111827); }
+
+.sp-drp-cal-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sp-text, #111827);
+}
+
+.sp-drp-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.sp-drp-cal-dow {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sp-text-muted, #9ca3af);
+  padding: 4px 0 6px;
+  text-transform: uppercase;
+}
+
+.sp-drp-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--sp-text, #111827);
+  transition: background 0.1s, color 0.1s;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+.sp-drp-day:hover:not(:disabled) { background: var(--sp-bg-muted, #f3f4f6); }
+.sp-drp-day--other-month { color: var(--sp-text-muted, #d1d5db); }
+.sp-drp-day--today { font-weight: 700; color: var(--sp-primary, #6366f1); }
+.sp-drp-day--in-range {
+  background: var(--sp-primary-subtle, rgba(99,102,241,0.08));
+  border-radius: 0;
+}
+.sp-drp-day--range-start,
+.sp-drp-day--range-end {
+  background: var(--sp-primary, #6366f1) !important;
+  color: #fff !important;
+  border-radius: 6px;
+}
+.sp-drp-day--range-start { border-radius: 6px 0 0 6px; }
+.sp-drp-day--range-end   { border-radius: 0 6px 6px 0; }
+.sp-drp-day--range-start.sp-drp-day--range-end { border-radius: 6px; }
+.sp-drp-day--disabled { opacity: 0.35; cursor: not-allowed; }
+
+.sp-drp-divider {
+  width: 1px;
+  background: var(--sp-border-subtle, #e5e7eb);
+  flex-shrink: 0;
+}
+
+.sp-drp-footer {
+  border-top: 1px solid var(--sp-border-subtle, #e5e7eb);
+  margin-top: 12px;
+  padding-top: 10px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.sp-drp-btn {
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid var(--sp-border, #d1d5db);
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--sp-text, #111827);
+  transition: background 0.1s;
+}
+.sp-drp-btn:hover { background: var(--sp-bg-muted, #f3f4f6); }
+.sp-drp-btn--primary {
+  background: var(--sp-primary, #6366f1);
+  color: #fff;
+  border-color: var(--sp-primary, #6366f1);
+}
+.sp-drp-btn--primary:hover { background: var(--sp-primary-hover, #4f46e5); }
+
+:host([disabled]) .sp-drp-trigger {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

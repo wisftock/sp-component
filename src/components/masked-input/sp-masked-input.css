@@ -1,0 +1,62 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; font-family: inherit; }
+
+.sp-mi-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sp-mi-input {
+  width: 100%;
+  padding: 9px 13px;
+  border: 1.5px solid var(--sp-border, #d1d5db);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: ui-monospace, "Fira Code", monospace;
+  color: var(--sp-text, #111827);
+  background: var(--sp-bg, #fff);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  letter-spacing: 0.08em;
+}
+
+.sp-mi-input:focus {
+  border-color: var(--sp-primary, #6366f1);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+}
+
+.sp-mi-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--sp-bg-muted, #f9fafb);
+}
+
+.sp-mi-input--error {
+  border-color: var(--sp-error, #ef4444);
+}
+
+.sp-mi-input--error:focus {
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.15);
+}
+
+.sp-mi-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--sp-text-muted, #9ca3af);
+  margin-top: 5px;
+  font-family: ui-monospace, monospace;
+  letter-spacing: 0.05em;
+}
+
+.sp-mi-error {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sp-error, #ef4444);
+  margin-top: 5px;
+}
+
+:host([invalid]) .sp-mi-input { border-color: var(--sp-error, #ef4444); }

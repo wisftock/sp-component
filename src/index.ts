@@ -5,7 +5,7 @@ export * from "./components/select/index.js";
 export * from "./components/checkbox/index.js";
 export * from "./components/radio/index.js";
 export * from "./components/switch/index.js";
-export * from "./components/form/sp-form.js";
+export * from "./components/form/index.js";
 export * from "./components/form-field/index.js";
 export * from "./components/alert/index.js";
 export * from "./components/toast/index.js";
@@ -43,7 +43,6 @@ export * from "./components/combobox/index.js";
 export * from "./components/carousel/index.js";
 export * from "./components/calendar/index.js";
 export * from "./components/number-input/index.js";
-export * from "./components/kbd/index.js";
 export * from "./components/checkbox-group/index.js";
 export * from "./components/tag-input/index.js";
 export * from "./components/toast-stack/index.js";
@@ -59,11 +58,9 @@ export * from "./components/autocomplete/index.js";
 export * from "./components/segmented-control/index.js";
 export * from "./components/inline-edit/index.js";
 // ---- New components ----
-export * from "./components/context-menu/index.js";
 export * from "./components/notification-center/index.js";
 export * from "./components/bottom-sheet/index.js";
 export * from "./components/resizable-panel/index.js";
-export * from "./components/hotkey/index.js";
 export * from "./components/onboarding/index.js";
 export * from "./components/phone-input/index.js";
 export * from "./components/transfer/index.js";
@@ -74,20 +71,59 @@ export * from "./components/image-crop/index.js";
 export * from "./components/signature/index.js";
 export * from "./components/mention/index.js";
 export * from "./components/pdf-viewer/index.js";
+// ---- New components (round 2) ----
+export * from "./components/drawer/index.js";
+export * from "./components/date-range-picker/index.js";
+export * from "./components/virtual-list/index.js";
+export * from "./components/layout/index.js";
+export * from "./components/cascader/index.js";
+export * from "./components/tree-select/index.js";
+export * from "./components/nav-menu/index.js";
+export * from "./components/hover-card/index.js";
+export * from "./components/masked-input/index.js";
+export * from "./components/infinite-scroll/index.js";
+export * from "./components/fab/index.js";
+export * from "./components/anchor/index.js";
+export * from "./components/descriptions/index.js";
+export * from "./components/back-top/index.js";
+export * from "./components/aspect-ratio/index.js";
+export * from "./components/collapsible/index.js";
+export * from "./components/watermark/index.js";
+export * from "./components/color-swatch/index.js";
+// ---- New components (round 3) ----
+export * from "./components/password-input/index.js";
+export * from "./components/progress-circle/index.js";
+export * from "./components/result/index.js";
+export * from "./components/banner/index.js";
+export * from "./components/sortable-list/index.js";
+export * from "./components/toolbar/index.js";
+export * from "./components/search-input/index.js";
+export * from "./components/code-block/index.js";
+export * from "./components/date-time-picker/index.js";
+export * from "./components/month-picker/index.js";
+export * from "./components/floating-panel/index.js";
+export * from "./components/menubar/index.js";
+export * from "./components/image-compare/index.js";
+export * from "./components/chat-bubble/index.js";
+export * from "./components/markdown/index.js";
+export * from "./components/heatmap/index.js";
+// ---- New components (round 4) ----
+export * from "./components/sparkline/index.js";
+export * from "./components/diff-viewer/index.js";
+export * from "./components/gantt/index.js";
+export * from "./components/org-chart/index.js";
+export * from "./components/audio-player/index.js";
+export * from "./components/video-player/index.js";
+export * from "./components/credit-card/index.js";
+export * from "./components/code-editor/index.js";
+export * from "./components/lightbox/index.js";
+export * from "./components/dnd-zone/index.js";
 // ---- Base class ----
 export { SpBaseElement } from "./base/SpBaseElement.js";
 // ---- Compound: Select ----
-export { SpSelectRootElement } from "./components/select-root/sp-select-root.js";
-export { SpSelectTriggerElement } from "./components/select-root/sp-select-trigger.js";
-export { SpSelectContentElement } from "./components/select-root/sp-select-content.js";
-export { SpSelectItemElement } from "./components/select-root/sp-select-item.js";
-export { SpSelectGroupElement } from "./components/select-root/sp-select-group.js";
+export * from "./components/select-root/index.js";
 // ---- Compound: Menu ----
-export { SpMenuRootElement } from "./components/menu-root/sp-menu-root.js";
-export { SpMenuTriggerElement } from "./components/menu-root/sp-menu-trigger.js";
-export { SpMenuContentElement } from "./components/menu-root/sp-menu-content.js";
-export { SpMenuOptionElement } from "./components/menu-root/sp-menu-item.js";
-export { SpMenuSeparatorElement } from "./components/menu-root/sp-menu-separator.js";
+export * from "./components/menu-root/index.js";
 export { SpConfig } from "./config.js";
 export type {
   SpLocale,

@@ -30,6 +30,9 @@ export function numberInputTemplate(this: SpNumberInputComponent): TemplateResul
           type="button"
           ?disabled=${this.disabled}
           @click=${() => this._decrement()}
+          @mousedown=${() => this._handleDecMouseDown()}
+          @mouseup=${() => this._clearLongPress()}
+          @mouseleave=${() => this._clearLongPress()}
         >
           &minus;
         </button>
@@ -54,6 +57,9 @@ export function numberInputTemplate(this: SpNumberInputComponent): TemplateResul
           type="button"
           ?disabled=${this.disabled}
           @click=${() => this._increment()}
+          @mousedown=${() => this._handleIncMouseDown()}
+          @mouseup=${() => this._clearLongPress()}
+          @mouseleave=${() => this._clearLongPress()}
         >
           +
         </button>

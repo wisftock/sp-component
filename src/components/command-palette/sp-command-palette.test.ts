@@ -144,7 +144,7 @@ describe("sp-command-palette", () => {
     const event = new KeyboardEvent("keydown", { key: "Enter", bubbles: true });
     el._handleKeydown(event);
     expect(listener).toHaveBeenCalledOnce();
-    expect(listener.mock.calls[0][0].detail.item.id).toBe("x");
+    expect(listener.mock.calls[0]![0].detail.item.id).toBe("x");
   });
 
   it("emits sp-close when closing", async () => {

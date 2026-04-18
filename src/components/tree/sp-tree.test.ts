@@ -55,7 +55,7 @@ describe("sp-tree-item", () => {
     item.addEventListener("sp-click", listener);
     item._handleClick(new MouseEvent("click"));
     expect(listener).toHaveBeenCalledOnce();
-    expect(listener.mock.calls[0][0].detail).toEqual({ value: "item-1", label: "Clickable" });
+    expect(listener.mock.calls[0]![0].detail).toEqual({ value: "item-1", label: "Clickable" });
   });
 
   it("toggle expands and collapses item", async () => {
@@ -225,7 +225,7 @@ describe("sp-tree", () => {
     await tree.updateComplete;
 
     expect(listener).toHaveBeenCalledOnce();
-    expect(listener.mock.calls[0][0].detail.values).toContain("x");
+    expect(listener.mock.calls[0]![0].detail.values).toContain("x");
   });
 
   it("selectedValues prop pre-selects items", async () => {

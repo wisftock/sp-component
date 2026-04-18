@@ -141,7 +141,7 @@ describe("sp-switch", () => {
     input.dispatchEvent(new Event("change", { bubbles: true }));
 
     expect(listener).toHaveBeenCalledOnce();
-    const event = listener.mock.calls[0][0] as CustomEvent<{ checked: boolean }>;
+    const event = listener.mock.calls[0]![0] as CustomEvent<{ checked: boolean }>;
     expect(event.detail.checked).toBe(true);
   });
 
@@ -156,7 +156,7 @@ describe("sp-switch", () => {
     input.checked = false;
     input.dispatchEvent(new Event("change", { bubbles: true }));
 
-    const event = listener.mock.calls[0][0] as CustomEvent<{ checked: boolean }>;
+    const event = listener.mock.calls[0]![0] as CustomEvent<{ checked: boolean }>;
     expect(event.detail.checked).toBe(false);
   });
 

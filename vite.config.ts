@@ -16,7 +16,7 @@ export default defineConfig({
       formats: ["es"],
     },
     rollupOptions: {
-      external: [/^lit/, /^@lit/],
+      external: [/^lit/, /^@lit/, "qrcode"],
       output: {
         preserveModules: true,
         preserveModulesRoot: "src",

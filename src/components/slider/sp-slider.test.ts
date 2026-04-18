@@ -84,7 +84,7 @@ describe("sp-slider", () => {
     input.value = "42";
     input.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({ value: 42 });
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail).toEqual({ value: 42 });
   });
 
   it("emits sp-change event with value on change", async () => {
@@ -95,7 +95,7 @@ describe("sp-slider", () => {
     input.value = "75";
     input.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({ value: 75 });
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail).toEqual({ value: 75 });
   });
 
   it("shows label when label prop is set", async () => {

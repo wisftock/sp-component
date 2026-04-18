@@ -62,12 +62,12 @@ export class SpSwitchComponent extends LitElement {
   @property({ type: String })
   hint = "";
 
+  @property({ type: Boolean, reflect: true })
+  required = false;
+
   override render() {
     return switchTemplate.call(this);
   }
-
-  @property({ type: Boolean, reflect: true })
-  required = false;
 
   private _customError = "";
 

@@ -1,0 +1,407 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: inline-block; font-family: inherit; }
+
+/* ── Scene & flip ──────────────────────────────────────────────────────── */
+.sp-cc-scene {
+  width: 380px;
+  height: 230px;
+  perspective: 1200px;
+  position: relative; /* necesario para el announce absoluto */
+}
+
+.sp-cc-scene--interactive {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sp-cc-scene--interactive:focus-visible {
+  outline: 3px solid rgba(255,255,255,0.6);
+  outline-offset: 4px;
+  border-radius: var(--sp-cc-radius, 18px);
+}
+
+/* Elemento de anuncio para lectores de pantalla (visualmente oculto) */
+.sp-cc-announce {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  pointer-events: none;
+}
+
+.sp-cc-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sp-cc-card.flipped {
+  transform: rotateY(180deg);
+}
+
+/* Belt-and-suspenders: ocultar la cara incorrecta en cada estado.
+   overflow:hidden en .sp-cc-face crea stacking context que puede
+   romper backface-visibility en algunos navegadores. */
+.sp-cc-card:not(.flipped) .sp-cc-back {
+  visibility: hidden;
+  pointer-events: none;
+}
+.sp-cc-card.flipped .sp-cc-front {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ── Face base ─────────────────────────────────────────────────────────── */
+.sp-cc-face {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--sp-cc-radius, 18px);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  padding: 24px 28px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 24px 48px rgba(0,0,0,0.25),
+    0 8px 16px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+/* Glossy highlight */
+.sp-cc-face::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 100%);
+  border-radius: var(--sp-cc-radius, 18px) var(--sp-cc-radius, 18px) 0 0;
+  pointer-events: none;
+}
+
+/* Subtle noise texture shimmer */
+.sp-cc-face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--sp-cc-radius, 18px);
+  background:
+    radial-gradient(ellipse 60% 50% at 75% 20%, rgba(255,255,255,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ── Front face ────────────────────────────────────────────────────────── */
+.sp-cc-front {
+  background: linear-gradient(135deg, #6366f1 0%, #818cf8 50%, #a78bfa 100%);
+  color: #fff;
+  justify-content: space-between;
+}
+
+/* ── Header row ─────────────────────────────────────────────────────────── */
+.sp-cc-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── EMV Chip ──────────────────────────────────────────────────────────── */
+.sp-cc-chip {
+  width: 46px;
+  height: 34px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #f5c842 0%, #e8a900 50%, #c8860a 100%);
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+  overflow: hidden;
+}
+
+.sp-cc-chip-line {
+  position: absolute;
+  background: rgba(0,0,0,0.25);
+}
+
+.sp-cc-chip-line--h {
+  left: 0; right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1px;
+}
+
+.sp-cc-chip-line--v {
+  top: 0; bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+}
+
+.sp-cc-chip-box {
+  position: absolute;
+  width: 14px;
+  height: 12px;
+  border-radius: 2px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(0,0,0,0.1));
+}
+
+.sp-cc-chip-box--tl { top: 4px;  left: 4px; }
+.sp-cc-chip-box--tr { top: 4px;  right: 4px; }
+.sp-cc-chip-box--bl { bottom: 4px; left: 4px; }
+.sp-cc-chip-box--br { bottom: 4px; right: 4px; }
+
+/* ── NFC icon ──────────────────────────────────────────────────────────── */
+.sp-cc-nfc {
+  width: 28px;
+  height: 28px;
+  color: rgba(255,255,255,0.85);
+  transform: rotate(-90deg);
+}
+
+/* ── Card number ───────────────────────────────────────────────────────── */
+.sp-cc-number {
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: 3.5px;
+  font-family: ui-monospace, "Courier New", monospace;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Número con longitud inválida */
+.sp-cc-number--invalid {
+  opacity: 0.55;
+}
+
+.sp-cc-number--invalid::after {
+  content: " ⚠";
+  font-size: 14px;
+  opacity: 0.8;
+  letter-spacing: 0;
+}
+
+/* ── Bottom row ────────────────────────────────────────────────────────── */
+.sp-cc-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.sp-cc-expiry-col { flex-shrink: 0; }
+
+.sp-cc-label {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  opacity: 0.6;
+  margin-bottom: 3px;
+}
+
+.sp-cc-value {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-family: ui-monospace, "Courier New", monospace;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+/* ── Network logos ─────────────────────────────────────────────────────── */
+.sp-cc-network-logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.sp-cc-net-logo {
+  width: 52px;
+  height: 22px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+
+.sp-cc-amex-logo {
+  width: 54px;
+  height: 28px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+
+/* Mastercard two overlapping circles */
+.sp-cc-mc-logo {
+  position: relative;
+  width: 44px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.sp-cc-mc-left,
+.sp-cc-mc-right {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.sp-cc-mc-left  { background: rgba(235, 0, 27, 0.9);  left: 0; }
+.sp-cc-mc-right { background: rgba(255, 163, 0, 0.9); right: 0; mix-blend-mode: lighten; }
+
+/* ── Back face ─────────────────────────────────────────────────────────── */
+.sp-cc-back {
+  background: linear-gradient(160deg, #1a1f2e 0%, #2d3748 100%);
+  color: #fff;
+  transform: rotateY(180deg);
+  padding: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0;
+}
+
+/* Anular brillo y shimmer heredados de .sp-cc-face en el reverso */
+.sp-cc-back::before,
+.sp-cc-back::after {
+  display: none;
+}
+
+/* ── Banda magnética ─────────────────────────────────────────────────────── */
+.sp-cc-mag-stripe {
+  flex-shrink: 0;
+  width: 100%;
+  height: 48px;
+  margin-top: 28px;
+  background:
+    linear-gradient(180deg,
+      rgba(0,0,0,0.6) 0%,
+      #0a0a0a 20%,
+      #111 50%,
+      #0a0a0a 80%,
+      rgba(0,0,0,0.6) 100%
+    );
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.8),
+    0 -2px 8px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    inset 0 -1px 0 rgba(255,255,255,0.03);
+  position: relative;
+}
+
+/* Líneas de pistas magnéticas */
+.sp-cc-mag-stripe::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(255,255,255,0.018) 3px,
+    rgba(255,255,255,0.018) 4px
+  );
+}
+
+/* ── Fila firma + CVV (debajo de la banda magnética) ────────────────────── */
+.sp-cc-sig-row {
+  display: flex;
+  align-items: stretch;
+  margin: 12px 0 0;
+}
+
+/* Franja de firma: ocupa todo el ancho menos el bloque CVV */
+.sp-cc-sig-strip {
+  flex: 1;
+  height: 44px;
+  overflow: hidden;
+  position: relative;
+  background: repeating-linear-gradient(
+    -52deg,
+    #f0f0f0 0px, #f0f0f0 4px,
+    #d0daea 4px, #d0daea 8px,
+    #f0f0f0 8px, #f0f0f0 12px,
+    #c4d0e4 12px, #c4d0e4 14px
+  );
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.1);
+}
+
+.sp-cc-sig-strip::after {
+  content: "Authorized Signature · Not Valid Unless Signed";
+  position: absolute;
+  bottom: 5px;
+  left: 8px;
+  font-size: 5.5px;
+  font-style: italic;
+  color: rgba(0,0,0,0.18);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Bloque CVV: pegado a la derecha de la firma */
+.sp-cc-cvv-panel {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: rgba(255,255,255,0.08);
+  border-left: 1px solid rgba(255,255,255,0.12);
+  padding: 4px 14px;
+  min-width: 72px;
+}
+
+.sp-cc-cvv-label {
+  font-size: 6px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.55;
+  color: #fff;
+}
+
+.sp-cc-cvv-value {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: ui-monospace, "Courier New", monospace;
+  letter-spacing: 4px;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+/* ── Pie: texto legal + logo ─────────────────────────────────────────────── */
+.sp-cc-back-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 22px 20px;
+  margin-top: auto;
+}
+
+.sp-cc-back-disclaimer {
+  flex: 1;
+  margin: 0;
+  font-size: 6.5px;
+  line-height: 1.65;
+  opacity: 0.28;
+  color: #fff;
+}
+
+.sp-cc-back-net {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0.75;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-cc-card { transition: none; }
+}

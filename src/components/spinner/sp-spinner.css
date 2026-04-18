@@ -1,15 +1,160 @@
 *, *::before, *::after { box-sizing: border-box; }
 
-:host { display: inline-flex; align-items: center; justify-content: center; color: var(--sp-primary, #3b82f6); }
-.sp-spinner { display: flex; animation: sp-spin 0.75s linear infinite; }
-.sp-spinner svg { display: block; }
-:host([size="sm"]) .sp-spinner svg { width: 16px; height: 16px; }
-:host([size="md"]) .sp-spinner svg { width: 24px; height: 24px; }
-:host([size="lg"]) .sp-spinner svg { width: 36px; height: 36px; }
-:host([size="xl"]) .sp-spinner svg { width: 48px; height: 48px; }
-.sp-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0; }
-@keyframes sp-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sp-primary, #3b82f6);
+  position: relative;
+}
+
+.sp-sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ── Arc (default) ─────────────────────────────── */
+.sp-spinner--arc {
+  display: flex;
+  animation: sp-spin 0.75s linear infinite;
+}
+.sp-spinner--arc svg { display: block; }
+
+/* ── Ring ──────────────────────────────────────── */
+.sp-spinner--ring {
+  display: flex;
+  animation: sp-spin 0.8s linear infinite;
+}
+.sp-spinner--ring svg { display: block; }
+
+/* ── Dots ──────────────────────────────────────── */
+.sp-spinner--dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.sp-dot {
+  border-radius: 50%;
+  background: currentColor;
+  animation: sp-bounce 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.sp-dot--1 { animation-delay: 0s; }
+.sp-dot--2 { animation-delay: 0.2s; }
+.sp-dot--3 { animation-delay: 0.4s; }
+
+/* ── Bars ──────────────────────────────────────── */
+.sp-spinner--bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+}
+.sp-bar {
+  background: currentColor;
+  border-radius: 2px;
+  flex-shrink: 0;
+  animation: sp-stretch 1s ease-in-out infinite;
+}
+.sp-bar--1 { animation-delay: 0s; }
+.sp-bar--2 { animation-delay: 0.15s; }
+.sp-bar--3 { animation-delay: 0.3s; }
+.sp-bar--4 { animation-delay: 0.45s; }
+
+/* ── Pulse ─────────────────────────────────────── */
+.sp-spinner--pulse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.sp-pulse-ring {
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.3;
+  animation: sp-pulse-ring 1.2s ease-out infinite;
+}
+.sp-pulse-dot {
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+  animation: sp-pulse-dot 1.2s ease-in-out infinite;
+}
+
+/* ── Size: sm ──────────────────────────────────── */
+:host([size="sm"]) .sp-spinner--arc svg,
+:host([size="sm"]) .sp-spinner--ring svg { width: 16px; height: 16px; }
+:host([size="sm"]) .sp-dot               { width: 5px; height: 5px; }
+:host([size="sm"]) .sp-bar               { width: 3px; height: 14px; }
+:host([size="sm"]) .sp-spinner--pulse    { width: 16px; height: 16px; }
+:host([size="sm"]) .sp-pulse-ring        { width: 16px; height: 16px; }
+:host([size="sm"]) .sp-pulse-dot         { width: 7px; height: 7px; }
+
+/* ── Size: md ──────────────────────────────────── */
+:host([size="md"]) .sp-spinner--arc svg,
+:host([size="md"]) .sp-spinner--ring svg { width: 24px; height: 24px; }
+:host([size="md"]) .sp-dot               { width: 7px; height: 7px; }
+:host([size="md"]) .sp-bar               { width: 4px; height: 20px; }
+:host([size="md"]) .sp-spinner--pulse    { width: 24px; height: 24px; }
+:host([size="md"]) .sp-pulse-ring        { width: 24px; height: 24px; }
+:host([size="md"]) .sp-pulse-dot         { width: 10px; height: 10px; }
+
+/* ── Size: lg ──────────────────────────────────── */
+:host([size="lg"]) .sp-spinner--arc svg,
+:host([size="lg"]) .sp-spinner--ring svg { width: 36px; height: 36px; }
+:host([size="lg"]) .sp-dot               { width: 10px; height: 10px; }
+:host([size="lg"]) .sp-bar               { width: 5px; height: 28px; }
+:host([size="lg"]) .sp-spinner--pulse    { width: 36px; height: 36px; }
+:host([size="lg"]) .sp-pulse-ring        { width: 36px; height: 36px; }
+:host([size="lg"]) .sp-pulse-dot         { width: 14px; height: 14px; }
+
+/* ── Size: xl ──────────────────────────────────── */
+:host([size="xl"]) .sp-spinner--arc svg,
+:host([size="xl"]) .sp-spinner--ring svg { width: 48px; height: 48px; }
+:host([size="xl"]) .sp-dot               { width: 13px; height: 13px; }
+:host([size="xl"]) .sp-bar               { width: 6px; height: 36px; }
+:host([size="xl"]) .sp-spinner--pulse    { width: 48px; height: 48px; }
+:host([size="xl"]) .sp-pulse-ring        { width: 48px; height: 48px; }
+:host([size="xl"]) .sp-pulse-dot         { width: 18px; height: 18px; }
+
+/* ── Keyframes ─────────────────────────────────── */
+@keyframes sp-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes sp-bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40%           { transform: scale(1);   opacity: 1;   }
+}
+
+@keyframes sp-stretch {
+  0%, 100% { transform: scaleY(0.4); opacity: 0.5; }
+  50%      { transform: scaleY(1);   opacity: 1;   }
+}
+
+@keyframes sp-pulse-ring {
+  0%   { transform: scale(0.3); opacity: 0.6; }
+  100% { transform: scale(1.4); opacity: 0;   }
+}
+
+@keyframes sp-pulse-dot {
+  0%, 100% { transform: scale(0.85); }
+  50%      { transform: scale(1);    }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-  .sp-spinner { animation: none; opacity: 0.6; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .sp-spinner--arc,
+  .sp-spinner--ring { animation: none; opacity: 0.6; }
+  .sp-dot, .sp-bar, .sp-pulse-ring, .sp-pulse-dot { animation: none; opacity: 0.6; }
 }

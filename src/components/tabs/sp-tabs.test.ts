@@ -53,9 +53,9 @@ describe("sp-tabs", () => {
     el.active = "tab2";
     await el.updateComplete;
     const tabs = [...el.querySelectorAll("sp-tab")] as SpTabComponent[];
-    expect(tabs[0].active).toBe(false);
-    expect(tabs[1].active).toBe(true);
-    expect(tabs[2].active).toBe(false);
+    expect(tabs[0]!.active).toBe(false);
+    expect(tabs[1]!.active).toBe(true);
+    expect(tabs[2]!.active).toBe(false);
   });
 
   it("sp-tab-panel is hidden when not active", async () => {
@@ -73,7 +73,7 @@ describe("sp-tabs", () => {
     const el = createTabs("tab1");
     await el.updateComplete;
     const tabs = [...el.querySelectorAll("sp-tab")] as SpTabComponent[];
-    tabs[1].dispatchEvent(
+    tabs[1]!.dispatchEvent(
       new CustomEvent("sp-tab-click", {
         detail: { panel: "tab2" },
         bubbles: true,
@@ -98,7 +98,7 @@ describe("sp-tabs", () => {
     );
     await el.updateComplete;
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({ panel: "tab2" });
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail).toEqual({ panel: "tab2" });
   });
 
   it("disabled tab does not emit sp-tab-click when clicked", async () => {
@@ -155,7 +155,7 @@ describe("sp-tab", () => {
     el.addEventListener("sp-tab-click", listener);
     el.shadowRoot?.querySelector("button")?.click();
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({ panel: "my-panel" });
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail).toEqual({ panel: "my-panel" });
   });
 
   it("does not emit sp-tab-click when disabled", async () => {

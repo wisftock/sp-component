@@ -1,0 +1,76 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; font-family: inherit; }
+
+.sp-si-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sp-si-icon {
+  position: absolute;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  color: var(--sp-text-muted, #9ca3af);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.sp-si-input {
+  width: 100%;
+  padding: 8px 36px 8px 36px;
+  border: 1px solid var(--sp-border, #d1d5db);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--sp-text, #111827);
+  background: var(--sp-bg, #fff);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.sp-si-input:focus {
+  border-color: var(--sp-primary, #6366f1);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+}
+.sp-si-input:disabled { opacity: 0.5; cursor: not-allowed; }
+.sp-si-input--no-right-pad { padding-right: 12px; }
+.sp-si-input::placeholder { color: var(--sp-text-muted, #9ca3af); }
+
+/* Size variants */
+:host([size="sm"]) .sp-si-input { padding-top: 5px; padding-bottom: 5px; font-size: 13px; }
+:host([size="lg"]) .sp-si-input { padding-top: 11px; padding-bottom: 11px; font-size: 15px; }
+
+.sp-si-right {
+  position: absolute;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.sp-si-clear,
+.sp-si-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; height: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 4px;
+  color: var(--sp-text-muted, #9ca3af);
+  transition: color 0.15s, background 0.15s;
+  padding: 0;
+}
+.sp-si-clear:hover  { color: var(--sp-text, #374151); background: var(--sp-bg-muted, #f3f4f6); }
+.sp-si-submit:hover { color: var(--sp-primary, #6366f1); }
+
+.sp-si-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid var(--sp-border, #e5e7eb);
+  border-top-color: var(--sp-primary, #6366f1);
+  border-radius: 50%;
+  animation: sp-si-spin 0.7s linear infinite;
+}
+@keyframes sp-si-spin { to { transform: rotate(360deg); } }

@@ -81,7 +81,7 @@ describe("sp-autocomplete — single mode", () => {
 
   it("selects option and closes dropdown", async () => {
     el._open = true;
-    el._handleSelect(BASE_OPTIONS[0]);
+    el._handleSelect(BASE_OPTIONS[0]!);
     expect(el.value).toBe("apple");
     expect(el._open).toBe(false);
   });
@@ -89,15 +89,15 @@ describe("sp-autocomplete — single mode", () => {
   it("emits sp-change with value", async () => {
     const listener = vi.fn();
     el.addEventListener("sp-change", listener);
-    el._handleSelect(BASE_OPTIONS[1]);
+    el._handleSelect(BASE_OPTIONS[1]!);
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({ value: "banana" });
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail).toEqual({ value: "banana" });
   });
 
   it("does not select disabled option", async () => {
     const listener = vi.fn();
     el.addEventListener("sp-change", listener);
-    el._handleSelect(BASE_OPTIONS[3]); // grape is disabled
+    el._handleSelect(BASE_OPTIONS[3]!); // grape is disabled
     expect(listener).not.toHaveBeenCalled();
     expect(el.value).toBe("");
   });
@@ -167,7 +167,7 @@ describe("sp-autocomplete — single mode", () => {
     el.addEventListener("sp-create", listener);
     el._handleCreate();
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({ label: "Pineapple" });
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail).toEqual({ label: "Pineapple" });
   });
 
   it("emits sp-search on input", async () => {
@@ -177,7 +177,7 @@ describe("sp-autocomplete — single mode", () => {
     el._handleInputInput({ target: { value: "app" } } as unknown as Event);
     await el.updateComplete;
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail.query).toBe("app");
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail.query).toBe("app");
   });
 
   it("clears value and emits sp-clear", async () => {
@@ -252,30 +252,30 @@ describe("sp-autocomplete — multiple mode", () => {
 
   it("adds values and keeps dropdown open", async () => {
     el._open = true;
-    el._handleSelect(BASE_OPTIONS[0]);
-    el._handleSelect(BASE_OPTIONS[1]);
+    el._handleSelect(BASE_OPTIONS[0]!);
+    el._handleSelect(BASE_OPTIONS[1]!);
     expect(el.values).toEqual(["apple", "banana"]);
     expect(el._open).toBe(true);
   });
 
   it("toggles off selected value", async () => {
-    el._handleSelect(BASE_OPTIONS[0]);
-    el._handleSelect(BASE_OPTIONS[0]);
+    el._handleSelect(BASE_OPTIONS[0]!);
+    el._handleSelect(BASE_OPTIONS[0]!);
     expect(el.values).toEqual([]);
   });
 
   it("emits sp-change with values array", async () => {
     const listener = vi.fn();
     el.addEventListener("sp-change", listener);
-    el._handleSelect(BASE_OPTIONS[0]);
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({ values: ["apple"] });
+    el._handleSelect(BASE_OPTIONS[0]!);
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail).toEqual({ values: ["apple"] });
   });
 
   it("respects maxSelections", async () => {
     el.maxSelections = 2;
-    el._handleSelect(BASE_OPTIONS[0]);
-    el._handleSelect(BASE_OPTIONS[1]);
-    el._handleSelect(BASE_OPTIONS[2]); // rejected
+    el._handleSelect(BASE_OPTIONS[0]!);
+    el._handleSelect(BASE_OPTIONS[1]!);
+    el._handleSelect(BASE_OPTIONS[2]!); // rejected
     expect(el.values).toEqual(["apple", "banana"]);
   });
 

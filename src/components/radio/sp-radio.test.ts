@@ -126,7 +126,7 @@ describe("sp-radio", () => {
     input.dispatchEvent(new Event("change", { bubbles: true }));
 
     expect(listener).toHaveBeenCalledOnce();
-    const event = listener.mock.calls[0][0] as CustomEvent<{ value: string }>;
+    const event = listener.mock.calls[0]![0] as CustomEvent<{ value: string }>;
     expect(event.detail.value).toBe("option-a");
   });
 

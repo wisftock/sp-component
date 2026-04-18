@@ -1,0 +1,37 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; }
+
+.sp-col-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  width: 100%;
+  text-align: left;
+}
+.sp-col-trigger:focus-visible { outline: 2px solid var(--sp-primary, #6366f1); outline-offset: 2px; border-radius: 4px; }
+
+.sp-col-icon {
+  color: var(--sp-text-muted, #9ca3af);
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(.4,0,.2,1);
+}
+:host([open]) .sp-col-icon { transform: rotate(180deg); }
+
+.sp-col-content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.25s cubic-bezier(.4,0,.2,1), opacity 0.2s ease;
+  opacity: 0;
+}
+:host([open]) .sp-col-content {
+  max-height: var(--sp-col-max-height, 2000px);
+  opacity: 1;
+}

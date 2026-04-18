@@ -70,7 +70,7 @@ describe("sp-copy-button", () => {
     await el.updateComplete;
 
     expect(listener).toHaveBeenCalledOnce();
-    const detail = (listener.mock.calls[0][0] as CustomEvent<{ text: string }>).detail;
+    const detail = (listener.mock.calls[0]![0] as CustomEvent<{ text: string }>).detail;
     expect(detail.text).toBe("test text");
   });
 

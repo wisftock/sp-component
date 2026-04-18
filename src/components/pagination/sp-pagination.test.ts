@@ -53,9 +53,9 @@ describe("sp-pagination", () => {
     const listener = vi.fn();
     el.addEventListener("sp-change", listener);
     const pageBtns = [...el.shadowRoot!.querySelectorAll("button[aria-label^='Page']")] as HTMLButtonElement[];
-    pageBtns[1].click();
+    pageBtns[1]!.click();
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({ page: 2 });
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail).toEqual({ page: 2 });
   });
 
   it("clicking prev decrements page", async () => {

@@ -173,7 +173,7 @@ describe("sp-checkbox", () => {
     input.dispatchEvent(new Event("change", { bubbles: true }));
 
     expect(listener).toHaveBeenCalledOnce();
-    const event = listener.mock.calls[0][0] as CustomEvent<{ checked: boolean; indeterminate: boolean }>;
+    const event = listener.mock.calls[0]![0] as CustomEvent<{ checked: boolean; indeterminate: boolean }>;
     expect(event.detail.checked).toBe(true);
     expect(event.detail.indeterminate).toBe(false);
   });

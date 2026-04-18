@@ -9,12 +9,13 @@ const meta: Meta<SpSpinnerProps> = {
   component: "sp-spinner",
   tags: ["autodocs"],
   argTypes: {
-    size: { control: "select", options: ["sm", "md", "lg", "xl"] },
-    label: { control: "text" },
+    size:    { control: "select", options: ["sm", "md", "lg", "xl"] },
+    variant: { control: "select", options: ["arc", "ring", "dots", "bars", "pulse"], description: "Estilo visual del spinner" },
+    label:   { control: "text" },
   },
-  args: { size: "md", label: "Loading..." },
-  render: ({ size, label }) => html`
-    <sp-spinner size=${size} label=${label}></sp-spinner>
+  args: { size: "md", variant: "arc", label: "Loading..." },
+  render: ({ size, variant, label }) => html`
+    <sp-spinner size=${size} variant=${variant} label=${label}></sp-spinner>
   `,
 };
 
@@ -22,7 +23,34 @@ export default meta;
 type Story = StoryObj<SpSpinnerProps>;
 
 export const Default: Story = {
-  args: { size: "md" },
+  args: { size: "md", variant: "arc" },
+};
+
+export const Variantes: Story = {
+  render: () => html`
+    <div style="display:flex;align-items:center;gap:32px;padding:24px;flex-wrap:wrap;">
+      ${(["arc", "ring", "dots", "bars", "pulse"] as const).map(
+        (variant) => html`
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+            <sp-spinner size="lg" variant=${variant}></sp-spinner>
+            <span style="font-size:12px;color:#6b7280;font-weight:500;">${variant}</span>
+          </div>
+        `,
+      )}
+    </div>
+  `,
+};
+
+export const VariantesConColores: Story = {
+  render: () => html`
+    <div style="display:flex;align-items:center;gap:28px;padding:24px;flex-wrap:wrap;">
+      <sp-spinner size="lg" variant="arc"   style="color:#3b82f6;"></sp-spinner>
+      <sp-spinner size="lg" variant="ring"  style="color:#10b981;"></sp-spinner>
+      <sp-spinner size="lg" variant="dots"  style="color:#f59e0b;"></sp-spinner>
+      <sp-spinner size="lg" variant="bars"  style="color:#ef4444;"></sp-spinner>
+      <sp-spinner size="lg" variant="pulse" style="color:#8b5cf6;"></sp-spinner>
+    </div>
+  `,
 };
 
 export const Sizes: Story = {

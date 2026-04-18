@@ -64,15 +64,15 @@ describe("sp-rating", () => {
     const listener = vi.fn();
     el.addEventListener("sp-change", listener);
     const stars = el.shadowRoot?.querySelectorAll<HTMLButtonElement>(".sp-rating-star");
-    stars![2].click();
+    stars![2]!.click();
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({ value: 3 });
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail).toEqual({ value: 3 });
   });
 
   it("updates value when star is clicked", async () => {
     await el.updateComplete;
     const stars = el.shadowRoot?.querySelectorAll<HTMLButtonElement>(".sp-rating-star");
-    stars![1].click();
+    stars![1]!.click();
     expect(el.value).toBe(2);
   });
 
@@ -102,7 +102,7 @@ describe("sp-rating", () => {
     const listener = vi.fn();
     el.addEventListener("sp-change", listener);
     const stars = el.shadowRoot?.querySelectorAll<HTMLButtonElement>(".sp-rating-star");
-    stars![2].click();
+    stars![2]!.click();
     expect(listener).not.toHaveBeenCalled();
   });
 

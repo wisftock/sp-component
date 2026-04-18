@@ -4,6 +4,7 @@ export interface SpRadioGroupProps {
   name: string;
   value: string;
   disabled: boolean;
+  required: boolean;
   orientation: SpRadioGroupOrientation;
   label: string;
   error: string;

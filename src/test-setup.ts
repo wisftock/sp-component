@@ -50,3 +50,83 @@ class _PatchedFormData extends _OriginalFormData {
 }
 // @ts-ignore
 globalThis.FormData = _PatchedFormData;
+
+// ─── Canvas 2D context mock (happy-dom returns null for getContext) ───────────
+// Components like sp-signature, sp-watermark, sp-color-swatch use canvas.
+const _mockCtx: Partial<CanvasRenderingContext2D> & Record<string, unknown> = {
+  scale: () => {},
+  save: () => {},
+  restore: () => {},
+  translate: () => {},
+  rotate: () => {},
+  setTransform: () => {},
+  beginPath: () => {},
+  closePath: () => {},
+  moveTo: () => {},
+  lineTo: () => {},
+  arc: () => {},
+  quadraticCurveTo: () => {},
+  bezierCurveTo: () => {},
+  stroke: () => {},
+  fill: () => {},
+  fillRect: () => {},
+  clearRect: () => {},
+  strokeRect: () => {},
+  fillText: () => {},
+  strokeText: () => {},
+  putImageData: () => {},
+  drawImage: () => {},
+  clip: () => {},
+  createLinearGradient: () => ({ addColorStop: () => {} } as CanvasGradient),
+  createPattern: () => null,
+  measureText: () => ({ width: 0 } as TextMetrics),
+  getImageData: () => ({ data: new Uint8ClampedArray([128, 128, 128, 255]), width: 1, height: 1, colorSpace: "srgb" } as ImageData),
+  get fillStyle() { return ""; },
+  set fillStyle(_v: string | CanvasGradient | CanvasPattern) {},
+  get strokeStyle() { return ""; },
+  set strokeStyle(_v: string | CanvasGradient | CanvasPattern) {},
+  get lineWidth() { return 1; },
+  set lineWidth(_v: number) {},
+  get lineCap() { return "butt" as CanvasLineCap; },
+  set lineCap(_v: CanvasLineCap) {},
+  get lineJoin() { return "miter" as CanvasLineJoin; },
+  set lineJoin(_v: CanvasLineJoin) {},
+  get font() { return "10px sans-serif"; },
+  set font(_v: string) {},
+  get textAlign() { return "left" as CanvasTextAlign; },
+  set textAlign(_v: CanvasTextAlign) {},
+  get globalAlpha() { return 1; },
+  set globalAlpha(_v: number) {},
+  get shadowColor() { return ""; },
+  set shadowColor(_v: string) {},
+  get shadowBlur() { return 0; },
+  set shadowBlur(_v: number) {},
+  get strokeDashArray() { return []; },
+};
+
+// @ts-ignore
+HTMLCanvasElement.prototype.getContext = function (_type: string) {
+  return _mockCtx as unknown as CanvasRenderingContext2D;
+};
+
+HTMLCanvasElement.prototype.toDataURL = function () {
+  return "data:image/png;base64,";
+};
+
+// ─── Clipboard API mock ───────────────────────────────────────────────────────
+if (!navigator.clipboard) {
+  Object.defineProperty(navigator, "clipboard", {
+    value: {
+      writeText: (_text: string) => Promise.resolve(),
+      readText: () => Promise.resolve(""),
+    },
+    writable: true,
+    configurable: true,
+  });
+} else if (!navigator.clipboard.writeText) {
+  Object.defineProperty(navigator.clipboard, "writeText", {
+    value: (_text: string) => Promise.resolve(),
+    writable: true,
+    configurable: true,
+  });
+}

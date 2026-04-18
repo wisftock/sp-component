@@ -110,7 +110,7 @@ describe("sp-split-panel", () => {
     const event = new KeyboardEvent("keydown", { key: "ArrowRight" });
     el._handleDividerKeydown(event);
     expect(listener).toHaveBeenCalledOnce();
-    expect(listener.mock.calls[0][0].detail.position).toBe(51);
+    expect(listener.mock.calls[0]![0].detail.position).toBe(51);
   });
 
   it("ArrowKey moves position by 1 percent", async () => {

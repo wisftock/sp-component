@@ -1,5 +1,5 @@
 import { LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import styles from "./sp-rating.css?inline";
 import { ratingTemplate } from "./sp-rating.template.js";
 import type { SpRatingSize } from "./sp-rating.types.js";
@@ -66,7 +66,7 @@ export class SpRatingComponent extends LitElement {
   @property({ type: Boolean })
   clearable = false;
 
-  private _hoverValue = 0;
+  @state() private _hoverValue = 0;
 
   _getStars(): Array<{ index: number; fill: number }> {
     const displayValue = this._hoverValue || this.value;
@@ -91,13 +91,11 @@ export class SpRatingComponent extends LitElement {
   readonly _handleHover = (value: number) => {
     if (!this.disabled && !this.readonly) {
       this._hoverValue = value;
-      this.requestUpdate();
     }
   };
 
   readonly _handleLeave = () => {
     this._hoverValue = 0;
-    this.requestUpdate();
   };
 
   readonly _handleClear = () => {

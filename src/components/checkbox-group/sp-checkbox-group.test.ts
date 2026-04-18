@@ -158,7 +158,7 @@ describe("sp-checkbox-group", () => {
     );
 
     expect(listener).toHaveBeenCalledOnce();
-    const event = listener.mock.calls[0][0] as CustomEvent<{ values: string[] }>;
+    const event = listener.mock.calls[0]![0] as CustomEvent<{ values: string[] }>;
     expect(event.detail.values).toContain("tech");
   });
 

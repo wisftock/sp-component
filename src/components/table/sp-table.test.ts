@@ -110,7 +110,7 @@ describe("sp-table", () => {
       details.push((e as CustomEvent).detail);
     });
 
-    const nameCol = SAMPLE_COLUMNS[0];
+    const nameCol = SAMPLE_COLUMNS[0]!;
     el._handleSort(nameCol);
     expect(details[0]).toEqual({ key: "name", direction: "asc" });
 
@@ -131,7 +131,7 @@ describe("sp-table", () => {
       details.push((e as CustomEvent).detail);
     });
 
-    el._handleSort(SAMPLE_COLUMNS[1]);
+    el._handleSort(SAMPLE_COLUMNS[1]!);
     expect(details[0]).toEqual({ key: "age", direction: "asc" });
   });
 
@@ -164,7 +164,7 @@ describe("sp-table", () => {
     await el.updateComplete;
     const listener = vi.fn();
     el.addEventListener("sp-sort", listener);
-    el._handleSort(SAMPLE_COLUMNS[2]); // city is not sortable
+    el._handleSort(SAMPLE_COLUMNS[2]!); // city is not sortable
     expect(listener).not.toHaveBeenCalled();
   });
 });

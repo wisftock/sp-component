@@ -68,7 +68,7 @@ describe("sp-combobox — single mode", () => {
     el.requestUpdate();
     await el.updateComplete;
     const options = el.shadowRoot?.querySelectorAll<HTMLElement>(".sp-combobox-option");
-    options![0].dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+    options![0]!.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
     expect(el.value).toBe("apple");
     expect(el._open).toBe(false);
   });
@@ -77,9 +77,9 @@ describe("sp-combobox — single mode", () => {
     await el.updateComplete;
     const listener = vi.fn();
     el.addEventListener("sp-change", listener);
-    el._handleSelect(TEST_OPTIONS[1]);
+    el._handleSelect(TEST_OPTIONS[1]!);
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({ value: "banana" });
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail).toEqual({ value: "banana" });
   });
 
   it("shows the clear button when clearable and value is set", async () => {
@@ -150,7 +150,7 @@ describe("sp-combobox — single mode", () => {
     await el.updateComplete;
     const listener = vi.fn();
     el.addEventListener("sp-change", listener);
-    el._handleSelect(TEST_OPTIONS[3]); // grape is disabled
+    el._handleSelect(TEST_OPTIONS[3]!); // grape is disabled
     expect(listener).not.toHaveBeenCalled();
     expect(el.value).toBe("");
   });
@@ -206,16 +206,16 @@ describe("sp-combobox — multiple mode", () => {
   it("adds values on selection and keeps dropdown open", async () => {
     await el.updateComplete;
     el._open = true;
-    el._handleSelect(TEST_OPTIONS[0]);
-    el._handleSelect(TEST_OPTIONS[1]);
+    el._handleSelect(TEST_OPTIONS[0]!);
+    el._handleSelect(TEST_OPTIONS[1]!);
     expect(el.values).toEqual(["apple", "banana"]);
     expect(el._open).toBe(true);
   });
 
   it("toggles off an already-selected value", async () => {
     await el.updateComplete;
-    el._handleSelect(TEST_OPTIONS[0]);
-    el._handleSelect(TEST_OPTIONS[0]);
+    el._handleSelect(TEST_OPTIONS[0]!);
+    el._handleSelect(TEST_OPTIONS[0]!);
     expect(el.values).toEqual([]);
   });
 
@@ -223,16 +223,16 @@ describe("sp-combobox — multiple mode", () => {
     await el.updateComplete;
     const listener = vi.fn();
     el.addEventListener("sp-change", listener);
-    el._handleSelect(TEST_OPTIONS[0]);
-    expect((listener.mock.calls[0][0] as CustomEvent).detail).toEqual({ values: ["apple"] });
+    el._handleSelect(TEST_OPTIONS[0]!);
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail).toEqual({ values: ["apple"] });
   });
 
   it("respects maxSelections", async () => {
     el.maxSelections = 2;
     await el.updateComplete;
-    el._handleSelect(TEST_OPTIONS[0]);
-    el._handleSelect(TEST_OPTIONS[1]);
-    el._handleSelect(TEST_OPTIONS[2]); // should be ignored
+    el._handleSelect(TEST_OPTIONS[0]!);
+    el._handleSelect(TEST_OPTIONS[1]!);
+    el._handleSelect(TEST_OPTIONS[2]!); // should be ignored
     expect(el.values).toEqual(["apple", "banana"]);
   });
 

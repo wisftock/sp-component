@@ -56,7 +56,7 @@ describe("sp-file-upload", () => {
     const file = makeFile("test.txt", 100);
     el._processFiles([file]);
     expect(el._files).toHaveLength(1);
-    expect(el._files[0].name).toBe("test.txt");
+    expect(el._files[0]!.name).toBe("test.txt");
   });
 
   it("emits sp-change when valid file is processed", async () => {
@@ -66,7 +66,7 @@ describe("sp-file-upload", () => {
     const file = makeFile("doc.pdf", 500);
     el._processFiles([file]);
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail.files).toHaveLength(1);
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail.files).toHaveLength(1);
   });
 
   it("maxSize validation emits sp-error for oversized file", async () => {
@@ -77,7 +77,7 @@ describe("sp-file-upload", () => {
     const bigFile = makeFile("big.txt", 200);
     el._processFiles([bigFile]);
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail.message).toContain("exceeds max size");
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail.message).toContain("exceeds max size");
   });
 
   it("maxSize validation does not add oversized file to list", async () => {
@@ -95,7 +95,7 @@ describe("sp-file-upload", () => {
     el.addEventListener("sp-change", listener);
     el._removeFile(0);
     expect(el._files).toHaveLength(1);
-    expect(el._files[0].name).toBe("b.txt");
+    expect(el._files[0]!.name).toBe("b.txt");
     expect(listener).toHaveBeenCalledOnce();
   });
 

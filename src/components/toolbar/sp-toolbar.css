@@ -1,0 +1,73 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: inline-flex; font-family: inherit; }
+
+.sp-tb {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 10px;
+  background: var(--sp-bg, #fff);
+  border: 1px solid var(--sp-border, #e5e7eb);
+}
+
+:host([orientation="vertical"]) .sp-tb {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Flush: sin borde ni padding */
+:host([flush]) .sp-tb {
+  border: none;
+  padding: 0;
+  background: none;
+}
+
+.sp-tb-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--sp-border, #e5e7eb);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+:host([orientation="vertical"]) .sp-tb-sep {
+  width: auto;
+  height: 1px;
+  margin: 4px 0;
+}
+
+/* Passed-through button styles */
+::slotted(button),
+::slotted([role="button"]) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  border: none;
+  background: none;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--sp-text-muted, #374151);
+  transition: background 0.1s, color 0.1s;
+  white-space: nowrap;
+}
+::slotted(button:hover),
+::slotted([role="button"]:hover) {
+  background: var(--sp-bg-muted, #f3f4f6);
+  color: var(--sp-text, #111827);
+}
+::slotted(button[aria-pressed="true"]),
+::slotted(button.active),
+::slotted([role="button"].active) {
+  background: var(--sp-primary-subtle, rgba(99,102,241,0.1));
+  color: var(--sp-primary, #6366f1);
+}
+::slotted(button:disabled) {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

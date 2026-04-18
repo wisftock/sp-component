@@ -1,0 +1,215 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; font-family: inherit; }
+
+/* ── Shell ─────────────────────────────────────────────────────────────── */
+.sp-audio {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--sp-bg, #fff);
+  border: 1px solid var(--sp-border-subtle, #e5e7eb);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle gradient backdrop */
+.sp-audio::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(99,102,241,0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ── Cover ─────────────────────────────────────────────────────────────── */
+.sp-audio-cover {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--sp-bg-muted, #f3f4f6) 0%, var(--sp-border-subtle, #e5e7eb) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sp-text-muted, #9ca3af);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.sp-audio-cover img {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* ── Info ──────────────────────────────────────────────────────────────── */
+.sp-audio-info {
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: 130px;
+}
+
+.sp-audio-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sp-text, #111827);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.sp-audio-artist {
+  font-size: 11px;
+  color: var(--sp-text-muted, #9ca3af);
+  margin-top: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Controls ──────────────────────────────────────────────────────────── */
+.sp-audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.sp-audio-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--sp-text-muted, #6b7280);
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+  padding: 0;
+}
+
+.sp-audio-btn:hover {
+  background: var(--sp-bg-muted, #f3f4f6);
+  color: var(--sp-text, #111827);
+  transform: scale(1.08);
+}
+
+.sp-audio-btn:active { transform: scale(0.94); }
+
+.sp-audio-btn--play {
+  width: 44px;
+  height: 44px;
+  background: var(--sp-primary, #6366f1);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(99,102,241,0.35);
+}
+
+.sp-audio-btn--play:hover {
+  background: var(--sp-primary-hover, #4f46e5);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(99,102,241,0.45);
+}
+
+/* ── Progress ──────────────────────────────────────────────────────────── */
+.sp-audio-progress-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 80px;
+}
+
+.sp-audio-seek {
+  width: 100%;
+  height: 5px;
+  border-radius: 3px;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+  transition: height 0.15s;
+}
+
+.sp-audio-seek:hover { height: 7px; }
+
+.sp-audio-seek::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--sp-primary, #6366f1);
+  cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+  transition: transform 0.1s;
+}
+
+.sp-audio-seek::-webkit-slider-thumb:hover { transform: scale(1.2); }
+.sp-audio-seek::-webkit-slider-runnable-track { height: 5px; border-radius: 3px; }
+
+.sp-audio-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--sp-text-muted, #9ca3af);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+/* ── Volume ────────────────────────────────────────────────────────────── */
+.sp-audio-volume {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.sp-audio-volume-slider {
+  width: 64px;
+  height: 4px;
+  border-radius: 2px;
+  appearance: none;
+  background: var(--sp-border-subtle, #e5e7eb);
+  cursor: pointer;
+  outline: none;
+}
+
+.sp-audio-volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--sp-primary, #6366f1);
+  cursor: pointer;
+}
+
+/* ── Speed badge ───────────────────────────────────────────────────────── */
+.sp-audio-speed {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sp-text-muted, #6b7280);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1.5px solid var(--sp-border-subtle, #e5e7eb);
+  background: none;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+
+.sp-audio-speed:hover {
+  background: var(--sp-primary, #6366f1);
+  color: #fff;
+  border-color: var(--sp-primary, #6366f1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-audio-btn, .sp-audio-seek, .sp-audio-speed { transition: none; }
+}

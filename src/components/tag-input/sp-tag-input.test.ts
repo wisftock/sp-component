@@ -149,7 +149,7 @@ describe("sp-tag-input", () => {
     el._addTag("addme");
     await el.updateComplete;
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail.value).toBe("addme");
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail.value).toBe("addme");
   });
 
   it("emits sp-remove when tag removed", async () => {
@@ -160,7 +160,7 @@ describe("sp-tag-input", () => {
     el._removeTag("gone");
     await el.updateComplete;
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail.value).toBe("gone");
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail.value).toBe("gone");
   });
 
   // ---- Disabled ----

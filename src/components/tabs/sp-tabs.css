@@ -1,9 +1,8 @@
 *, *::before, *::after { box-sizing: border-box; }
 
-:host {
-  display: block;
-}
+:host { display: block; }
 
+/* ── Nav wrapper ───────────────────────────────────────────────────────── */
 .sp-tabs-nav-wrapper {
   position: relative;
   display: flex;
@@ -12,34 +11,36 @@
 
 .sp-tabs-nav {
   display: flex;
-  border-bottom: 1px solid var(--sp-border-subtle, #e5e7eb);
+  border-bottom: 2px solid var(--sp-border-subtle, #e5e7eb);
   overflow-x: auto;
   scrollbar-width: none;
   flex: 1;
   min-width: 0;
+  gap: 2px;
+  position: relative;
 }
 
-.sp-tabs-nav::-webkit-scrollbar {
-  display: none;
-}
+.sp-tabs-nav::-webkit-scrollbar { display: none; }
 
+/* ── Scroll buttons ────────────────────────────────────────────────────── */
 .sp-tabs-scroll-btn {
   flex-shrink: 0;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   color: var(--sp-text-muted, #6b7280);
-  padding: 0 4px;
+  padding: 0 6px;
   line-height: 1;
-  border-bottom: 1px solid var(--sp-border-subtle, #e5e7eb);
+  border-bottom: 2px solid var(--sp-border-subtle, #e5e7eb);
   height: 100%;
   display: flex;
   align-items: center;
+  transition: color 0.15s, background 0.15s;
 }
 
 .sp-tabs-scroll-btn:hover {
-  color: var(--sp-text-secondary, #374151);
+  color: var(--sp-text, #111827);
   background: var(--sp-bg-muted, #f3f4f6);
 }
 
@@ -48,10 +49,10 @@
   outline-offset: -2px;
 }
 
-.sp-tabs-content {
-  padding: 16px 0;
-}
+/* ── Content ───────────────────────────────────────────────────────────── */
+.sp-tabs-content { padding: 20px 0; }
 
+/* ── Placements: left / right ──────────────────────────────────────────── */
 :host([placement="left"]) .sp-tabs,
 :host([placement="right"]) .sp-tabs {
   display: flex;
@@ -60,32 +61,35 @@
 
 :host([placement="left"]) .sp-tabs-nav-wrapper {
   flex-direction: column;
-  border-inline-end: 1px solid var(--sp-border-subtle, #e5e7eb);
+  border-inline-end: 2px solid var(--sp-border-subtle, #e5e7eb);
 }
 
 :host([placement="left"]) .sp-tabs-nav {
   flex-direction: column;
   border-bottom: none;
   padding-inline-end: 0;
+  gap: 1px;
 }
 
 :host([placement="right"]) .sp-tabs-nav-wrapper {
   flex-direction: column;
-  border-inline-start: 1px solid var(--sp-border-subtle, #e5e7eb);
+  border-inline-start: 2px solid var(--sp-border-subtle, #e5e7eb);
   order: 1;
 }
 
 :host([placement="right"]) .sp-tabs-nav {
   flex-direction: column;
   border-bottom: none;
+  gap: 1px;
 }
 
 :host([placement="left"]) .sp-tabs-content,
 :host([placement="right"]) .sp-tabs-content {
   flex: 1;
-  padding: 0 16px;
+  padding: 0 20px;
 }
 
+/* ── Placement: bottom ─────────────────────────────────────────────────── */
 :host([placement="bottom"]) .sp-tabs {
   display: flex;
   flex-direction: column-reverse;
@@ -93,18 +97,19 @@
 
 :host([placement="bottom"]) .sp-tabs-nav {
   border-bottom: none;
-  border-top: 1px solid var(--sp-border-subtle, #e5e7eb);
+  border-top: 2px solid var(--sp-border-subtle, #e5e7eb);
 }
 
 :host([placement="bottom"]) .sp-tabs-scroll-btn {
   border-bottom: none;
-  border-top: 1px solid var(--sp-border-subtle, #e5e7eb);
+  border-top: 2px solid var(--sp-border-subtle, #e5e7eb);
 }
 
-/* Vertical tabs: override the bottom-border indicator using CSS parts */
+/* ── Vertical: side indicators ─────────────────────────────────────────── */
 :host([placement="left"]) sp-tab::part(button) {
   border-bottom: none;
   border-inline-end: 2px solid transparent;
+  border-radius: 6px 0 0 6px;
   width: 100%;
   text-align: start;
   justify-content: flex-start;
@@ -113,11 +118,13 @@
 :host([placement="left"]) sp-tab[active]::part(button) {
   border-inline-end-color: var(--sp-primary, #3b82f6);
   color: var(--sp-primary, #3b82f6);
+  background: var(--sp-primary-bg, #eff6ff);
 }
 
 :host([placement="right"]) sp-tab::part(button) {
   border-bottom: none;
   border-inline-start: 2px solid transparent;
+  border-radius: 0 6px 6px 0;
   width: 100%;
   text-align: start;
   justify-content: flex-start;
@@ -126,4 +133,5 @@
 :host([placement="right"]) sp-tab[active]::part(button) {
   border-inline-start-color: var(--sp-primary, #3b82f6);
   color: var(--sp-primary, #3b82f6);
+  background: var(--sp-primary-bg, #eff6ff);
 }

@@ -14,4 +14,5 @@ export interface SpCommandPaletteProps {
   placeholder: string;
   emptyMessage: string;
   loading: boolean;
+  items: CommandItem[];
 }

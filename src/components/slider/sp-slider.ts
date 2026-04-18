@@ -134,6 +134,24 @@ export class SpSliderComponent extends LitElement {
     this.dispatchEvent(new CustomEvent("sp-change", { detail: { value: [this.rangeStart, this.rangeEnd] as [number, number] }, bubbles: true, composed: true }));
   };
 
+  override updated(changedProperties: Map<string, unknown>): void {
+    if (changedProperties.has("value") && !this.range) {
+      this.#internals.setFormValue(String(this.value));
+    }
+    if (changedProperties.has("rangeStart") || changedProperties.has("rangeEnd")) {
+      if (this.range) {
+        this.#internals.setFormValue(`${this.rangeStart},${this.rangeEnd}`);
+      }
+    }
+  }
+
+  formResetCallback(): void {
+    this.value = 0;
+    this.rangeStart = 0;
+    this.rangeEnd = 100;
+    this.#internals.setFormValue(this.range ? "0,100" : "0");
+  }
+
   override render() {
     return sliderTemplate.call(this);
   }

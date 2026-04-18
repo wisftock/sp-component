@@ -11,10 +11,10 @@
 .sp-scroll-area-scrollbar { position: absolute; border-radius: 3px; background: transparent; }
 .sp-scroll-area-scrollbar--vertical   { right: 2px; top: 2px; bottom: 2px; width: 6px; }
 .sp-scroll-area-scrollbar--horizontal { left: 2px; right: 2px; bottom: 2px; height: 6px; }
-.sp-scroll-area-thumb { position: absolute; background: rgba(0,0,0,0.3); border-radius: 3px; cursor: pointer; transition: background 0.2s, opacity 0.2s; }
+.sp-scroll-area-thumb { position: absolute; background: var(--sp-scrollbar-thumb, rgba(0,0,0,0.3)); border-radius: 3px; cursor: pointer; transition: background 0.2s, opacity 0.2s; }
 .sp-scroll-area-thumb--vertical   { left: 0; right: 0; }
 .sp-scroll-area-thumb--horizontal { top: 0; bottom: 0; }
-.sp-scroll-area-thumb:hover { background: rgba(0,0,0,0.5); }
+.sp-scroll-area-thumb:hover { background: var(--sp-scrollbar-thumb-hover, rgba(0,0,0,0.5)); }
 :host([scrollbar="auto"]) .sp-scroll-area-thumb { opacity: 0; }
 :host([scrollbar="auto"]) .sp-scroll-area--scrolling .sp-scroll-area-thumb,
 :host([scrollbar="auto"]) .sp-scroll-area:hover .sp-scroll-area-thumb { opacity: 1; }

@@ -1,30 +1,23 @@
 *, *::before, *::after { box-sizing: border-box; }
 
-:host {
-  display: inline-flex;
-}
+:host { display: inline-flex; }
+:host([full-width]) { display: flex; width: 100%; }
 
-:host([full-width]) {
-  display: flex;
-  width: 100%;
-}
-
+/* ── Track ─────────────────────────────────────────────────────────────── */
 .sp-segmented {
   display: inline-flex;
   align-items: center;
-  background: var(--sp-bg-muted, #f3f4f6);
-  border-radius: 8px;
+  background: var(--sp-bg-muted, #f0f0f0);
+  border-radius: 10px;
   padding: 3px;
   gap: 2px;
   position: relative;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
 }
 
-:host([full-width]) .sp-segmented {
-  width: 100%;
-}
+:host([full-width]) .sp-segmented { width: 100%; }
 
-/* ---- Option button ---- */
-
+/* ── Option ────────────────────────────────────────────────────────────── */
 .sp-segmented-option {
   position: relative;
   display: inline-flex;
@@ -32,7 +25,7 @@
   justify-content: center;
   gap: 6px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   background: transparent;
   font-family: inherit;
   font-weight: 500;
@@ -41,18 +34,18 @@
   white-space: nowrap;
   transition: color 0.15s, background 0.15s;
   outline: none;
-  padding: 6px 14px;
+  padding: 6px 16px;
   font-size: 14px;
   flex: 0 0 auto;
+  user-select: none;
+  z-index: 1;
 }
 
-:host([full-width]) .sp-segmented-option {
-  flex: 1;
-}
+:host([full-width]) .sp-segmented-option { flex: 1; }
 
-.sp-segmented-option:hover:not(:disabled) {
+.sp-segmented-option:hover:not(:disabled):not(.sp-segmented-option--selected) {
   color: var(--sp-text, #111827);
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(0,0,0,0.05);
 }
 
 .sp-segmented-option:focus-visible {
@@ -60,45 +53,49 @@
   outline-offset: 1px;
 }
 
+/* ── Selected state ────────────────────────────────────────────────────── */
 .sp-segmented-option--selected {
-  background: var(--sp-bg, white);
+  background: var(--sp-bg, #fff);
   color: var(--sp-text, #111827);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  font-weight: 600;
+  box-shadow:
+    0 1px 4px rgba(0,0,0,0.12),
+    0 0 0 1px rgba(0,0,0,0.04);
 }
 
 .sp-segmented-option--selected:hover {
-  background: var(--sp-bg, white);
+  background: var(--sp-bg, #fff);
 }
 
+/* ── Disabled ──────────────────────────────────────────────────────────── */
 .sp-segmented-option:disabled,
 .sp-segmented-option--disabled {
-  opacity: 0.4;
+  opacity: 0.38;
   cursor: not-allowed;
 }
-
-/* ---- Sizes ---- */
-
-:host([size="sm"]) .sp-segmented-option {
-  padding: 4px 10px;
-  font-size: 12px;
-  border-radius: 5px;
-}
-
-:host([size="lg"]) .sp-segmented-option {
-  padding: 8px 18px;
-  font-size: 15px;
-  border-radius: 7px;
-}
-
-/* ---- Disabled host ---- */
 
 :host([disabled]) .sp-segmented {
   opacity: 0.5;
   pointer-events: none;
 }
 
+/* ── Sizes ─────────────────────────────────────────────────────────────── */
+:host([size="sm"]) .sp-segmented {
+  border-radius: 8px;
+  padding: 2px;
+}
+:host([size="sm"]) .sp-segmented-option {
+  padding: 4px 11px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+:host([size="lg"]) .sp-segmented-option {
+  padding: 9px 20px;
+  font-size: 15px;
+  border-radius: 9px;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .sp-segmented-option {
-    transition: none;
-  }
+  .sp-segmented-option { transition: none; }
 }

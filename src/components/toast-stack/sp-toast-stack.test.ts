@@ -112,7 +112,7 @@ describe("sp-toast-stack", () => {
     const id = el.show({ message: "Event test" });
     await el.updateComplete;
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail.id).toBe(id);
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail.id).toBe(id);
   });
 
   it("emits sp-dismiss with id when toast is removed", async () => {
@@ -122,7 +122,7 @@ describe("sp-toast-stack", () => {
     el.dismiss(id);
     await el.updateComplete;
     expect(listener).toHaveBeenCalledOnce();
-    expect((listener.mock.calls[0][0] as CustomEvent).detail.id).toBe(id);
+    expect((listener.mock.calls[0]![0] as CustomEvent).detail.id).toBe(id);
   });
 
   // ---- variant ----

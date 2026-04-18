@@ -1,0 +1,97 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; font-family: inherit; }
+
+.sp-hm { display: flex; flex-direction: column; gap: 8px; }
+
+.sp-hm-months {
+  display: flex;
+  gap: var(--sp-hm-cell, 3px);
+  padding-left: 28px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--sp-text-muted, #9ca3af);
+  height: 16px;
+  letter-spacing: 0.03em;
+}
+
+.sp-hm-body { display: flex; gap: 3px; }
+
+.sp-hm-days {
+  display: flex; flex-direction: column;
+  gap: var(--sp-hm-cell, 3px);
+  justify-content: space-between;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--sp-text-muted, #9ca3af);
+  width: 24px;
+  padding-top: 2px;
+  letter-spacing: 0.03em;
+}
+
+.sp-hm-grid { display: flex; gap: var(--sp-hm-cell, 3px); }
+
+.sp-hm-week { display: flex; flex-direction: column; gap: var(--sp-hm-cell, 3px); }
+
+.sp-hm-cell {
+  width: var(--sp-hm-size, 13px);
+  height: var(--sp-hm-size, 13px);
+  border-radius: 3px;
+  background: var(--sp-hm-empty, #ebedf0);
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  position: relative;
+  flex-shrink: 0;
+}
+.sp-hm-cell:hover {
+  transform: scale(1.35);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+  z-index: 1;
+}
+.sp-hm-cell--empty { cursor: default; pointer-events: none; }
+
+/* Default color scale (GitHub-like green) */
+.sp-hm-cell[data-level="1"] { background: var(--sp-hm-l1, #9be9a8); }
+.sp-hm-cell[data-level="2"] { background: var(--sp-hm-l2, #40c463); }
+.sp-hm-cell[data-level="3"] { background: var(--sp-hm-l3, #30a14e); }
+.sp-hm-cell[data-level="4"] { background: var(--sp-hm-l4, #216e39); }
+
+.sp-hm-legend {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--sp-text-muted, #9ca3af);
+  justify-content: flex-end;
+  margin-top: 4px;
+  letter-spacing: 0.03em;
+}
+.sp-hm-legend-cell {
+  width: 13px; height: 13px;
+  border-radius: 3px;
+}
+
+/* Tooltip */
+.sp-hm-tooltip {
+  position: fixed;
+  z-index: 9999;
+  background: rgba(15,20,30,0.88);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translate(-50%, -140%);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.sp-hm-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(15,20,30,0.88);
+}

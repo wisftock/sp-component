@@ -151,6 +151,14 @@ export class SpFileUploadComponent extends LitElement {
     if (!this.disabled) this.shadowRoot?.querySelector<HTMLInputElement>(".sp-file-input")?.click();
   };
 
+  formResetCallback(): void {
+    this._files = [];
+    this._validationError = "";
+    this.#internals.setFormValue(null);
+    this.#internals.setValidity({});
+    this.requestUpdate();
+  }
+
   override render() {
     return fileUploadTemplate.call(this);
   }

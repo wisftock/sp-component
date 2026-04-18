@@ -1,0 +1,97 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; font-family: inherit; }
+
+.sp-cb {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--sp-cb-bg, #1e1e2e);
+  font-size: 13px;
+}
+
+.sp-cb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  gap: 10px;
+}
+
+.sp-cb-lang {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.4);
+  font-family: ui-monospace, monospace;
+}
+
+.sp-cb-filename {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  font-family: ui-monospace, monospace;
+  flex: 1;
+}
+
+.sp-cb-copy {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  border-radius: 6px;
+  color: rgba(255,255,255,0.6);
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.sp-cb-copy:hover { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.9); }
+.sp-cb-copy--copied { color: #4ade80; border-color: rgba(74,222,128,0.3); }
+
+.sp-cb-scroll {
+  overflow-x: auto;
+}
+
+.sp-cb-pre {
+  margin: 0;
+  padding: 16px;
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #cdd6f4;
+  white-space: pre;
+  tab-size: 2;
+  display: flex;
+}
+
+.sp-cb-gutter {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  margin-right: 16px;
+  padding-right: 12px;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  text-align: right;
+  min-width: 24px;
+  color: rgba(255,255,255,0.2);
+  font-size: 12px;
+}
+
+.sp-cb-code { flex: 1; }
+
+/* Basic syntax highlight tokens */
+.sp-kw  { color: #cba6f7; }  /* keywords */
+.sp-str { color: #a6e3a1; }  /* strings */
+.sp-num { color: #fab387; }  /* numbers */
+.sp-cmt { color: #6c7086; font-style: italic; }  /* comments */
+.sp-fn  { color: #89b4fa; }  /* functions */
+.sp-cls { color: #f38ba8; }  /* classes/types */
+.sp-op  { color: #89dceb; }  /* operators */
+.sp-attr{ color: #89dceb; }  /* attributes */
+.sp-tag { color: #f38ba8; }  /* HTML tags */
+.sp-val { color: #fab387; }  /* values */

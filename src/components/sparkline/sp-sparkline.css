@@ -1,0 +1,27 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: inline-block; }
+
+.sp-sparkline {
+  display: inline-block;
+  position: relative;
+  line-height: 0;
+}
+
+.sp-sparkline svg {
+  display: block;
+}
+
+.sp-sparkline-tooltip {
+  position: fixed;
+  z-index: 9999;
+  background: var(--sp-tooltip-bg, #1f2937);
+  color: var(--sp-tooltip-text, #f9fafb);
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.sp-sparkline-tooltip.visible { opacity: 1; }

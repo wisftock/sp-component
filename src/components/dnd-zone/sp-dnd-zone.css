@@ -1,0 +1,70 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; font-family: inherit; }
+
+.sp-dnd-zone {
+  border: 2px dashed var(--sp-border, #d1d5db);
+  border-radius: 8px;
+  padding: 8px;
+  min-height: 80px;
+  background: var(--sp-bg, #fff);
+  transition: border-color 0.15s, background 0.15s;
+  position: relative;
+}
+
+.sp-dnd-zone.over {
+  border-color: var(--sp-primary, #6366f1);
+  background: #eef2ff;
+}
+
+.sp-dnd-zone-label {
+  text-align: center;
+  color: var(--sp-text-muted, #9ca3af);
+  font-size: 13px;
+  padding: 16px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.sp-dnd-item {
+  padding: 10px 12px;
+  background: var(--sp-bg, #fff);
+  border: 1px solid var(--sp-border, #d1d5db);
+  border-radius: 6px;
+  margin-bottom: 6px;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--sp-text, #111827);
+  user-select: none;
+  transition: box-shadow 0.1s, opacity 0.1s;
+}
+
+.sp-dnd-item:last-child { margin-bottom: 0; }
+
+.sp-dnd-item.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+
+.sp-dnd-item.drag-over {
+  border-color: var(--sp-primary, #6366f1);
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.25);
+}
+
+.sp-dnd-item:active { cursor: grabbing; }
+
+.sp-dnd-handle {
+  color: var(--sp-text-muted, #d1d5db);
+  flex-shrink: 0;
+}
+
+.sp-dnd-ghost {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0.85;
+  transform: rotate(2deg);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}

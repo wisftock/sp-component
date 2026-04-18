@@ -9,14 +9,16 @@ import type { CommandItem } from "./sp-command-palette.types.js";
  *
  * @element sp-command-palette
  *
- * @prop {boolean} open          - Whether the palette is open
- * @prop {string}  placeholder   - Input placeholder text
- * @prop {string}  emptyMessage  - Message shown when no results
- * @prop {boolean} loading       - Show loading state
+ * @prop {boolean}       open          - Whether the palette is open
+ * @prop {string}        placeholder   - Input placeholder text
+ * @prop {string}        emptyMessage  - Message shown when no results
+ * @prop {boolean}       loading       - Show loading state
+ * @prop {CommandItem[]} items         - Items list (alternative to setItems())
  *
- * @fires {CustomEvent} sp-open           - Emitted when palette opens
- * @fires {CustomEvent} sp-close          - Emitted when palette closes
- * @fires {CustomEvent<{item:CommandItem}>} sp-select - Emitted when an item is selected
+ * @fires {CustomEvent} sp-open                          - Emitted when palette opens
+ * @fires {CustomEvent} sp-close                         - Emitted when palette closes
+ * @fires {CustomEvent<{item:CommandItem}>} sp-select    - Emitted when an item is selected
+ * @fires {CustomEvent<{query:string}>}    sp-search     - Emitted on every keystroke (use for async loading)
  */
 @customElement("sp-command-palette")
 export class SpCommandPaletteComponent extends LitElement {
@@ -33,6 +35,14 @@ export class SpCommandPaletteComponent extends LitElement {
 
   @property({ type: Boolean })
   loading = false;
+
+  @property({ type: Array })
+  set items(value: CommandItem[]) {
+    this._items = value;
+  }
+  get items(): CommandItem[] {
+    return this._items;
+  }
 
   @state()
   _query = "";
@@ -136,6 +146,13 @@ export class SpCommandPaletteComponent extends LitElement {
   _handleInput(e: Event): void {
     this._query = (e.target as HTMLInputElement).value;
     this._activeIndex = 0;
+    this.dispatchEvent(
+      new CustomEvent("sp-search", {
+        detail: { query: this._query },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   _handleKeydown = (e: KeyboardEvent): void => {

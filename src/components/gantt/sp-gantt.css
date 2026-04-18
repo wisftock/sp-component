@@ -1,0 +1,206 @@
+*, *::before, *::after { box-sizing: border-box; }
+:host { display: block; font-family: inherit; }
+
+.sp-gantt {
+  border: 1px solid var(--sp-border-subtle, #e5e7eb);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--sp-bg, #fff);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.sp-gantt-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--sp-bg-muted, #f9fafb);
+  border-bottom: 1px solid var(--sp-border, #d1d5db);
+  font-size: 13px;
+}
+
+.sp-gantt-zoom {
+  display: flex;
+  gap: 4px;
+}
+
+.sp-gantt-zoom button {
+  padding: 4px 10px;
+  font-size: 12px;
+  border: 1px solid var(--sp-border, #d1d5db);
+  background: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--sp-text-muted, #6b7280);
+  font-family: inherit;
+  transition: background 0.1s, color 0.1s;
+}
+.sp-gantt-zoom button.active {
+  background: var(--sp-primary, #6366f1);
+  color: #fff;
+  border-color: var(--sp-primary, #6366f1);
+}
+
+.sp-gantt-layout {
+  display: flex;
+  overflow: hidden;
+}
+
+/* Left: task list */
+.sp-gantt-tasks {
+  flex-shrink: 0;
+  width: 220px;
+  border-right: 1px solid var(--sp-border, #d1d5db);
+  overflow-y: auto;
+}
+
+.sp-gantt-tasks-header {
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--sp-text-muted, #9ca3af);
+  background: var(--sp-bg-muted, #f9fafb);
+  border-bottom: 1px solid var(--sp-border, #d1d5db);
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.sp-gantt-task-row {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  height: 40px;
+  border-bottom: 1px solid var(--sp-border-subtle, #f3f4f6);
+  font-size: 13px;
+  color: var(--sp-text, #111827);
+  gap: 8px;
+  transition: background 0.1s;
+}
+.sp-gantt-task-row:hover { background: var(--sp-bg-subtle, #f9fafb); }
+
+.sp-gantt-task-color {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sp-gantt-task-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Right: chart area */
+.sp-gantt-chart {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}
+
+.sp-gantt-chart-inner {
+  position: relative;
+  min-height: 100%;
+}
+
+/* Timeline header */
+.sp-gantt-timeline {
+  display: flex;
+  height: 40px;
+  border-bottom: 1px solid var(--sp-border, #d1d5db);
+  background: var(--sp-bg-muted, #f9fafb);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.sp-gantt-timeline-cell {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sp-text-muted, #6b7280);
+  border-right: 1px solid var(--sp-border-subtle, #e5e7eb);
+  white-space: nowrap;
+  padding: 0 4px;
+}
+
+/* Chart rows */
+.sp-gantt-row {
+  position: relative;
+  height: 40px;
+  border-bottom: 1px solid var(--sp-border-subtle, #f3f4f6);
+}
+
+.sp-gantt-row:nth-child(even) { background: var(--sp-bg-muted, #fafafa); }
+
+/* Grid lines */
+.sp-gantt-grid-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--sp-border-subtle, #f0f0f0);
+}
+
+/* Bars */
+.sp-gantt-bar {
+  position: absolute;
+  top: 7px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: default;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: filter 0.1s, transform 0.1s;
+}
+
+.sp-gantt-bar:hover {
+  filter: brightness(1.08);
+  transform: scaleY(1.05);
+}
+
+/* Progress fill inside bar */
+.sp-gantt-bar-progress {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: rgba(0,0,0,0.15);
+  border-radius: 6px;
+}
+
+/* Today line */
+.sp-gantt-today {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: var(--sp-primary, #6366f1);
+  z-index: 5;
+}
+
+.sp-gantt-today::before {
+  content: "HOY";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--sp-primary, #6366f1);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 0 0 3px 3px;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+}

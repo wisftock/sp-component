@@ -42,9 +42,9 @@ describe("sp-breadcrumb", () => {
     el._handleSlotChange();
     const items = [...el.querySelectorAll("sp-breadcrumb-item")] as SpBreadcrumbItemComponent[];
     await Promise.all(items.map((item) => item.updateComplete));
-    expect(items[0].active).toBe(false);
-    expect(items[1].active).toBe(false);
-    expect(items[2].active).toBe(true);
+    expect(items[0]!.active).toBe(false);
+    expect(items[1]!.active).toBe(false);
+    expect(items[2]!.active).toBe(true);
   });
 
   it("href is set on link element of non-active item", async () => {
@@ -52,8 +52,8 @@ describe("sp-breadcrumb", () => {
     el._handleSlotChange();
     await el.updateComplete;
     const items = [...el.querySelectorAll("sp-breadcrumb-item")] as SpBreadcrumbItemComponent[];
-    await items[0].updateComplete;
-    const link = items[0].shadowRoot?.querySelector("a");
+    await items[0]!.updateComplete;
+    const link = items[0]!.shadowRoot?.querySelector("a");
     expect(link?.getAttribute("href")).toBe("/");
   });
 
@@ -62,8 +62,8 @@ describe("sp-breadcrumb", () => {
     el._handleSlotChange();
     await el.updateComplete;
     const items = [...el.querySelectorAll("sp-breadcrumb-item")] as SpBreadcrumbItemComponent[];
-    await items[0].updateComplete;
-    const sep = items[0].shadowRoot?.querySelector(".sp-breadcrumb-separator");
+    await items[0]!.updateComplete;
+    const sep = items[0]!.shadowRoot?.querySelector(".sp-breadcrumb-separator");
     expect(sep).not.toBeNull();
     expect(sep?.textContent).toBe("/");
   });
@@ -74,8 +74,8 @@ describe("sp-breadcrumb", () => {
     await el.updateComplete;
     el._handleSlotChange();
     const items = [...el.querySelectorAll("sp-breadcrumb-item")] as SpBreadcrumbItemComponent[];
-    await items[0].updateComplete;
-    const sep = items[0].shadowRoot?.querySelector(".sp-breadcrumb-separator");
+    await items[0]!.updateComplete;
+    const sep = items[0]!.shadowRoot?.querySelector(".sp-breadcrumb-separator");
     expect(sep?.textContent).toBe("›");
   });
 
@@ -84,8 +84,8 @@ describe("sp-breadcrumb", () => {
     el._handleSlotChange();
     await el.updateComplete;
     const items = [...el.querySelectorAll("sp-breadcrumb-item")] as SpBreadcrumbItemComponent[];
-    await items[2].updateComplete;
-    const current = items[2].shadowRoot?.querySelector("[aria-current='page']");
+    await items[2]!.updateComplete;
+    const current = items[2]!.shadowRoot?.querySelector("[aria-current='page']");
     expect(current).not.toBeNull();
   });
 
@@ -94,8 +94,8 @@ describe("sp-breadcrumb", () => {
     el._handleSlotChange();
     await el.updateComplete;
     const items = [...el.querySelectorAll("sp-breadcrumb-item")] as SpBreadcrumbItemComponent[];
-    await items[2].updateComplete;
-    const link = items[2].shadowRoot?.querySelector("a");
+    await items[2]!.updateComplete;
+    const link = items[2]!.shadowRoot?.querySelector("a");
     expect(link).toBeNull();
   });
 
@@ -104,8 +104,8 @@ describe("sp-breadcrumb", () => {
     el._handleSlotChange();
     await el.updateComplete;
     const items = [...el.querySelectorAll("sp-breadcrumb-item")] as SpBreadcrumbItemComponent[];
-    await items[0].updateComplete;
-    const current = items[0].shadowRoot?.querySelector("[aria-current='page']");
+    await items[0]!.updateComplete;
+    const current = items[0]!.shadowRoot?.querySelector("[aria-current='page']");
     expect(current).toBeNull();
   });
 

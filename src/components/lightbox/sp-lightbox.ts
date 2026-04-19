@@ -145,14 +145,15 @@ export class SpLightboxComponent extends LitElement {
       <!-- Lightbox overlay -->
       ${this._open && current ? html`
         <div class="sp-lb-overlay" @click=${(e: MouseEvent) => { if (e.target === e.currentTarget) this.#close(); }}>
-          <div class="sp-lb-content">
 
-            <!-- Close -->
-            <button class="sp-lb-close" @click=${() => this.#close()}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-              </svg>
-            </button>
+          <!-- Close -->
+          <button class="sp-lb-close" @click=${() => this.#close()} aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+
+          <div class="sp-lb-content">
 
             <!-- Prev -->
             ${this.images.length > 1 ? html`

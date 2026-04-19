@@ -13,14 +13,9 @@ const meta: Meta<SpTimelineProps> = {
   args: {
     reverse: false,
   },
-};
-
-export default meta;
-type Story = StoryObj<SpTimelineProps>;
-
-export const Default: Story = {
-  render: () => html`
+  render: (args) => html`
     <sp-timeline
+      ?reverse=${args.reverse}
       .items=${[
         { label: "Account created", variant: "success" },
         { label: "Profile updated", variant: "default" },
@@ -29,6 +24,11 @@ export const Default: Story = {
     ></sp-timeline>
   `,
 };
+
+export default meta;
+type Story = StoryObj<SpTimelineProps>;
+
+export const Default: Story = {};
 
 export const WithDescriptions: Story = {
   render: () => html`

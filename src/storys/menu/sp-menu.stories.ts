@@ -23,6 +23,18 @@ const meta: Meta<SpMenuProps> = {
     placement: "bottom-start",
     open: false,
   },
+  render: (args) => html`
+    <div style="padding: 40px;">
+      <sp-menu placement=${args.placement} ?open=${args.open}>
+        <button slot="trigger" style="padding: 8px 16px; border: 1px solid #e5e7eb; border-radius: 6px; cursor: pointer; background: white;">
+          Options ▾
+        </button>
+        <sp-menu-item value="edit">Edit</sp-menu-item>
+        <sp-menu-item value="duplicate">Duplicate</sp-menu-item>
+        <sp-menu-item value="archive">Archive</sp-menu-item>
+      </sp-menu>
+    </div>
+  `,
 };
 
 export default meta;

@@ -29,6 +29,23 @@ const meta: Meta<SpModalProps> = {
     closable: true,
     closeOnOverlay: true,
   },
+  render: (args) => html`
+    <div>
+      <sp-button @click=${(e: Event) => {
+        const modal = (e.target as HTMLElement).closest("div")?.querySelector("sp-modal") as any;
+        if (modal) modal.open = true;
+      }}>Open Modal</sp-button>
+      <sp-modal
+        label=${args.label}
+        size=${args.size}
+        ?open=${args.open}
+        ?closable=${args.closable}
+        ?close-on-overlay=${args.closeOnOverlay}
+      >
+        <p>This is the modal body content. You can put anything here.</p>
+      </sp-modal>
+    </div>
+  `,
 };
 
 export default meta;
@@ -36,23 +53,7 @@ type Story = StoryObj<SpModalProps>;
 
 // ---- Default (with open button) ----
 
-export const Default: Story = {
-  render: () => {
-    const openModal = () => {
-      const modal = document.querySelector("#demo-modal") as HTMLElement & {
-        open: boolean;
-      };
-      if (modal) modal.open = true;
-    };
-
-    return html`
-      <sp-button @click=${openModal}>Open Modal</sp-button>
-      <sp-modal id="demo-modal" label="Demo modal" size="md">
-        <p>This is the modal body content. You can put anything here.</p>
-      </sp-modal>
-    `;
-  },
-};
+export const Default: Story = {};
 
 // ---- WithHeader ----
 

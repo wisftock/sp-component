@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import type { SpStatProps } from "../../components/stat/sp-stat.types.js";
 import "../../components/stat/sp-stat.js";
 
@@ -29,18 +29,25 @@ const meta: Meta<SpStatProps> = {
     trendValue: "",
     description: "",
   },
+  render: (args) => html`
+    <div style="padding: 24px; background: white; border-radius: 8px; border: 1px solid #e5e7eb; width: 220px;">
+      <sp-stat
+        label=${args.label}
+        value=${args.value}
+        prefix=${args.prefix || nothing}
+        suffix=${args.suffix || nothing}
+        trend=${args.trend}
+        trend-value=${args.trendValue || nothing}
+        description=${args.description || nothing}
+      ></sp-stat>
+    </div>
+  `,
 };
 
 export default meta;
 type Story = StoryObj<SpStatProps>;
 
-export const Default: Story = {
-  render: () => html`
-    <div style="padding: 24px; background: white; border-radius: 8px; border: 1px solid #e5e7eb; width: 200px;">
-      <sp-stat label="Total Users" value="12,340"></sp-stat>
-    </div>
-  `,
-};
+export const Default: Story = {};
 
 export const WithTrendUp: Story = {
   render: () => html`

@@ -33,18 +33,17 @@ const meta: Meta = {
     columns: { control: "number", description: "Columnas en el dropdown (0 = auto)" },
   },
   args: { columns: 0 },
+  render: (args) => html`
+    <div style="padding:16px;background:#1e293b;border-radius:8px;">
+      <sp-nav-menu .items=${ITEMS} columns=${args.columns}></sp-nav-menu>
+    </div>
+  `,
 };
 
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
-  render: () => html`
-    <div style="padding:16px;background:#1e293b;border-radius:8px;">
-      <sp-nav-menu .items=${ITEMS}></sp-nav-menu>
-    </div>
-  `,
-};
+export const Default: Story = {};
 
 export const Simple: Story = {
   render: () => html`

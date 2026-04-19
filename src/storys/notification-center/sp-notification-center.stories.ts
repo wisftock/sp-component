@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import "../../components/notification-center/sp-notification-center.js";
 
 const meta: Meta = {
@@ -11,6 +11,23 @@ const meta: Meta = {
     title:         { control: "text",    description: "Dropdown header label" },
     emptyText:     { control: "text",    description: "Message shown when the notification list is empty" },
   },
+  args: {
+    notifications: [
+      { id: "1", title: "New comment on your post", body: "Alice left a comment on 'Q4 Report'", time: "2m ago", type: "info", read: false },
+      { id: "2", title: "Deployment successful", body: "Production build #247 deployed without errors.", time: "15m ago", type: "success", read: false },
+    ],
+    title: "Notifications",
+    emptyText: "No new notifications",
+  },
+  render: (args) => html`
+    <div style="padding:40px;display:flex;justify-content:flex-end;">
+      <sp-notification-center
+        .notifications=${args.notifications}
+        title=${args.title || nothing}
+        empty-text=${args.emptyText || nothing}
+      ></sp-notification-center>
+    </div>
+  `,
 };
 export default meta;
 type Story = StoryObj;
@@ -23,13 +40,7 @@ const NOTIFS = [
   { id: "5", title: "Weekly digest ready", body: "Your activity summary for this week is ready.", time: "Yesterday", type: "info" as const, read: true },
 ];
 
-export const Default: Story = {
-  render: () => html`
-    <div style="padding:40px;display:flex;justify-content:flex-end;">
-      <sp-notification-center .notifications=${[...NOTIFS]}></sp-notification-center>
-    </div>
-  `,
-};
+export const Default: Story = {};
 
 export const Empty: Story = {
   render: () => html`

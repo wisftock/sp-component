@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import type { SpEmptyStateProps } from "../../components/empty-state/sp-empty-state.types.js";
 import "../../components/empty-state/sp-empty-state.js";
 import "../../components/button/sp-button.js";
@@ -18,16 +18,19 @@ const meta: Meta<SpEmptyStateProps> = {
     description: "",
     icon: "",
   },
+  render: (args) => html`
+    <sp-empty-state
+      title=${args.title}
+      description=${args.description || nothing}
+      icon=${args.icon || nothing}
+    ></sp-empty-state>
+  `,
 };
 
 export default meta;
 type Story = StoryObj<SpEmptyStateProps>;
 
-export const Default: Story = {
-  render: () => html`
-    <sp-empty-state title="No data found"></sp-empty-state>
-  `,
-};
+export const Default: Story = {};
 
 export const WithDescription: Story = {
   render: () => html`

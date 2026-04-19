@@ -12,6 +12,17 @@ const meta: Meta = {
     flush: { control: "boolean", description: "Sin bordes ni fondo" },
   },
   args: { orientation: "horizontal", label: "Editor toolbar", flush: false },
+  render: (args) => html`
+    <sp-toolbar
+      orientation=${args.orientation}
+      label=${args.label}
+      ?flush=${args.flush}
+    >
+      <button title="Bold" style="padding:6px 10px;border:none;background:none;cursor:pointer;border-radius:4px;font-size:14px;font-weight:bold;">B</button>
+      <button title="Italic" style="padding:6px 10px;border:none;background:none;cursor:pointer;border-radius:4px;font-size:14px;font-style:italic;">I</button>
+      <button title="Underline" style="padding:6px 10px;border:none;background:none;cursor:pointer;border-radius:4px;font-size:14px;text-decoration:underline;">U</button>
+    </sp-toolbar>
+  `,
 };
 
 export default meta;

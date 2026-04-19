@@ -12,21 +12,24 @@ const meta: Meta = {
     duration: { control: "number", description: "Duración de la animación de scroll en ms" },
   },
   args: { "visibility-height": 400, position: "bottom-right", duration: 300 },
+  render: (args) => html`
+    <div style="height:600px;overflow-y:auto;border:1px solid #e5e7eb;border-radius:8px;padding:16px;position:relative;">
+      ${Array.from({ length: 30 }, (_, i) => html`
+        <p style="margin:0 0 12px;color:#374151;">Línea ${i + 1} — desplázate hacia abajo para ver el botón "volver arriba".</p>
+      `)}
+      <sp-back-top
+        visibility-height=${args["visibility-height"]}
+        position=${args.position}
+        duration=${args.duration}
+      ></sp-back-top>
+    </div>
+  `,
 };
 
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
-  render: () => html`
-    <div style="height:600px;overflow-y:auto;border:1px solid #e5e7eb;border-radius:8px;padding:16px;position:relative;">
-      ${Array.from({ length: 30 }, (_, i) => html`
-        <p style="margin:0 0 12px;color:#374151;">Línea ${i + 1} — desplázate hacia abajo para ver el botón "volver arriba".</p>
-      `)}
-      <sp-back-top visibility-height=${50}></sp-back-top>
-    </div>
-  `,
-};
+export const Default: Story = {};
 
 export const BottomLeft: Story = {
   render: () => html`

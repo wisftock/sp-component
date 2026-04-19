@@ -25,24 +25,32 @@ const meta: Meta<SpConfirmDialogProps> = {
     hideCancel: false,
     open: false,
   },
+  render: (args) => html`
+    <div>
+      <button
+        style="padding:8px 16px;background:#3b82f6;color:white;border:none;border-radius:6px;cursor:pointer;font-size:14px;"
+        @click=${(e: Event) => {
+          const dialog = (e.target as HTMLElement).closest("div")?.querySelector("sp-confirm-dialog") as any;
+          if (dialog) dialog.open = true;
+        }}
+      >Open Confirm Dialog</button>
+      <sp-confirm-dialog
+        title=${args.title}
+        message=${args.message}
+        confirm-label=${args.confirmLabel}
+        cancel-label=${args.cancelLabel}
+        variant=${args.variant}
+        ?open=${args.open}
+        ?hide-cancel=${args.hideCancel}
+      ></sp-confirm-dialog>
+    </div>
+  `,
 };
 
 export default meta;
 type Story = StoryObj<SpConfirmDialogProps>;
 
-export const Default: Story = {
-  render: () => html`
-    <sp-confirm-dialog
-      id="confirm-default"
-      title="Confirm Action"
-      message="Are you sure you want to proceed with this action?"
-    ></sp-confirm-dialog>
-    <button @click=${() => {
-      const el = document.getElementById("confirm-default") as any;
-      if (el) el.open = true;
-    }}>Open Confirm Dialog</button>
-  `,
-};
+export const Default: Story = {};
 
 export const Destructive: Story = {
   render: () => html`

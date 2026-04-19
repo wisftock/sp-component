@@ -19,6 +19,25 @@ const meta: Meta<SpCommandPaletteProps> = {
     emptyMessage: "No results found",
     loading: false,
   },
+  render: (args) => html`
+    <div>
+      <button
+        style="padding: 8px 16px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;"
+        @click=${(e: Event) => {
+          const palette = (e.target as HTMLElement).closest("div")?.querySelector("sp-command-palette") as any;
+          if (palette) {
+            palette.open = true;
+          }
+        }}
+      >Open Command Palette</button>
+      <sp-command-palette
+        placeholder=${args.placeholder}
+        empty-message=${args.emptyMessage}
+        ?open=${args.open}
+        ?loading=${args.loading}
+      ></sp-command-palette>
+    </div>
+  `,
 };
 
 export default meta;
@@ -37,27 +56,7 @@ const sampleItems = [
   { id: "10", label: "Zoom In", description: "Increase zoom level", icon: "🔎", group: "View" },
 ];
 
-export const Default: Story = {
-  render: () => {
-    const open = () => {
-      const palette = document.querySelector("#demo-palette") as any;
-      if (palette) {
-        palette.setItems(sampleItems);
-        palette.open = true;
-      }
-    };
-
-    return html`
-      <button
-        style="padding: 8px 16px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;"
-        @click=${open}
-      >
-        Open Command Palette (or press Ctrl+K)
-      </button>
-      <sp-command-palette id="demo-palette"></sp-command-palette>
-    `;
-  },
-};
+export const Default: Story = {};
 
 export const WithLoading: Story = {
   render: () => {

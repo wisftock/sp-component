@@ -13,31 +13,40 @@ const meta: Meta = {
     snapHeight: { control: "text",     description: "CSS height of the sheet (e.g. '40vh', '300px')" },
     dismissable: { control: "boolean", description: "Allows closing by dragging down or clicking the backdrop" },
   },
+  args: {
+    open: false,
+    title: "Options",
+    snapHeight: "40vh",
+    dismissable: true,
+  },
+  render: (args) => html`
+    <div style="padding:40px;text-align:center;">
+      <button
+        style="padding:10px 24px;background:#3b82f6;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px;"
+        @click=${(e: Event) => {
+          const sheet = (e.target as HTMLElement).closest("div")?.parentElement?.querySelector("sp-bottom-sheet") as any;
+          if (sheet) sheet.open = true;
+        }}
+      >Open bottom sheet</button>
+    </div>
+    <sp-bottom-sheet
+      title=${args.title}
+      snap-height=${args.snapHeight}
+      ?open=${args.open}
+      ?dismissable=${args.dismissable}
+    >
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        ${["Share link", "Copy to clipboard", "Download", "Add to favorites"].map(label => html`
+          <div style="padding:14px 0;border-bottom:1px solid #f3f4f6;font-size:14px;cursor:pointer;color:#111827;">${label}</div>
+        `)}
+      </div>
+    </sp-bottom-sheet>
+  `,
 };
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
-  render: () => {
-    let sheet: any;
-    return html`
-      <div style="padding:40px;text-align:center;">
-        <button
-          style="padding:10px 24px;background:#3b82f6;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px;"
-          @click=${() => { if (!sheet) sheet = document.querySelector("sp-bottom-sheet"); sheet!.open = true; }}
-        >Open bottom sheet</button>
-      </div>
-
-      <sp-bottom-sheet title="Options" snap-height="40vh">
-        <div style="display:flex;flex-direction:column;gap:2px;">
-          ${["Share link", "Copy to clipboard", "Download", "Add to favorites"].map(label => html`
-            <div style="padding:14px 0;border-bottom:1px solid #f3f4f6;font-size:14px;cursor:pointer;color:#111827;" @click=${() => alert(label)}>${label}</div>
-          `)}
-        </div>
-      </sp-bottom-sheet>
-    `;
-  },
-};
+export const Default: Story = {};
 
 export const WithFooter: Story = {
   name: "With footer buttons",

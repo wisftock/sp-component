@@ -17,6 +17,27 @@ const meta: Meta<SpSidebarProps> = {
     bordered: { control: "boolean" },
   },
   args: { open: true, placement: "left", width: "240px", collapsible: false, collapsed: false, bordered: false },
+  render: (args) => html`
+    <div style="display:flex;height:300px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
+      <sp-sidebar
+        placement=${args.placement}
+        width=${args.width}
+        ?open=${args.open}
+        ?collapsible=${args.collapsible}
+        ?collapsed=${args.collapsed}
+        ?bordered=${args.bordered}
+      >
+        <nav style="padding:8px;display:flex;flex-direction:column;gap:2px;">
+          <a href="#" style="padding:8px 12px;text-decoration:none;color:#374151;border-radius:6px;font-size:14px;">Dashboard</a>
+          <a href="#" style="padding:8px 12px;text-decoration:none;color:#374151;border-radius:6px;font-size:14px;">Analytics</a>
+          <a href="#" style="padding:8px 12px;text-decoration:none;color:#374151;border-radius:6px;font-size:14px;">Settings</a>
+        </nav>
+      </sp-sidebar>
+      <main style="flex:1;padding:24px;background:#f9fafb;">
+        <p style="color:#6b7280;font-size:14px;">Main content area</p>
+      </main>
+    </div>
+  `,
 };
 
 export default meta;
@@ -39,16 +60,7 @@ const navLinks = html`
   </nav>
 `;
 
-export const Default: Story = {
-  render: () => html`
-    <div style="display:flex;height:300px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
-      <sp-sidebar bordered>${navLinks}</sp-sidebar>
-      <main style="flex:1;padding:24px;background:#f9fafb;">
-        <p style="color:#6b7280;font-size:14px;">Main content area</p>
-      </main>
-    </div>
-  `,
-};
+export const Default: Story = {};
 
 export const ToggleOpen: Story = {
   render: () => {

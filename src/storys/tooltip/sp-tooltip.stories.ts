@@ -32,6 +32,20 @@ const meta: Meta<SpTooltipProps> = {
     open: false,
     distance: 8,
   },
+  render: (args) => html`
+    <div style="padding: 60px; display: inline-block;">
+      <sp-tooltip
+        content=${args.content}
+        placement=${args.placement}
+        trigger=${args.trigger}
+        distance=${args.distance}
+        ?disabled=${args.disabled}
+        ?open=${args.open}
+      >
+        <sp-button>Hover me</sp-button>
+      </sp-tooltip>
+    </div>
+  `,
 };
 
 export default meta;

@@ -26,19 +26,22 @@ const meta: Meta<SpNavbarProps> = {
     bordered: false,
     transparent: false,
   },
-};
-
-export default meta;
-type Story = StoryObj<SpNavbarProps>;
-
-export const Default: Story = {
-  render: () => html`
-    <sp-navbar>
+  render: (args) => html`
+    <sp-navbar
+      ?fixed=${args.fixed}
+      ?bordered=${args.bordered}
+      ?transparent=${args.transparent}
+    >
       <span slot="start" style="font-weight: 600; font-size: 18px;">MyApp</span>
       <span slot="end" style="color: #6b7280;">Menu</span>
     </sp-navbar>
   `,
 };
+
+export default meta;
+type Story = StoryObj<SpNavbarProps>;
+
+export const Default: Story = {};
 
 export const WithBorder: Story = {
   render: () => html`

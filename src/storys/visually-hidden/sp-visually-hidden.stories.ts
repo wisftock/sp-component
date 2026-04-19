@@ -16,23 +16,21 @@ const meta: Meta<SpVisuallyHiddenProps> = {
   args: {
     focusable: false,
   },
+  render: (args) => html`
+    <button>
+      <sp-visually-hidden ?focusable=${args.focusable}>Click to save the document</sp-visually-hidden>
+      Save
+    </button>
+    <p style="font-size: 13px; color: #6b7280; margin-top: 8px;">
+      The button has a visually hidden label for screen readers, while displaying only "Save" visually.
+    </p>
+  `,
 };
 
 export default meta;
 type Story = StoryObj<SpVisuallyHiddenProps>;
 
-export const Default: Story = {
-  render: () => html`
-    <button>
-      <sp-visually-hidden>Click to save the document</sp-visually-hidden>
-      Save
-    </button>
-    <p style="font-size: 13px; color: #6b7280; margin-top: 8px;">
-      The button has a visually hidden label "Click to save the document" for screen readers,
-      while displaying only "Save" visually.
-    </p>
-  `,
-};
+export const Default: Story = {};
 
 export const Focusable: Story = {
   render: () => html`

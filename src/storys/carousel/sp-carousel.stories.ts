@@ -4,8 +4,12 @@ import type { SpCarouselProps } from "../../components/carousel/sp-carousel.type
 import "../../components/carousel/sp-carousel.js";
 import "../../components/carousel/sp-carousel-slide.js";
 
+/**
+ * Slide base: altura 260px en desktop, 200px en tablet, 160px en mobile.
+ * Se implementa con clamp() para transición fluida entre breakpoints.
+ */
 const slideStyle = (bg: string) =>
-  `display:flex;align-items:center;justify-content:center;height:260px;border-radius:8px;font-size:1.5rem;font-weight:600;color:#fff;background:${bg}`;
+  `display:flex;align-items:center;justify-content:center;height:clamp(160px,35vw,260px);border-radius:8px;font-size:clamp(1rem,2.5vw,1.5rem);font-weight:600;color:#fff;background:${bg}`;
 
 const meta: Meta<SpCarouselProps> = {
   title: "Components/Carousel",
@@ -209,6 +213,78 @@ export const Vertical: Story = {
           <div style=${slideStyle("#ec4899")}>Slide 3</div>
         </sp-carousel-slide>
       </sp-carousel>
+    </div>
+  `,
+};
+
+export const Responsive: Story = {
+  name: "Responsive (Desktop / Tablet / Mobile)",
+  render: () => html`
+    <style>
+      .sp-story-responsive-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        width: 100%;
+        padding: 16px 0;
+      }
+      .sp-story-viewport-label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #6b7280;
+        margin-bottom: 8px;
+      }
+      .sp-story-viewport-frame {
+        border: 1px dashed #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+        padding: 16px;
+        background: #f9fafb;
+      }
+      /* Desktop frame */
+      .sp-story-viewport-frame--desktop { max-width: 900px; }
+      /* Tablet frame */
+      .sp-story-viewport-frame--tablet  { max-width: 768px; }
+      /* Mobile frame */
+      .sp-story-viewport-frame--mobile  { max-width: 375px; }
+    </style>
+    <div class="sp-story-responsive-grid">
+      <div>
+        <p class="sp-story-viewport-label">Desktop (≥ 769px) — flechas 40px, altura ~260px</p>
+        <div class="sp-story-viewport-frame sp-story-viewport-frame--desktop">
+          <sp-carousel loop show-dots show-arrows slides-per-view="3" gap="12">
+            <sp-carousel-slide><div style=${slideStyle("#6366f1")}>1</div></sp-carousel-slide>
+            <sp-carousel-slide><div style=${slideStyle("#8b5cf6")}>2</div></sp-carousel-slide>
+            <sp-carousel-slide><div style=${slideStyle("#ec4899")}>3</div></sp-carousel-slide>
+            <sp-carousel-slide><div style=${slideStyle("#f59e0b")}>4</div></sp-carousel-slide>
+            <sp-carousel-slide><div style=${slideStyle("#10b981")}>5</div></sp-carousel-slide>
+            <sp-carousel-slide><div style=${slideStyle("#3b82f6")}>6</div></sp-carousel-slide>
+          </sp-carousel>
+        </div>
+      </div>
+      <div>
+        <p class="sp-story-viewport-label">Tablet (481px – 768px) — flechas 36px, altura ~200px</p>
+        <div class="sp-story-viewport-frame sp-story-viewport-frame--tablet">
+          <sp-carousel loop show-dots show-arrows slides-per-view="2" gap="12">
+            <sp-carousel-slide><div style=${slideStyle("#6366f1")}>1</div></sp-carousel-slide>
+            <sp-carousel-slide><div style=${slideStyle("#8b5cf6")}>2</div></sp-carousel-slide>
+            <sp-carousel-slide><div style=${slideStyle("#ec4899")}>3</div></sp-carousel-slide>
+            <sp-carousel-slide><div style=${slideStyle("#f59e0b")}>4</div></sp-carousel-slide>
+          </sp-carousel>
+        </div>
+      </div>
+      <div>
+        <p class="sp-story-viewport-label">Mobile (≤ 480px) — flechas 32px, altura ~160px</p>
+        <div class="sp-story-viewport-frame sp-story-viewport-frame--mobile">
+          <sp-carousel loop show-dots show-arrows>
+            <sp-carousel-slide><div style=${slideStyle("#6366f1")}>1</div></sp-carousel-slide>
+            <sp-carousel-slide><div style=${slideStyle("#8b5cf6")}>2</div></sp-carousel-slide>
+            <sp-carousel-slide><div style=${slideStyle("#ec4899")}>3</div></sp-carousel-slide>
+          </sp-carousel>
+        </div>
+      </div>
     </div>
   `,
 };

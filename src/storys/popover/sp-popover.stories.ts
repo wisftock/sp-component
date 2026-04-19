@@ -30,6 +30,19 @@ const meta: Meta<SpPopoverProps> = {
     distance: 8,
     arrow: true,
   },
+  render: (args) => html`
+    <div style="padding: 80px; display: inline-block;">
+      <sp-popover
+        placement=${args.placement}
+        distance=${args.distance}
+        ?open=${args.open}
+        ?arrow=${args.arrow}
+      >
+        <sp-button slot="trigger">Open Popover</sp-button>
+        <p style="margin: 0;">This is the popover content.</p>
+      </sp-popover>
+    </div>
+  `,
 };
 
 export default meta;
@@ -37,16 +50,7 @@ type Story = StoryObj<SpPopoverProps>;
 
 // ---- Default (bottom) ----
 
-export const Default: Story = {
-  render: () => html`
-    <div style="padding: 80px; display: inline-block;">
-      <sp-popover placement="bottom">
-        <sp-button slot="trigger">Open Popover</sp-button>
-        <p style="margin: 0;">This is the popover content.</p>
-      </sp-popover>
-    </div>
-  `,
-};
+export const Default: Story = {};
 
 // ---- Top ----
 

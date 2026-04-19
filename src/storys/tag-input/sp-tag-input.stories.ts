@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import type { SpTagInputProps } from "../../components/tag-input/sp-tag-input.types.js";
 import "../../components/tag-input/sp-tag-input.js";
 
@@ -28,20 +28,36 @@ const meta: Meta<SpTagInputProps> = {
     max: 0,
     allowDuplicates: false,
     delimiter: ",",
+    disabled: false,
+    readonly: false,
+    required: false,
+    name: "",
+    label: "",
+    hint: "",
+    error: "",
   },
+  render: (args) => html`
+    <sp-tag-input
+      placeholder=${args.placeholder}
+      size=${args.size}
+      max=${args.max}
+      delimiter=${args.delimiter}
+      ?disabled=${args.disabled}
+      ?readonly=${args.readonly}
+      ?required=${args.required}
+      ?allow-duplicates=${args.allowDuplicates}
+      name=${args.name || nothing}
+      label=${args.label || nothing}
+      hint=${args.hint || nothing}
+      error=${args.error || nothing}
+    ></sp-tag-input>
+  `,
 };
 
 export default meta;
 type Story = StoryObj<SpTagInputProps>;
 
-export const Default: Story = {
-  render: (args) => html`
-    <sp-tag-input
-      placeholder=${args.placeholder}
-      size=${args.size}
-    ></sp-tag-input>
-  `,
-};
+export const Default: Story = {};
 
 export const WithPresetValues: Story = {
   render: () => html`

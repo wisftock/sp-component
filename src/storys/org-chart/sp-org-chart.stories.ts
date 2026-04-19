@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import "../../components/org-chart/sp-org-chart.js";
 
 const ORG_DATA = {
@@ -49,14 +49,18 @@ const meta: Meta = {
     "selected-id": { control: "text" },
   },
   args: { "selected-id": "" },
+  render: (args) => html`
+    <sp-org-chart
+      .data=${ORG_DATA}
+      selected-id=${args["selected-id"] || nothing}
+    ></sp-org-chart>
+  `,
 };
 
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
-  render: () => html`<sp-org-chart .data=${ORG_DATA}></sp-org-chart>`,
-};
+export const Default: Story = {};
 
 export const WithSelected: Story = {
   render: () => html`<sp-org-chart .data=${ORG_DATA} selected-id="cto"></sp-org-chart>`,

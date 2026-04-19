@@ -3,6 +3,9 @@ import { html } from "lit";
 import type { SpSplitPanelProps } from "../../components/split-panel/sp-split-panel.types.js";
 import "../../components/split-panel/sp-split-panel.js";
 
+const panelStyle = "height: 400px; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;";
+const contentStyle = "padding: 16px; font-family: sans-serif; height: 100%; box-sizing: border-box;";
+
 const meta: Meta<SpSplitPanelProps> = {
   title: "Components/SplitPanel",
   component: "sp-split-panel",
@@ -23,35 +26,33 @@ const meta: Meta<SpSplitPanelProps> = {
     snap: 0,
     disabled: false,
   },
-};
-
-export default meta;
-type Story = StoryObj<SpSplitPanelProps>;
-
-const panelStyle = "height: 400px; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;";
-const contentStyle = "padding: 16px; font-family: sans-serif; height: 100%; box-sizing: border-box;";
-
-export const Default: Story = {
-  render: () => html`
+  render: (args) => html`
     <div style="${panelStyle}">
-      <sp-split-panel position="50" orientation="horizontal">
+      <sp-split-panel
+        position=${args.position}
+        orientation=${args.orientation}
+        min=${args.min}
+        max=${args.max}
+        snap=${args.snap}
+        ?disabled=${args.disabled}
+      >
         <div slot="start" style="${contentStyle} background: #f8fafc;">
-          <h3 style="margin-top:0; color: #1e293b;">Code Editor</h3>
-          <pre style="background: #1e293b; color: #e2e8f0; padding: 12px; border-radius: 6px; font-size: 0.85rem; overflow: auto;">function greet(name) {
-  return \`Hello, \${name}!\`;
-}
-
-console.log(greet("World"));</pre>
+          <h3 style="margin-top:0; color: #1e293b;">Start Panel</h3>
+          <p style="color:#64748b;">Drag the divider to resize panels.</p>
         </div>
         <div slot="end" style="${contentStyle} background: #ffffff;">
-          <h3 style="margin-top:0; color: #1e293b;">Preview</h3>
-          <p style="color: #64748b;">Hello, World!</p>
-          <p style="color: #94a3b8; font-size: 0.85rem;">Drag the divider to resize panels.</p>
+          <h3 style="margin-top:0; color: #1e293b;">End Panel</h3>
+          <p style="color:#94a3b8;">Resize me!</p>
         </div>
       </sp-split-panel>
     </div>
   `,
 };
+
+export default meta;
+type Story = StoryObj<SpSplitPanelProps>;
+
+export const Default: Story = {};
 
 export const Vertical: Story = {
   render: () => html`

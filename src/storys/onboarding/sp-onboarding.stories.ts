@@ -1,6 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import "../../components/onboarding/sp-onboarding.js";
+
+const STEPS = [
+  { icon: "👋", title: "Welcome to the platform", description: "We're excited to have you here. Let's walk you through the key features so you can get the most out of your experience." },
+  { icon: "🎨", title: "Customize your workspace", description: "Set up your theme, layout, and preferences. Everything can be configured to match your workflow." },
+  { icon: "🤝", title: "Invite your team", description: "Collaboration is at the core. Invite teammates with a single click and work together in real time." },
+  { icon: "🚀", title: "You're all set!", description: "You've completed the setup. Explore the dashboard and start building something great. We're here if you need help." },
+];
 
 const meta: Meta = {
   title: "Components/Onboarding",
@@ -14,32 +21,36 @@ const meta: Meta = {
     dismissable: { control: "boolean", description: "Shows a skip button and allows closing by clicking the backdrop" },
     finishLabel: { control: "text",    description: "Label for the button on the last step (default: 'Get started')" },
   },
+  args: {
+    steps: STEPS,
+    open: false,
+    step: 0,
+    dismissable: true,
+    finishLabel: "Get started",
+  },
+  render: (args) => html`
+    <div style="display:flex;align-items:center;justify-content:center;min-height:300px;background:#f9fafb;border-radius:8px;">
+      <button
+        style="padding:11px 28px;background:#3b82f6;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;"
+        @click=${(e: Event) => {
+          const ob = (e.target as HTMLElement).closest("div")?.querySelector("sp-onboarding") as any;
+          if (ob) { ob.open = true; ob.step = args.step ?? 0; }
+        }}
+      >Start onboarding</button>
+      <sp-onboarding
+        .steps=${args.steps}
+        .step=${args.step}
+        ?open=${args.open}
+        ?dismissable=${args.dismissable}
+        finish-label=${args.finishLabel || nothing}
+      ></sp-onboarding>
+    </div>
+  `,
 };
 export default meta;
 type Story = StoryObj;
 
-const STEPS = [
-  { icon: "👋", title: "Welcome to the platform", description: "We're excited to have you here. Let's walk you through the key features so you can get the most out of your experience." },
-  { icon: "🎨", title: "Customize your workspace", description: "Set up your theme, layout, and preferences. Everything can be configured to match your workflow." },
-  { icon: "🤝", title: "Invite your team", description: "Collaboration is at the core. Invite teammates with a single click and work together in real time." },
-  { icon: "🚀", title: "You're all set!", description: "You've completed the setup. Explore the dashboard and start building something great. We're here if you need help." },
-];
-
-export const Default: Story = {
-  render: () => {
-    let ob: any;
-    return html`
-      <div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#f9fafb;">
-        <button
-          style="padding:11px 28px;background:#3b82f6;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;"
-          @click=${() => { if (!ob) ob = document.querySelector("sp-onboarding"); ob!.open = true; ob!.step = 0; }}
-        >Start onboarding</button>
-
-        <sp-onboarding .steps=${STEPS} open></sp-onboarding>
-      </div>
-    `;
-  },
-};
+export const Default: Story = {};
 
 export const WithImages: Story = {
   name: "With illustration images",

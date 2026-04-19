@@ -29,6 +29,23 @@ const meta: Meta<SpToastStackProps> = {
     position: "bottom-right",
     max: 5,
   },
+  render: (args) => html`
+    <sp-toast-stack id="meta-stack" position=${args.position} max=${args.max}></sp-toast-stack>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button @click=${() => {
+        const stack = document.getElementById("meta-stack") as any;
+        stack?.show({ message: "Info toast", variant: "info", title: "Info" });
+      }}>Show Info</button>
+      <button @click=${() => {
+        const stack = document.getElementById("meta-stack") as any;
+        stack?.show({ message: "Operation completed", variant: "success", title: "Success" });
+      }}>Show Success</button>
+      <button @click=${() => {
+        const stack = document.getElementById("meta-stack") as any;
+        stack?.show({ message: "Something went wrong", variant: "error", title: "Error" });
+      }}>Show Error</button>
+    </div>
+  `,
 };
 
 export default meta;

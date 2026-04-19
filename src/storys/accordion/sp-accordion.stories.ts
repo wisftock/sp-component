@@ -23,14 +23,8 @@ const meta: Meta<SpAccordionProps> = {
     multiple: false,
     variant: "default",
   },
-};
-
-export default meta;
-type Story = StoryObj<SpAccordionProps>;
-
-export const Default: Story = {
-  render: () => html`
-    <sp-accordion variant="default">
+  render: (args) => html`
+    <sp-accordion variant=${args.variant} ?multiple=${args.multiple}>
       <sp-accordion-item label="What is a Web Component?" value="item1">
         Web Components are a set of web platform APIs that allow you to create reusable custom elements.
       </sp-accordion-item>
@@ -43,6 +37,11 @@ export const Default: Story = {
     </sp-accordion>
   `,
 };
+
+export default meta;
+type Story = StoryObj<SpAccordionProps>;
+
+export const Default: Story = {};
 
 export const Multiple: Story = {
   render: () => html`

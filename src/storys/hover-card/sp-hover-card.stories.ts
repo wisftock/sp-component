@@ -13,27 +13,20 @@ const meta: Meta = {
     "close-delay": { control: "number" },
   },
   args: { placement: "bottom", "open-delay": 300, "close-delay": 150 },
-};
-
-export default meta;
-type Story = StoryObj;
-
-export const Default: Story = {
-  render: () => html`
+  render: (args) => html`
     <div style="padding:48px;display:flex;justify-content:center;">
-      <sp-hover-card placement="bottom">
+      <sp-hover-card
+        placement=${args.placement}
+        open-delay=${args["open-delay"]}
+        close-delay=${args["close-delay"]}
+      >
         <a href="#" style="color:#3b82f6;font-weight:500;text-decoration:none;">@ana_garcia</a>
         <div slot="content" style="width:260px;">
           <div style="display:flex;gap:12px;align-items:flex-start;">
-            <sp-avatar name="Ana García" size="lg"></sp-avatar>
             <div>
               <p style="margin:0;font-weight:600;font-size:15px;">Ana García</p>
               <p style="margin:2px 0 0;font-size:13px;color:#6b7280;">Diseñadora UX Senior</p>
-              <p style="margin:8px 0 0;font-size:13px;color:#374151;">Apasionada por el diseño de interfaces y la experiencia de usuario. 🎨</p>
-              <div style="display:flex;gap:16px;margin-top:10px;font-size:13px;color:#6b7280;">
-                <span><strong style="color:#111827;">124</strong> siguiendo</span>
-                <span><strong style="color:#111827;">3.8k</strong> seguidores</span>
-              </div>
+              <p style="margin:8px 0 0;font-size:13px;color:#374151;">Apasionada por el diseño de interfaces.</p>
             </div>
           </div>
         </div>
@@ -41,6 +34,11 @@ export const Default: Story = {
     </div>
   `,
 };
+
+export default meta;
+type Story = StoryObj;
+
+export const Default: Story = {};
 
 export const ProductPreview: Story = {
   render: () => html`

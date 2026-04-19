@@ -1,7 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import type { SpScrollAreaProps } from "../../components/scroll-area/sp-scroll-area.types.js";
 import "../../components/scroll-area/sp-scroll-area.js";
+
+const loremParagraphs = Array.from(
+  { length: 10 },
+  (_, i) =>
+    `<p style="margin: 0 0 12px; color: #374151; line-height: 1.6;">
+      Paragraph ${i + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+      incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </p>`,
+).join("");
 
 const meta: Meta<SpScrollAreaProps> = {
   title: "Components/ScrollArea",
@@ -24,31 +34,26 @@ const meta: Meta<SpScrollAreaProps> = {
   args: {
     orientation: "vertical",
     scrollbar: "auto",
-    maxHeight: "",
+    maxHeight: "300px",
     maxWidth: "",
   },
+  render: (args) => html`
+    <sp-scroll-area
+      orientation=${args.orientation}
+      scrollbar=${args.scrollbar}
+      max-height=${args.maxHeight || nothing}
+      max-width=${args.maxWidth || nothing}
+      style="width: 400px; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px;"
+    >
+      <div .innerHTML=${loremParagraphs}></div>
+    </sp-scroll-area>
+  `,
 };
 
 export default meta;
 type Story = StoryObj<SpScrollAreaProps>;
 
-const loremParagraphs = Array.from(
-  { length: 10 },
-  (_, i) =>
-    `<p style="margin: 0 0 12px; color: #374151; line-height: 1.6;">
-      Paragraph ${i + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-      incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </p>`,
-).join("");
-
-export const Default: Story = {
-  render: () => html`
-    <sp-scroll-area max-height="300px" orientation="vertical" scrollbar="auto" style="width: 400px; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px;">
-      <div .innerHTML=${loremParagraphs}></div>
-    </sp-scroll-area>
-  `,
-};
+export const Default: Story = {};
 
 export const Horizontal: Story = {
   render: () => html`

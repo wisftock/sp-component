@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import type { SpTreeProps } from "../../components/tree/sp-tree.types.js";
 import "../../components/tree/sp-tree.js";
 import "../../components/tree/sp-tree-item.js";
@@ -23,30 +23,28 @@ const meta: Meta<SpTreeProps> = {
     selectionMode: "single",
     selectedValues: "",
   },
+  render: (args) => html`
+    <sp-tree
+      selection-mode=${args.selectionMode}
+      selected-values=${args.selectedValues || nothing}
+      style="width: 280px; font-family: sans-serif;"
+    >
+      <sp-tree-item value="src" label="src" icon="📁">
+        <sp-tree-item value="components" label="components" icon="📁">
+          <sp-tree-item value="button" label="sp-button.ts" icon="📄"></sp-tree-item>
+          <sp-tree-item value="modal" label="sp-modal.ts" icon="📄"></sp-tree-item>
+        </sp-tree-item>
+        <sp-tree-item value="index" label="index.ts" icon="📄"></sp-tree-item>
+      </sp-tree-item>
+      <sp-tree-item value="package" label="package.json" icon="📄"></sp-tree-item>
+    </sp-tree>
+  `,
 };
 
 export default meta;
 type Story = StoryObj<SpTreeProps>;
 
-export const Default: Story = {
-  render: () => html`
-    <sp-tree selection-mode="single" style="width: 280px; font-family: sans-serif;">
-      <sp-tree-item value="src" label="src" icon="📁">
-        <sp-tree-item value="components" label="components" icon="📁">
-          <sp-tree-item value="button" label="sp-button.ts" icon="📄"></sp-tree-item>
-          <sp-tree-item value="modal" label="sp-modal.ts" icon="📄"></sp-tree-item>
-          <sp-tree-item value="tabs" label="sp-tabs.ts" icon="📄"></sp-tree-item>
-        </sp-tree-item>
-        <sp-tree-item value="storys" label="storys" icon="📁">
-          <sp-tree-item value="button-story" label="sp-button.stories.ts" icon="📄"></sp-tree-item>
-        </sp-tree-item>
-        <sp-tree-item value="index" label="index.ts" icon="📄"></sp-tree-item>
-      </sp-tree-item>
-      <sp-tree-item value="package" label="package.json" icon="📄"></sp-tree-item>
-      <sp-tree-item value="readme" label="README.md" icon="📄"></sp-tree-item>
-    </sp-tree>
-  `,
-};
+export const Default: Story = {};
 
 export const Preexpanded: Story = {
   render: () => html`

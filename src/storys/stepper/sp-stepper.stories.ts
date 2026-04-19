@@ -15,20 +15,23 @@ const meta: Meta<SpStepperProps> = {
     editable:     { control: "boolean", description: "Allows clicking completed steps to go back" },
     showProgress: { control: "boolean", description: "Shows a 'Step N of M' text above the steps" },
   },
-  args: { activeStep: 0, orientation: "horizontal", linear: true },
+  args: { activeStep: 0, orientation: "horizontal", linear: true, editable: false, showProgress: false },
+  render: (args) => html`
+    <sp-stepper
+      .steps=${[{ label: "Account" }, { label: "Profile" }, { label: "Review" }]}
+      .activeStep=${args.activeStep}
+      orientation=${args.orientation}
+      ?linear=${args.linear}
+      ?editable=${args.editable}
+      ?show-progress=${args.showProgress}
+    ></sp-stepper>
+  `,
 };
 
 export default meta;
 type Story = StoryObj<SpStepperProps>;
 
-export const Default: Story = {
-  render: () => html`
-    <sp-stepper
-      .steps=${[{ label: "Account" }, { label: "Profile" }, { label: "Review" }]}
-      .activeStep=${1}
-    ></sp-stepper>
-  `,
-};
+export const Default: Story = {};
 
 export const Interactive: Story = {
   render: () => {

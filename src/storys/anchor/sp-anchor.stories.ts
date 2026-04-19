@@ -10,15 +10,10 @@ const meta: Meta = {
     offset: { control: "number", description: "Offset en px desde el top al detectar sección activa" },
   },
   args: { offset: 80 },
-};
-
-export default meta;
-type Story = StoryObj;
-
-export const Default: Story = {
-  render: () => html`
+  render: (args) => html`
     <div style="display:flex;gap:32px;">
       <sp-anchor
+        offset=${args.offset}
         .items=${[
           { id: "intro", label: "Introducción" },
           { id: "usage", label: "Uso" },
@@ -44,3 +39,8 @@ export const Default: Story = {
     </div>
   `,
 };
+
+export default meta;
+type Story = StoryObj;
+
+export const Default: Story = {};

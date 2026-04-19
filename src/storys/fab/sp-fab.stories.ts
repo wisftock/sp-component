@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import "../../components/fab/sp-fab.js";
 
 const meta: Meta = {
@@ -14,19 +14,24 @@ const meta: Meta = {
     color: { control: "text" },
   },
   args: { icon: "+", position: "bottom-right", size: "md", label: "Crear", color: "" },
+  render: (args) => html`
+    <div style="position:relative;height:300px;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb;">
+      <p style="padding:16px;color:#6b7280;">Contenido de la página. El FAB se posiciona en la esquina.</p>
+      <sp-fab
+        icon=${args.icon}
+        position=${args.position}
+        size=${args.size}
+        label=${args.label}
+        color=${args.color || nothing}
+      ></sp-fab>
+    </div>
+  `,
 };
 
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
-  render: () => html`
-    <div style="position:relative;height:300px;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb;">
-      <p style="padding:16px;color:#6b7280;">Contenido de la página. El FAB se posiciona en la esquina.</p>
-      <sp-fab icon="+" position="bottom-right" label="Crear nuevo"></sp-fab>
-    </div>
-  `,
-};
+export const Default: Story = {};
 
 export const BottomLeft: Story = {
   render: () => html`

@@ -3,6 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import styles from "./sp-code-block.css?inline";
+import { SpConfig } from "../../config.js";
 
 // Minimal tokenizer for common languages
 function highlight(code: string, lang: string): string {
@@ -125,11 +126,11 @@ export class SpCodeBlockComponent extends LitElement {
               <button
                 class=${classMap({ "sp-cb-copy": true, "sp-cb-copy--copied": this._copied })}
                 @click=${() => this.#copy()}
-                aria-label=${this._copied ? "¡Copiado!" : "Copiar código"}
+                aria-label=${this._copied ? SpConfig.locale.codeBlock.copiedLabel : SpConfig.locale.codeBlock.copyLabel}
               >
                 ${this._copied
-                  ? html`<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l4 4 6-7"/></svg> Copiado`
-                  : html`<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M5 9H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/></svg> Copiar`
+                  ? html`<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l4 4 6-7"/></svg> ${SpConfig.locale.codeBlock.copiedLabel}`
+                  : html`<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M5 9H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/></svg> ${SpConfig.locale.codeBlock.copyLabel}`
                 }
               </button>
             ` : nothing}

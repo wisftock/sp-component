@@ -1,4 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
+import { SpConfig } from "../../config.js";
 import type { SpConfirmDialogComponent } from "./sp-confirm-dialog.js";
 
 /**
@@ -18,7 +19,7 @@ export function confirmDialogTemplate(this: SpConfirmDialogComponent): TemplateR
         <div class="sp-confirm-dialog-actions">
           ${!this.hideCancel
             ? html`<button class="sp-confirm-cancel" type="button" @click=${this._cancel}>
-                ${this.cancelLabel}
+                ${this.cancelLabel || SpConfig.locale.common.cancel}
               </button>`
             : nothing}
           <button
@@ -26,7 +27,7 @@ export function confirmDialogTemplate(this: SpConfirmDialogComponent): TemplateR
             type="button"
             @click=${this._confirm}
           >
-            ${this.confirmLabel}
+            ${this.confirmLabel || SpConfig.locale.common.confirm}
           </button>
         </div>
       </div>

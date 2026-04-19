@@ -228,6 +228,56 @@ export interface SpSignatureLocale {
   penWidthLabel: string; // "Pen width: {n}px" — use {n} placeholder
 }
 
+export interface SpDrawerLocale {
+  closeLabel: string;
+  loadingLabel: string;
+}
+
+export interface SpLightboxLocale {
+  closeLabel: string;
+  prevLabel: string;
+  nextLabel: string;
+  zoomInLabel: string;
+  zoomOutLabel: string;
+}
+
+export interface SpCodeBlockLocale {
+  copyLabel: string;
+  copiedLabel: string;
+}
+
+export interface SpSearchInputLocale {
+  placeholder: string;
+  clearLabel: string;
+}
+
+export interface SpPasswordInputLocale {
+  showLabel: string;
+  hideLabel: string;
+}
+
+export interface SpFloatingPanelLocale {
+  expandLabel: string;
+  collapseLabel: string;
+  closeLabel: string;
+}
+
+export interface SpMonthPickerLocale {
+  prevYearLabel: string;
+  nextYearLabel: string;
+  monthsShort: string[];
+  monthsFull: string[];
+}
+
+export interface SpAudioPlayerLocale {
+  speedLabel: string;
+}
+
+export interface SpImageCompareLocale {
+  beforeLabel: string;
+  afterLabel: string;
+}
+
 export interface SpLocale {
   table: SpTableLocale;
   common: SpCommonLocale;
@@ -263,6 +313,15 @@ export interface SpLocale {
   tour: SpTourLocale;
   transfer: SpTransferLocale;
   signature: SpSignatureLocale;
+  drawer: SpDrawerLocale;
+  lightbox: SpLightboxLocale;
+  codeBlock: SpCodeBlockLocale;
+  searchInput: SpSearchInputLocale;
+  passwordInput: SpPasswordInputLocale;
+  floatingPanel: SpFloatingPanelLocale;
+  monthPicker: SpMonthPickerLocale;
+  audioPlayer: SpAudioPlayerLocale;
+  imageCompare: SpImageCompareLocale;
 }
 
 // ─── Default locale (English) ──────────────────────────────────────────────
@@ -421,6 +480,47 @@ const defaultLocale: SpLocale = {
     undoLabel: "Undo last stroke",
     clearLabel: "Clear signature",
     penWidthLabel: "Pen width: {n}px",
+  },
+  drawer: {
+    closeLabel: "Close",
+    loadingLabel: "Loading",
+  },
+  lightbox: {
+    closeLabel: "Close",
+    prevLabel: "Previous image",
+    nextLabel: "Next image",
+    zoomInLabel: "Zoom in",
+    zoomOutLabel: "Zoom out",
+  },
+  codeBlock: {
+    copyLabel: "Copy code",
+    copiedLabel: "Copied!",
+  },
+  searchInput: {
+    placeholder: "Search...",
+    clearLabel: "Clear search",
+  },
+  passwordInput: {
+    showLabel: "Show password",
+    hideLabel: "Hide password",
+  },
+  floatingPanel: {
+    expandLabel: "Expand",
+    collapseLabel: "Collapse",
+    closeLabel: "Close",
+  },
+  monthPicker: {
+    prevYearLabel: "Previous year",
+    nextYearLabel: "Next year",
+    monthsShort: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+    monthsFull: ["January","February","March","April","May","June","July","August","September","October","November","December"],
+  },
+  audioPlayer: {
+    speedLabel: "Speed",
+  },
+  imageCompare: {
+    beforeLabel: "Before",
+    afterLabel: "After",
   },
 };
 

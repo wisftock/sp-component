@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import styles from "./sp-date-range-picker.css?inline";
+import { SpConfig } from "../../config.js";
 
 const DAYS = ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"];
 const MONTHS = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
@@ -154,13 +155,13 @@ export class SpDateRangePickerComponent extends LitElement {
       <div class="sp-drp-calendar">
         <div class="sp-drp-cal-header">
           ${showPrev ? html`
-            <button class="sp-drp-cal-nav" @click=${() => this.#navLeft(-1)} aria-label="Mes anterior">
+            <button class="sp-drp-cal-nav" @click=${() => this.#navLeft(-1)} aria-label=${SpConfig.locale.calendar.prevMonthLabel}>
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>
             </button>
           ` : html`<span style="width:28px"></span>`}
           <span class="sp-drp-cal-title">${MONTHS[month]} ${year}</span>
           ${showNext ? html`
-            <button class="sp-drp-cal-nav" @click=${() => this.#navLeft(1)} aria-label="Mes siguiente">
+            <button class="sp-drp-cal-nav" @click=${() => this.#navLeft(1)} aria-label=${SpConfig.locale.calendar.nextMonthLabel}>
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg>
             </button>
           ` : html`<span style="width:28px"></span>`}

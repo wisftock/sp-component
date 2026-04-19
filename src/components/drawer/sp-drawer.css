@@ -74,6 +74,20 @@
 @keyframes sp-drawer-bottom-in  { from { transform: translateY(100%); } to { transform: translateY(0); } }
 @keyframes sp-drawer-bottom-out { from { transform: translateY(0); } to { transform: translateY(100%); } }
 
+/* ── No-overlay mode ───────────────────────────────────────────────────── */
+:host([no-overlay]) .sp-drawer {
+  box-shadow: -8px 0 40px rgba(0,0,0,0.12);
+}
+:host([no-overlay][placement="left"]) .sp-drawer {
+  box-shadow: 8px 0 40px rgba(0,0,0,0.12);
+}
+:host([no-overlay][placement="top"]) .sp-drawer {
+  box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+}
+:host([no-overlay][placement="bottom"]) .sp-drawer {
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.12);
+}
+
 /* ── Header ────────────────────────────────────────────────────────────── */
 .sp-drawer-header {
   display: flex;
@@ -99,13 +113,27 @@
   background: var(--sp-border, #d1d5db);
 }
 
+.sp-drawer-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
 .sp-drawer-title {
   font-size: 16px;
   font-weight: 700;
   color: var(--sp-text, #111827);
   margin: 0;
-  flex: 1;
   letter-spacing: -0.01em;
+}
+
+.sp-drawer-subtitle {
+  font-size: 13px;
+  color: var(--sp-text-muted, #6b7280);
+  margin: 0;
+  font-weight: 400;
 }
 
 .sp-drawer-close {
@@ -141,7 +169,31 @@
   padding: 22px;
   scrollbar-width: thin;
   scrollbar-color: var(--sp-border, #d1d5db) transparent;
+  position: relative;
 }
+
+/* ── Loading overlay ───────────────────────────────────────────────────── */
+.sp-drawer-loading {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  animation: sp-drawer-overlay-in 0.15s ease;
+}
+
+.sp-drawer-spinner {
+  width: 36px;
+  height: 36px;
+  color: var(--sp-primary, #6366f1);
+  animation: sp-drawer-spin 0.75s linear infinite;
+}
+
+@keyframes sp-drawer-spin { to { transform: rotate(360deg); } }
 
 /* ── Footer ────────────────────────────────────────────────────────────── */
 .sp-drawer-footer {

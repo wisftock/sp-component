@@ -1,6 +1,7 @@
 import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import styles from "./sp-audio-player.css?inline";
+import { SpConfig } from "../../config.js";
 
 const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
@@ -172,7 +173,7 @@ export class SpAudioPlayerComponent extends LitElement {
         </div>
 
         <!-- Speed -->
-        <button class="sp-audio-speed" @click=${() => this.#cycleSpeed()} title="Velocidad">
+        <button class="sp-audio-speed" @click=${() => this.#cycleSpeed()} title=${SpConfig.locale.audioPlayer.speedLabel}>
           ${speed === 1 ? "1×" : `${speed}×`}
         </button>
       </div>

@@ -187,6 +187,117 @@ export const Colores: Story = {
   `,
 };
 
+export const IconButtonBar: Story = {
+  name: "Barra de acciones",
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:20px;max-width:600px;">
+      <div style="display:flex;align-items:center;gap:4px;padding:6px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;width:fit-content;">
+        ${[
+          { name: "bold", title: "Negrita" },
+          { name: "italic", title: "Cursiva" },
+          { name: "underline", title: "Subrayado" },
+          { name: "strikethrough", title: "Tachado" },
+        ].map(({ name, title }) => html`
+          <button title=${title} style="padding:8px;border:none;background:transparent;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;"
+            onmouseenter="this.style.background='#e5e7eb'" onmouseleave="this.style.background='transparent'">
+            <sp-icon name=${name} size="md"></sp-icon>
+          </button>
+        `)}
+        <div style="width:1px;height:22px;background:#e5e7eb;margin:0 4px;"></div>
+        ${[
+          { name: "align-left", title: "Izquierda" },
+          { name: "align-center", title: "Centro" },
+          { name: "align-right", title: "Derecha" },
+          { name: "align-justify", title: "Justificado" },
+        ].map(({ name, title }) => html`
+          <button title=${title} style="padding:8px;border:none;background:transparent;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;"
+            onmouseenter="this.style.background='#e5e7eb'" onmouseleave="this.style.background='transparent'">
+            <sp-icon name=${name} size="md"></sp-icon>
+          </button>
+        `)}
+        <div style="width:1px;height:22px;background:#e5e7eb;margin:0 4px;"></div>
+        ${[
+          { name: "link", title: "Enlace", active: false },
+          { name: "image", title: "Imagen", active: false },
+          { name: "code", title: "Código", active: true },
+        ].map(({ name, title, active }) => html`
+          <button title=${title} style="padding:8px;border:none;background:${active ? '#eff6ff' : 'transparent'};border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;"
+            onmouseenter="this.style.background='#e5e7eb'" onmouseleave="this.style.background='${active ? '#eff6ff' : 'transparent'}'">
+            <sp-icon name=${name} size="md" color=${active ? '#3b82f6' : ''}></sp-icon>
+          </button>
+        `)}
+      </div>
+
+      <div style="display:flex;gap:8px;padding:10px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;width:fit-content;">
+        ${[
+          { name: "edit", color: "#6366f1", bg: "#f5f3ff", title: "Editar" },
+          { name: "copy", color: "#0ea5e9", bg: "#f0f9ff", title: "Copiar" },
+          { name: "share", color: "#10b981", bg: "#f0fdf4", title: "Compartir" },
+          { name: "trash", color: "#ef4444", bg: "#fef2f2", title: "Eliminar" },
+        ].map(({ name, color, bg, title }) => html`
+          <button title=${title} style="padding:10px;border:none;background:${bg};border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:${color};">
+            <sp-icon name=${name} size="sm" color=${color}></sp-icon>
+            ${title}
+          </button>
+        `)}
+      </div>
+    </div>
+  `,
+};
+
+export const SemanticIcons: Story = {
+  name: "Iconos semánticos",
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:480px;">
+      ${[
+        { icon: "check-circle", label: "Operación exitosa", sub: "Los cambios se guardaron correctamente.", color: "#10b981", bg: "#f0fdf4", border: "#bbf7d0" },
+        { icon: "info", label: "Información", sub: "Tu cuenta será revisada en 24 horas.", color: "#3b82f6", bg: "#eff6ff", border: "#bfdbfe" },
+        { icon: "warning", label: "Advertencia", sub: "Este archivo es mayor a 10 MB.", color: "#f59e0b", bg: "#fffbeb", border: "#fde68a" },
+        { icon: "x-circle", label: "Error al procesar", sub: "No se pudo conectar con el servidor.", color: "#ef4444", bg: "#fef2f2", border: "#fecaca" },
+      ].map(({ icon, label, sub, color, bg, border }) => html`
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:10px;background:${bg};border:1px solid ${border};">
+          <sp-icon name=${icon} size="lg" color=${color} style="flex-shrink:0;margin-top:1px;"></sp-icon>
+          <div>
+            <p style="margin:0;font-size:14px;font-weight:600;color:#111827;">${label}</p>
+            <p style="margin:3px 0 0;font-size:13px;color:#4b5563;">${sub}</p>
+          </div>
+        </div>
+      `)}
+    </div>
+  `,
+};
+
+export const IconsInForm: Story = {
+  name: "Iconos en formularios",
+  render: () => html`
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:380px;">
+      ${[
+        { icon: "user", label: "Nombre completo", placeholder: "Ana García", type: "text" },
+        { icon: "mail", label: "Email", placeholder: "ana@empresa.com", type: "email" },
+        { icon: "lock", label: "Contraseña", placeholder: "••••••••", type: "password" },
+        { icon: "search", label: "Buscar", placeholder: "Buscar usuario...", type: "search" },
+      ].map(({ icon, label, placeholder, type }) => html`
+        <div>
+          <label style="display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:5px;">${label}</label>
+          <div style="position:relative;">
+            <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);display:flex;align-items:center;pointer-events:none;">
+              <sp-icon name=${icon} size="sm" color="#9ca3af"></sp-icon>
+            </span>
+            <input type=${type} placeholder=${placeholder}
+              style="width:100%;padding:9px 12px 9px 34px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;color:#111827;outline:none;"
+              onfocus="this.style.borderColor='#6366f1';this.style.boxShadow='0 0 0 3px #e0e7ff'"
+              onblur="this.style.borderColor='#d1d5db';this.style.boxShadow='none'" />
+          </div>
+        </div>
+      `)}
+      <button style="padding:10px;background:#6366f1;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+        <sp-icon name="arrow-right" size="sm" color="white"></sp-icon>
+        Continuar
+      </button>
+    </div>
+  `,
+};
+
 export const CatalogoCompleto: Story = {
   name: "Catálogo Completo (305+)",
   render: () => html`

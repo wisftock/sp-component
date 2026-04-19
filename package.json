@@ -1,6 +1,6 @@
 {
   "name": "sp-component",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "workspaces": [
     "packages/*"
   ],
@@ -9,15 +9,33 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/wisftock/sp-component.git"
+  },
+  "homepage": "https://gitlab.com/wisftock/sp-component",
+  "bugs": {
+    "url": "https://gitlab.com/wisftock/sp-component/-/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./tokens.css": "./dist/tokens.css",
     "./components/*": {
       "import": "./dist/components/*/index.js",
       "types": "./dist/components/*/index.d.ts"
+    },
+    "./locale/es": {
+      "import": "./dist/locale/es.js",
+      "types": "./dist/locale/es.d.ts"
+    },
+    "./locale/en": {
+      "import": "./dist/locale/en.js",
+      "types": "./dist/locale/en.d.ts"
     },
     "./cdn": "./dist-cdn/sp-component.min.js"
   },
@@ -25,7 +43,8 @@
     "dist",
     "dist-cdn",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "vite build",
@@ -53,13 +72,28 @@
     "lit",
     "angular",
     "react",
-    "vue"
+    "vue",
+    "svelte",
+    "typescript",
+    "components",
+    "ui",
+    "design-system",
+    "i18n",
+    "dark-mode",
+    "accessible",
+    "a11y",
+    "storybook"
   ],
   "author": "wisftock",
   "license": "MIT",
   "dependencies": {
-    "@floating-ui/dom": "^1.7.6",
+    "@floating-ui/dom": "^1.7.6"
+  },
+  "peerDependencies": {
     "lit": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "lit": { "optional": false }
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^10.3.1",

@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import styles from "./sp-password-input.css?inline";
+import { SpConfig } from "../../config.js";
 
 function calcStrength(pw: string): 0 | 1 | 2 | 3 | 4 {
   if (!pw) return 0;
@@ -83,7 +84,7 @@ export class SpPasswordInputComponent extends LitElement {
           <button
             class="sp-pw-toggle"
             type="button"
-            aria-label=${this._visible ? "Ocultar contraseña" : "Mostrar contraseña"}
+            aria-label=${this._visible ? SpConfig.locale.passwordInput.hideLabel : SpConfig.locale.passwordInput.showLabel}
             @click=${() => { this._visible = !this._visible; }}
           >
             ${this._visible

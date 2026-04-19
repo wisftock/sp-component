@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { styleMap } from "lit/directives/style-map.js";
 import styles from "./sp-floating-panel.css?inline";
+import { SpConfig } from "../../config.js";
 
 /**
  * Floating Panel — panel flotante draggable con colapso y resize.
@@ -114,7 +115,7 @@ export class SpFloatingPanelComponent extends LitElement {
         <div class="sp-fp-titlebar" @pointerdown=${(e: PointerEvent) => this.#startDrag(e)}>
           <span class="sp-fp-title">${this.title}</span>
           <div class="sp-fp-actions">
-            <button class="sp-fp-btn" title=${this.collapsed ? "Expandir" : "Colapsar"}
+            <button class="sp-fp-btn" title=${this.collapsed ? SpConfig.locale.floatingPanel.expandLabel : SpConfig.locale.floatingPanel.collapseLabel}
               @click=${() => { this.collapsed = !this.collapsed; }}>
               ${this.collapsed
                 ? html`<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4-4 4 4"/></svg>`
@@ -122,7 +123,7 @@ export class SpFloatingPanelComponent extends LitElement {
               }
             </button>
             ${this.closable ? html`
-              <button class="sp-fp-btn" title="Cerrar" @click=${() => this.#close()}>
+              <button class="sp-fp-btn" title=${SpConfig.locale.floatingPanel.closeLabel} @click=${() => this.#close()}>
                 <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg>
               </button>
             ` : nothing}

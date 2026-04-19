@@ -2,9 +2,7 @@ import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import styles from "./sp-month-picker.css?inline";
-
-const MONTHS = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
-const MONTHS_FULL = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+import { SpConfig } from "../../config.js";
 
 /**
  * Month Picker — selector de mes y año.
@@ -72,7 +70,7 @@ export class SpMonthPickerComponent extends LitElement {
     if (!this.value) return "";
     const [y, m] = this.value.split("-");
     const mIdx = parseInt(m!) - 1;
-    return `${MONTHS_FULL[mIdx] ?? ""} ${y}`;
+    return `${SpConfig.locale.monthPicker.monthsFull[mIdx] ?? ""} ${y}`;
   }
 
   override render() {
@@ -99,16 +97,16 @@ export class SpMonthPickerComponent extends LitElement {
         ${this.open ? html`
           <div class="sp-mp-panel">
             <div class="sp-mp-header">
-              <button class="sp-mp-nav" @click=${() => { this._year--; }}>
+              <button class="sp-mp-nav" aria-label=${SpConfig.locale.monthPicker.prevYearLabel} @click=${() => { this._year--; }}>
                 <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>
               </button>
               <span class="sp-mp-year">${this._year}</span>
-              <button class="sp-mp-nav" @click=${() => { this._year++; }}>
+              <button class="sp-mp-nav" aria-label=${SpConfig.locale.monthPicker.nextYearLabel} @click=${() => { this._year++; }}>
                 <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg>
               </button>
             </div>
             <div class="sp-mp-grid">
-              ${MONTHS.map((name, i) => html`
+              ${SpConfig.locale.monthPicker.monthsShort.map((name, i) => html`
                 <button
                   class=${classMap({
                     "sp-mp-month": true,

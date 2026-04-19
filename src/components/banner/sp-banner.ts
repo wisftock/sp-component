@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import styles from "./sp-banner.css?inline";
+import { SpConfig } from "../../config.js";
 
 export type SpBannerVariant = "info" | "success" | "warning" | "error";
 
@@ -58,7 +59,7 @@ export class SpBannerComponent extends LitElement {
         <div class="sp-banner-actions"><slot name="actions"></slot></div>
 
         ${this.dismissable ? html`
-          <button class="sp-banner-close" aria-label="Cerrar" @click=${() => this.#dismiss()}>
+          <button class="sp-banner-close" aria-label=${SpConfig.locale.common.close} @click=${() => this.#dismiss()}>
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
               <path d="M3 3l10 10M13 3L3 13"/>
             </svg>

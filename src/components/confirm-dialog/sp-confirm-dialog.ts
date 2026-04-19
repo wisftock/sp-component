@@ -2,6 +2,7 @@ import { LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./sp-confirm-dialog.css?inline";
 import { confirmDialogTemplate } from "./sp-confirm-dialog.template.js";
+import { SpConfig } from "../../config.js";
 import type { SpConfirmDialogVariant } from "./sp-confirm-dialog.types.js";
 
 /**
@@ -34,10 +35,10 @@ export class SpConfirmDialogComponent extends LitElement {
   message = "";
 
   @property({ type: String, attribute: "confirm-label" })
-  confirmLabel = "Confirm";
+  confirmLabel = "";
 
   @property({ type: String, attribute: "cancel-label" })
-  cancelLabel = "Cancel";
+  cancelLabel = "";
 
   @property({ type: String, reflect: true })
   variant: SpConfirmDialogVariant = "default";

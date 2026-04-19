@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import styles from "./sp-lightbox.css?inline";
+import { SpConfig } from "../../config.js";
 
 export interface LightboxImage {
   src: string;
@@ -147,7 +148,7 @@ export class SpLightboxComponent extends LitElement {
         <div class="sp-lb-overlay" @click=${(e: MouseEvent) => { if (e.target === e.currentTarget) this.#close(); }}>
 
           <!-- Close -->
-          <button class="sp-lb-close" @click=${() => this.#close()} aria-label="Cerrar">
+          <button class="sp-lb-close" @click=${() => this.#close()} aria-label=${SpConfig.locale.lightbox.closeLabel}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
@@ -157,7 +158,7 @@ export class SpLightboxComponent extends LitElement {
 
             <!-- Prev -->
             ${this.images.length > 1 ? html`
-              <button class="sp-lb-arrow sp-lb-arrow--prev" @click=${() => this.#goto(this._index - 1)}>
+              <button class="sp-lb-arrow sp-lb-arrow--prev" aria-label=${SpConfig.locale.lightbox.prevLabel} @click=${() => this.#goto(this._index - 1)}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <polyline points="15,18 9,12 15,6"/>
                 </svg>
@@ -184,7 +185,7 @@ export class SpLightboxComponent extends LitElement {
 
             <!-- Next -->
             ${this.images.length > 1 ? html`
-              <button class="sp-lb-arrow sp-lb-arrow--next" @click=${() => this.#goto(this._index + 1)}>
+              <button class="sp-lb-arrow sp-lb-arrow--next" aria-label=${SpConfig.locale.lightbox.nextLabel} @click=${() => this.#goto(this._index + 1)}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <polyline points="9,18 15,12 9,6"/>
                 </svg>
@@ -193,11 +194,11 @@ export class SpLightboxComponent extends LitElement {
 
             <!-- Bottom bar -->
             <div class="sp-lb-bottom">
-              <button class="sp-lb-zoom-btn" @click=${() => { this._zoom = Math.max(1, this._zoom - 0.5); if (this._zoom === 1) { this._panX = 0; this._panY = 0; } }}>
+              <button class="sp-lb-zoom-btn" aria-label=${SpConfig.locale.lightbox.zoomOutLabel} @click=${() => { this._zoom = Math.max(1, this._zoom - 0.5); if (this._zoom === 1) { this._panX = 0; this._panY = 0; } }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
               </button>
               <span class="sp-lb-counter">${this._index + 1} / ${this.images.length}</span>
-              <button class="sp-lb-zoom-btn" @click=${() => { this._zoom = Math.min(4, this._zoom + 0.5); }}>
+              <button class="sp-lb-zoom-btn" aria-label=${SpConfig.locale.lightbox.zoomInLabel} @click=${() => { this._zoom = Math.min(4, this._zoom + 0.5); }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
               </button>
               ${current.caption ? html`<span class="sp-lb-caption">${current.caption}</span>` : nothing}

@@ -56,4 +56,18 @@ export const en: SpLocale = {
   tour: { stepBadgeLabel: "Step {current} of {total}", nextLabel: "Next", prevLabel: "Previous", finishLabel: "Finish", closeLabel: "Close tour" },
   transfer: { sourceTitleLabel: "Source", targetTitleLabel: "Target", searchPlaceholder: "Search…", moveAllLabel: "Move all", removeAllLabel: "Remove all" },
   signature: { undoLabel: "Undo last stroke", clearLabel: "Clear signature", penWidthLabel: "Pen width: {n}px" },
+  drawer: { closeLabel: "Close", loadingLabel: "Loading" },
+  lightbox: { closeLabel: "Close", prevLabel: "Previous image", nextLabel: "Next image", zoomInLabel: "Zoom in", zoomOutLabel: "Zoom out" },
+  codeBlock: { copyLabel: "Copy code", copiedLabel: "Copied!" },
+  searchInput: { placeholder: "Search...", clearLabel: "Clear search" },
+  passwordInput: { showLabel: "Show password", hideLabel: "Hide password" },
+  floatingPanel: { expandLabel: "Expand", collapseLabel: "Collapse", closeLabel: "Close" },
+  monthPicker: {
+    prevYearLabel: "Previous year",
+    nextYearLabel: "Next year",
+    monthsShort: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+    monthsFull: ["January","February","March","April","May","June","July","August","September","October","November","December"],
+  },
+  audioPlayer: { speedLabel: "Speed" },
+  imageCompare: { beforeLabel: "Before", afterLabel: "After" },
 };

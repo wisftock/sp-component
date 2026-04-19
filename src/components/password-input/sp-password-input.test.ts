@@ -77,10 +77,10 @@ describe("sp-password-input", () => {
   it("aria-label del toggle cambia según visibilidad", async () => {
     await el.updateComplete;
     const btn = el.shadowRoot?.querySelector<HTMLButtonElement>("button.sp-pw-toggle")!;
-    expect(btn.getAttribute("aria-label")).toBe("Mostrar contraseña");
+    expect(btn.getAttribute("aria-label")).toBe("Show password");
     btn.click();
     await el.updateComplete;
-    expect(btn.getAttribute("aria-label")).toBe("Ocultar contraseña");
+    expect(btn.getAttribute("aria-label")).toBe("Hide password");
   });
 
   // ---- Evento sp-input ----

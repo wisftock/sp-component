@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import styles from "./sp-search-input.css?inline";
+import { SpConfig } from "../../config.js";
 
 /**
  * Search Input — campo de búsqueda con icono, clear, loading y debounce.
@@ -25,7 +26,7 @@ export class SpSearchInputComponent extends LitElement {
   static override styles = unsafeCSS(styles);
 
   @property({ type: String }) value = "";
-  @property({ type: String }) placeholder = "Buscar...";
+  @property({ type: String }) placeholder = "";
   @property({ type: Number }) debounce = 300;
   @property({ type: Boolean }) loading = false;
   @property({ type: Boolean }) clearable = true;
@@ -81,7 +82,7 @@ export class SpSearchInputComponent extends LitElement {
           class=${classMap({ "sp-si-input": true, "sp-si-input--no-right-pad": !hasValue && !this.loading })}
           type="search"
           .value=${this.value}
-          placeholder=${this.placeholder}
+          placeholder=${this.placeholder || SpConfig.locale.searchInput.placeholder}
           ?disabled=${this.disabled}
           autocomplete="off"
           @input=${(e: Event) => this.#onInput(e)}
@@ -91,7 +92,7 @@ export class SpSearchInputComponent extends LitElement {
         ${hasValue ? html`
           <div class="sp-si-right">
             ${this.clearable ? html`
-              <button class="sp-si-clear" type="button" aria-label="Limpiar búsqueda" @click=${() => this.#clear()}>
+              <button class="sp-si-clear" type="button" aria-label=${SpConfig.locale.searchInput.clearLabel} @click=${() => this.#clear()}>
                 <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg>
               </button>
             ` : nothing}

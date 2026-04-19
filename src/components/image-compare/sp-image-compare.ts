@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { styleMap } from "lit/directives/style-map.js";
 import styles from "./sp-image-compare.css?inline";
+import { SpConfig } from "../../config.js";
 
 /**
  * Image Compare — slider antes/después para comparar dos imágenes.
@@ -25,10 +26,10 @@ export class SpImageCompareComponent extends LitElement {
 
   @property({ type: String, attribute: "before" }) beforeSrc = "";
   @property({ type: String, attribute: "after" }) afterSrc = "";
-  @property({ type: String, attribute: "before-label" }) beforeLabel = "Antes";
-  @property({ type: String, attribute: "after-label" })  afterLabel  = "Después";
-  @property({ type: String, attribute: "alt-before" })   altBefore   = "Antes";
-  @property({ type: String, attribute: "alt-after" })    altAfter    = "Después";
+  @property({ type: String, attribute: "before-label" }) beforeLabel = "";
+  @property({ type: String, attribute: "after-label" })  afterLabel  = "";
+  @property({ type: String, attribute: "alt-before" })   altBefore   = "";
+  @property({ type: String, attribute: "alt-after" })    altAfter    = "";
   @property({ type: Number }) initial = 50;
   @property({ type: String }) height = "400px";
 
@@ -78,7 +79,7 @@ export class SpImageCompareComponent extends LitElement {
       >
         <!-- After (full width underneath) -->
         <div class="sp-ic-after">
-          <img src=${this.afterSrc} alt=${this.altAfter} draggable="false" />
+          <img src=${this.afterSrc} alt=${this.altAfter || SpConfig.locale.imageCompare.afterLabel} draggable="false" />
         </div>
 
         <!-- Before (clipped to left portion) -->
@@ -86,7 +87,7 @@ export class SpImageCompareComponent extends LitElement {
           class="sp-ic-before"
           style=${styleMap({ clipPath: `inset(0 ${100 - this._pos}% 0 0)` })}
         >
-          <img src=${this.beforeSrc} alt=${this.altBefore} draggable="false" />
+          <img src=${this.beforeSrc} alt=${this.altBefore || SpConfig.locale.imageCompare.beforeLabel} draggable="false" />
         </div>
 
         <!-- Handle -->
@@ -98,8 +99,8 @@ export class SpImageCompareComponent extends LitElement {
           </div>
         </div>
 
-        ${this.beforeLabel ? html`<span class="sp-ic-label sp-ic-label--before">${this.beforeLabel}</span>` : nothing}
-        ${this.afterLabel  ? html`<span class="sp-ic-label sp-ic-label--after">${this.afterLabel}</span>`  : nothing}
+        ${(this.beforeLabel || SpConfig.locale.imageCompare.beforeLabel) ? html`<span class="sp-ic-label sp-ic-label--before">${this.beforeLabel || SpConfig.locale.imageCompare.beforeLabel}</span>` : nothing}
+        ${(this.afterLabel  || SpConfig.locale.imageCompare.afterLabel)  ? html`<span class="sp-ic-label sp-ic-label--after">${this.afterLabel  || SpConfig.locale.imageCompare.afterLabel}</span>`  : nothing}
       </div>
     `;
   }

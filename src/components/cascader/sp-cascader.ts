@@ -126,7 +126,7 @@ export class SpCascaderComponent extends LitElement {
     const columns = this.open ? this.#getColumns() : [];
 
     return html`
-      <div style="position:relative;display:inline-block">
+      <div style="position:relative;display:block">
         <div class="sp-casc-trigger" @click=${() => this.#toggle()} role="combobox" tabindex="0"
           aria-expanded=${this.open} aria-haspopup="listbox"
           @keydown=${(e: KeyboardEvent) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.#toggle(); }}}

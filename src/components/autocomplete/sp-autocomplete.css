@@ -94,7 +94,12 @@
 
 /* ---- Dropdown panel ---- */
 .sp-ac-dropdown {
-  position: absolute; z-index: var(--sp-z-overlay, 9999);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 4px;
+  width: 100%;
+  z-index: var(--sp-z-overlay, 9999);
   background: var(--sp-bg, white);
   border: 1px solid var(--sp-border-subtle, #e5e7eb);
   border-radius: 6px;

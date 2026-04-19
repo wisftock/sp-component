@@ -89,7 +89,6 @@ export * from "./components/back-top/index.js";
 export * from "./components/aspect-ratio/index.js";
 export * from "./components/collapsible/index.js";
 export * from "./components/watermark/index.js";
-export * from "./components/color-swatch/index.js";
 // ---- New components (round 3) ----
 export * from "./components/password-input/index.js";
 export * from "./components/progress-circle/index.js";

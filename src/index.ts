@@ -76,7 +76,6 @@ export * from "./components/virtual-list/index.js";
 export * from "./components/layout/index.js";
 export * from "./components/cascader/index.js";
 export * from "./components/tree-select/index.js";
-export * from "./components/nav-menu/index.js";
 export * from "./components/hover-card/index.js";
 export * from "./components/masked-input/index.js";
 export * from "./components/infinite-scroll/index.js";

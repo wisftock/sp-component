@@ -1,6 +1,6 @@
 *, *::before, *::after { box-sizing: border-box; }
 
-:host { display: block; height: 100%; }
+:host { display: block; height: 100%; position: relative; }
 :host(:not([open])) { display: none; }
 
 /* ── Shell ─────────────────────────────────────────────────────────────── */
@@ -45,7 +45,7 @@
   position: absolute;
   top: 20px;
   inset-inline-end: -13px;
-  z-index: 10;
+  z-index: 100;
   width: 26px;
   height: 26px;
   border-radius: 50%;

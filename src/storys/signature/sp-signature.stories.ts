@@ -7,14 +7,14 @@ const meta: Meta = {
   component: "sp-signature",
   tags: ["autodocs"],
   argTypes: {
-    label:         { control: "text",    description: "Label shown above the signature pad" },
-    penColor:      { control: "color",   description: "Stroke color for drawing" },
-    penWidth:      { control: "number",  description: "Stroke width in pixels" },
-    width:         { control: "number",  description: "Canvas width in pixels" },
-    height:        { control: "number",  description: "Canvas height in pixels" },
-    disabled:      { control: "boolean", description: "Prevents drawing and disables toolbar buttons" },
-    showColorPicker: { control: "boolean", description: "Shows a color picker in the toolbar" },
-    showWidthSlider: { control: "boolean", description: "Shows a width slider in the toolbar" },
+    label:        { control: "text",    description: "Label shown above the signature pad" },
+    penColor:     { control: "color",   description: "Stroke color for drawing" },
+    penWidth:     { control: "number",  description: "Stroke width in pixels" },
+    width:        { control: "number",  description: "Canvas width in pixels" },
+    height:       { control: "number",  description: "Canvas height in pixels" },
+    disabled:     { control: "boolean", description: "Prevents drawing and disables toolbar buttons" },
+    showControls: { control: "boolean", description: "Muestra el área de controles (colores + slider)" },
+    showColors:   { control: "boolean", description: "Muestra la paleta de colores dentro de los controles" },
   },
   args: {
     label: "Signature",
@@ -23,8 +23,10 @@ const meta: Meta = {
     width: 500,
     height: 200,
     disabled: false,
+    showControls: true,
+    showColors: true,
   },
-  render: ({ label, penColor, penWidth, width, height, disabled }) => html`
+  render: ({ label, penColor, penWidth, width, height, disabled, showControls, showColors }: any) => html`
     <div style="max-width:520px;">
       <sp-signature
         label=${label || ""}
@@ -33,6 +35,8 @@ const meta: Meta = {
         width=${width || 500}
         height=${height || 200}
         ?disabled=${disabled}
+        ?show-controls=${showControls}
+        ?show-colors=${showColors}
       ></sp-signature>
     </div>
   `,
@@ -50,6 +54,16 @@ export const BoldPen: Story = {
 export const ColoredInk: Story = {
   name: "Colored ink",
   args: { penColor: "#7c3aed", penWidth: 2 },
+};
+
+export const SinColores: Story = {
+  name: "Sin paleta de colores",
+  args: { showControls: true, showColors: false },
+};
+
+export const SinControles: Story = {
+  name: "Sin controles",
+  args: { showControls: false },
 };
 
 export const Disabled: Story = {

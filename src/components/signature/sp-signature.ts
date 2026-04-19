@@ -20,6 +20,7 @@ export interface SpSignatureResult {
  * @prop {string}  label       - Label text
  * @prop {boolean} disabled    - Disables drawing
  * @prop {boolean} showControls - Show color/width controls (default true)
+ * @prop {boolean} showColors  - Show color palette within controls (default true)
  * @prop {number}  maxUndo     - Max undo steps (default 20)
  *
  * @fires {CustomEvent<SpSignatureResult>} sp-change - Fired after each stroke ends
@@ -36,6 +37,7 @@ export class SpSignatureComponent extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, attribute: "show-controls" }) showControls = true;
+  @property({ type: Boolean, attribute: "show-colors" }) showColors = true;
   @property({ type: Number, attribute: "max-undo" }) maxUndo = 20;
 
   @query("canvas") private _canvas!: HTMLCanvasElement;
@@ -167,16 +169,18 @@ export class SpSignatureComponent extends LitElement {
         <div class="sp-signature__footer">
           ${this.showControls ? html`
             <div class="sp-signature__controls">
-              <div class="sp-signature__colors">
-                ${COLORS.map(c => html`
-                  <button
-                    class="sp-signature__color-btn${this.penColor === c ? " sp-signature__color-btn--active" : ""}"
-                    style="background:${c}"
-                    title="${c}"
-                    @click=${() => { this.penColor = c; }}
-                  ></button>
-                `)}
-              </div>
+              ${this.showColors ? html`
+                <div class="sp-signature__colors">
+                  ${COLORS.map(c => html`
+                    <button
+                      class="sp-signature__color-btn${this.penColor === c ? " sp-signature__color-btn--active" : ""}"
+                      style="background:${c}"
+                      title="${c}"
+                      @click=${() => { this.penColor = c; }}
+                    ></button>
+                  `)}
+                </div>
+              ` : nothing}
               <input
                 class="sp-signature__width-input"
                 type="range"

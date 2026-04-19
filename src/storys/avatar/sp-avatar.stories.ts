@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import type { SpAvatarProps } from "../../components/avatar/sp-avatar.types.js";
 import "../../components/avatar/sp-avatar.js";
-import "../../components/avatar/sp-avatar-group.js";
 
 const meta: Meta<SpAvatarProps> = {
   title: "Components/Avatar",
@@ -29,8 +28,6 @@ const meta: Meta<SpAvatarProps> = {
 
 export default meta;
 type Story = StoryObj<SpAvatarProps>;
-
-// ─── Single Avatar ──────────────────────────────────────────────────────────
 
 export const WithImage: Story = {
   args: { src: "https://i.pravatar.cc/150?img=3", alt: "User avatar", initials: "" },
@@ -62,71 +59,6 @@ export const Sizes: Story = {
       <sp-avatar src="https://i.pravatar.cc/150?img=7" size="md"></sp-avatar>
       <sp-avatar src="https://i.pravatar.cc/150?img=7" size="lg"></sp-avatar>
       <sp-avatar src="https://i.pravatar.cc/150?img=7" size="xl"></sp-avatar>
-    </div>
-  `,
-};
-
-// ─── Avatar Group ───────────────────────────────────────────────────────────
-
-export const Group: Story = {
-  name: "Group — default (max 4)",
-  render: () => html`
-    <sp-avatar-group max="4" size="md">
-      <sp-avatar src="https://i.pravatar.cc/150?img=1"></sp-avatar>
-      <sp-avatar src="https://i.pravatar.cc/150?img=2"></sp-avatar>
-      <sp-avatar src="https://i.pravatar.cc/150?img=3"></sp-avatar>
-      <sp-avatar src="https://i.pravatar.cc/150?img=4"></sp-avatar>
-      <sp-avatar src="https://i.pravatar.cc/150?img=5"></sp-avatar>
-      <sp-avatar src="https://i.pravatar.cc/150?img=6"></sp-avatar>
-    </sp-avatar-group>
-  `,
-};
-
-export const GroupWithInitials: Story = {
-  name: "Group — with initials",
-  render: () => html`
-    <sp-avatar-group max="3" size="md">
-      <sp-avatar initials="Ana García"></sp-avatar>
-      <sp-avatar initials="Bob Smith"></sp-avatar>
-      <sp-avatar initials="Carlos López"></sp-avatar>
-      <sp-avatar initials="Diana Chen"></sp-avatar>
-      <sp-avatar initials="Eva Torres"></sp-avatar>
-    </sp-avatar-group>
-  `,
-};
-
-export const GroupSizes: Story = {
-  name: "Group — all sizes",
-  render: () => html`
-    <div style="display:flex;flex-direction:column;gap:20px;">
-      ${(["sm","md","lg","xl"] as const).map(size => html`
-        <div style="display:flex;align-items:center;gap:16px;">
-          <span style="font-size:0.75rem;color:#6b7280;width:24px;">${size}</span>
-          <sp-avatar-group size=${size} max="4">
-            <sp-avatar src="https://i.pravatar.cc/150?img=10"></sp-avatar>
-            <sp-avatar src="https://i.pravatar.cc/150?img=11"></sp-avatar>
-            <sp-avatar src="https://i.pravatar.cc/150?img=12"></sp-avatar>
-            <sp-avatar src="https://i.pravatar.cc/150?img=13"></sp-avatar>
-            <sp-avatar src="https://i.pravatar.cc/150?img=14"></sp-avatar>
-          </sp-avatar-group>
-        </div>
-      `)}
-    </div>
-  `,
-};
-
-export const GroupWithCustomTotal: Story = {
-  name: "Group — custom total count",
-  render: () => html`
-    <div style="display:flex;flex-direction:column;gap:12px;">
-      <p style="margin:0;font-size:0.8rem;color:#6b7280;">
-        Showing 3 avatars but indicating 47 total members.
-      </p>
-      <sp-avatar-group max="3" total="47" size="md">
-        <sp-avatar src="https://i.pravatar.cc/150?img=20"></sp-avatar>
-        <sp-avatar src="https://i.pravatar.cc/150?img=21"></sp-avatar>
-        <sp-avatar src="https://i.pravatar.cc/150?img=22"></sp-avatar>
-      </sp-avatar-group>
     </div>
   `,
 };

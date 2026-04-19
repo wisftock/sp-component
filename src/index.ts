@@ -24,9 +24,7 @@ export * from "./components/tabs/index.js";
 export * from "./components/breadcrumb/index.js";
 export * from "./components/pagination/index.js";
 export * from "./components/accordion/index.js";
-export * from "./components/menu/index.js";
 export * from "./components/stepper/index.js";
-export * from "./components/navbar/index.js";
 export * from "./components/sidebar/index.js";
 export * from "./components/table/index.js";
 export * from "./components/timeline/index.js";
@@ -121,8 +119,6 @@ export * from "./components/dnd-zone/index.js";
 export { SpBaseElement } from "./base/SpBaseElement.js";
 // ---- Compound: Select ----
 export * from "./components/select-root/index.js";
-// ---- Compound: Menu ----
-export * from "./components/menu-root/index.js";
 export { SpConfig } from "./config.js";
 export type {
   SpLocale,
